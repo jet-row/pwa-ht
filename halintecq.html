@@ -700,7 +700,7 @@
   /* Tally table */
   .tally-table { width:100%; border-collapse:collapse; table-layout:fixed; }
   .tally-table thead tr { background:var(--surface2); }
-  .tally-table th { padding:8px 14px; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); text-align:left; border-bottom:1px solid var(--border); }
+  .tally-table th { padding:8px 14px; font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); text-align:left; border-bottom:1px solid var(--border); }
   .tally-table th:nth-child(2), .tally-table th:nth-child(3) { text-align:right; }
   .tally-table td { padding:7px 14px; font-size:13px; border-bottom:1px solid var(--border); color:var(--text); vertical-align:middle; }
   .tally-table tbody tr:last-child td { border-bottom:none; }
@@ -708,13 +708,13 @@
   .tally-qty-wrap { display:flex; align-items:center; gap:4px; width:100%; }
   .tally-qty-btn { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); font-size:16px; font-weight:700; width:30px; height:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; flex-shrink:0; transition:background .15s, border-color .15s; line-height:1; }
   .tally-qty-btn:active { background:var(--surface3,#2a2d45); border-color:var(--teal); }
-  .tally-qty-input { flex:1; min-width:0; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); font-family:var(--mono); font-size:14px; padding:5px 4px; text-align:center; outline:none; -webkit-appearance:none; appearance:none; }
+  .tally-qty-input { flex:1; min-width:0; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); font-family:var(--mono); font-size:13px; padding:5px 4px; text-align:center; outline:none; -webkit-appearance:none; appearance:none; }
   .tally-qty-input:focus { border-color:var(--teal); }
   .tally-sum { font-family:var(--mono); font-size:clamp(9px, 2.8vw, 13px); font-weight:600; color:var(--amber); text-align:right; font-variant-numeric:tabular-nums; }
   .tally-sum-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--amber); font-family:var(--mono); font-size:clamp(9px, 2.8vw, 13px); padding:5px 8px; text-align:right; outline:none; -webkit-appearance:none; appearance:none; }
   .tally-sum-input:focus { border-color:var(--teal); }
   .tally-total-row { background:var(--surface2); }
-  .tally-total-row td { font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:10px 14px; border-top:2px solid var(--border); border-bottom:none; }
+  .tally-total-row td { font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:10px 14px; border-top:2px solid var(--border); border-bottom:none; }
   .tally-total-val { font-family:var(--mono); font-size:clamp(13px, 3.8vw, 18px); font-weight:800; color:var(--teal); text-align:right; font-variant-numeric:tabular-nums; }
   #tallyCOHTotal { color: var(--amber); }
   #tallyGCashTotal { color: var(--teal); }
@@ -736,10 +736,10 @@
   .tally-mini-pod { padding:14px; border-radius:var(--radius); border:1px solid var(--border); position:relative; overflow:hidden; }
   .tally-mini-pod.coh { background:linear-gradient(135deg,#1C1400 0%,#221900 100%); border-color:rgba(245,158,11,.2); }
   .tally-mini-pod.cog { background:linear-gradient(135deg,#001A18 0%,#002420 100%); border-color:rgba(45,212,191,.2); }
-  .tmp-label { font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
+  .tmp-label { font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
   .tally-mini-pod.coh .tmp-label { color:rgba(245,158,11,.6); }
   .tally-mini-pod.cog .tmp-label { color:rgba(45,212,191,.6); }
-  .tmp-val { font-family:var(--mono); font-size:22px; font-weight:700; letter-spacing:-.4px; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .tmp-val { font-family:var(--mono); font-size:26px; font-weight:800; letter-spacing:-.4px; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .tally-mini-pod.coh .tmp-val { background-image:linear-gradient(135deg,#F59E0B,#FCD34D); }
   .tally-mini-pod.cog .tmp-val { background-image:linear-gradient(135deg,#2DD4BF,#5EEAD4); }
 
@@ -846,7 +846,7 @@
   .ins-proj-val   { font-family:var(--mono); font-size:22px; font-weight:800; letter-spacing:-.5px; background:linear-gradient(135deg,#818CF8,#C4B5FD); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .ins-proj-sub   { font-size:12px; color:var(--muted); margin-top:3px; }
   .ins-days-pill  { background:var(--s3); border:1px solid var(--border2); border-radius:20px; padding:4px 10px; font-size:12px; font-weight:700; color:var(--text2); white-space:nowrap; flex-shrink:0; }
-  .ins-proj-bar-track { height:5px; background:var(--s4); border-radius:5px; overflow:hidden; }
+  .ins-proj-bar-track { height:10px; background:var(--s4); border-radius:10px; overflow:hidden; }
   .ins-proj-bar-fill  { height:100%; border-radius:5px; background:linear-gradient(90deg,#4F46E5,#818CF8); box-shadow:0 0 8px rgba(99,102,241,.4); transition:width .8s cubic-bezier(.34,1.2,.64,1); width:0; }
 
   /* Streak */
@@ -858,18 +858,18 @@
   .streak-title { font-size:15px; font-weight:800; color:var(--amber); }
   .streak-sub   { font-size:13px; color:var(--muted); margin-top:3px; }
   .streak-dots  { display:flex; gap:4px; margin-top:8px; }
-  .streak-dot   { height:6px; border-radius:3px; background:rgba(245,158,11,.2); flex:1; }
+  .streak-dot   { height:10px; border-radius:10px; background:rgba(245,158,11,.2); flex:1; }
   .streak-dot.on { background:var(--amber); box-shadow:0 0 6px rgba(245,158,11,.5); }
 
   /* Earn by type */
   .type-row       { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
   .type-row:last-child { margin-bottom:0; }
   .type-icon-sm   { width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
-  .type-name      { font-size:13px; font-weight:600; color:var(--text); width:62px; flex-shrink:0; }
-  .type-bar-track { flex:1; height:6px; background:var(--s4); border-radius:6px; overflow:hidden; }
-  .type-bar-fill  { height:100%; border-radius:6px; transition:width .8s cubic-bezier(.34,1.2,.64,1); width:0; }
-  .type-earn-val  { font-family:var(--mono); font-size:13px; font-weight:700; width:46px; text-align:right; flex-shrink:0; }
-  .type-pct-val   { font-size:12px; color:var(--muted); width:26px; text-align:right; flex-shrink:0; }
+  .type-name      { font-size:13px; font-weight:800; color:var(--text); width:70px; flex-shrink:0; }
+  .type-bar-track { flex:1; height:10px; background:var(--s4); border-radius:6px; overflow:hidden; }
+  .type-bar-fill  { height:100%; border-radius:10px; transition:width .8s cubic-bezier(.34,1.2,.64,1); width:0; }
+  .type-earn-val  { font-family:var(--mono); font-size:13px; font-weight:800; width:46px; text-align:right; flex-shrink:0; }
+  .type-pct-val   { font-size:13px; color:var(--muted); width:26px; text-align:right; flex-shrink:0; }
 
   /* Mini 2-col cards */
   .ins-mini-grid  { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
@@ -897,7 +897,7 @@
   .util-warn-pill { display:inline-flex; align-items:center; gap:4px; border-radius:20px; padding:4px 10px; font-size:13px; font-weight:700; }
   .util-warn-pill.high { background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.25); color:var(--red); }
   .util-warn-pill.ok   { background:var(--green-dim); border:1px solid rgba(52,211,153,.25); color:var(--green); }
-  .util-bar-track { height:8px; background:var(--s4); border-radius:8px; overflow:hidden; margin-bottom:8px; }
+  .util-bar-track { height:10px; background:var(--s4); border-radius:10px; overflow:hidden; margin-bottom:8px; }
   .util-bar-fill  { height:100%; border-radius:8px; transition:width .8s cubic-bezier(.34,1.2,.64,1); width:0; }
   .util-sub       { font-size:12px; color:var(--muted); }
 
@@ -1475,14 +1475,14 @@
         </div>
         <div class="card" style="padding:0;overflow:clip;">
           <div style="padding:10px 16px 8px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-            <div id="rptTableTitle" style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Weekly Breakdown</div>
-            <div id="rptTableCount" style="font-size:10px;color:var(--muted);"></div>
+            <div id="rptTableTitle" style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Weekly Breakdown</div>
+            <div id="rptTableCount" style="font-size:13px;color:var(--muted);"></div>
           </div>
           <div id="rptTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"></div>
         </div>
         <div class="card" style="padding:0;overflow:hidden;margin-top:12px;">
           <div style="padding:10px 16px 8px;background:var(--surface2);border-bottom:1px solid var(--border);">
-            <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">All-Time Summary</div>
+            <div style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">All-Time Summary</div>
           </div>
           <div class="stat-grid" style="padding:12px;margin:0;">
             <div class="stat-box"><div class="stat-val green" id="rTotalIn">₱0</div><div class="stat-lbl">Total Cash-In</div></div>
@@ -1566,23 +1566,23 @@
               <div style="flex:1;background:var(--s4);border-radius:12px;padding:10px 12px;">
                 <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
                   <i class="ti ti-arrow-badge-down-filled" style="color:var(--green);font-size:13px;"></i>
-                  <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Cash-In</span>
+                  <span style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Cash-In</span>
                 </div>
                 <div style="font-family:var(--mono);font-size:17px;font-weight:800;color:var(--green);line-height:1;" id="insFlowInAmt">₱0</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px;" id="insFlowInCount">0 txns</div>
+                <div style="font-size:14px;color:var(--muted);margin-top:4px;" id="insFlowInCount">0 txns</div>
               </div>
               <div style="flex:1;background:var(--s4);border-radius:12px;padding:10px 12px;">
                 <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
                   <i class="ti ti-arrow-badge-up-filled" style="color:var(--red);font-size:13px;"></i>
-                  <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Cash-Out</span>
+                  <span style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Cash-Out</span>
                 </div>
                 <div style="font-family:var(--mono);font-size:17px;font-weight:800;color:var(--red);line-height:1;" id="insFlowOutAmt">₱0</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px;" id="insFlowOutCount">0 txns</div>
+                <div style="font-size:14px;color:var(--muted);margin-top:4px;" id="insFlowOutCount">0 txns</div>
               </div>
             </div>
             <!-- Deployment ratio bar -->
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:12px;color:var(--muted);">Cash-Out / Cash-In ratio</span>
+              <span style="font-size:13px;color:var(--muted);">Cash-Out / Cash-In ratio</span>
               <div style="display:flex;align-items:center;gap:6px;">
                 <span style="font-family:var(--mono);font-size:14px;font-weight:800;color:var(--amber);" id="insUtilPct">0%</span>
                 <div class="util-warn-pill" id="insUtilWarn"></div>
@@ -1808,8 +1808,8 @@
 
       <!-- Grand total pill -->
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(99,102,241,.05));border:1px solid rgba(99,102,241,.2);border-radius:var(--radius);padding:10px 16px;">
-        <span style="font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(99,102,241,.6);">Grand Total</span>
-        <span style="font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:-.4px;background-image:linear-gradient(135deg,#6366F1,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="tallyGrandTotal">₱0</span>
+        <span style="font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(99,102,241,.6);">Grand Total</span>
+        <span style="font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:-.4px;background-image:linear-gradient(135deg,#6366F1,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="tallyGrandTotal">₱0</span>
       </div>
 
       <!-- COH breakdown -->
