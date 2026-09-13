@@ -208,7 +208,7 @@
   .bh-stat-val.total  { color:var(--text); }
   .bh-stat-badge { display:inline-flex; align-items:center; gap:4px; background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.3); border-radius:20px; padding:2px 8px; margin-top:5px; }
   .bh-stat-badge-dot { width:5px; height:5px; border-radius:50%; background:var(--red); }
-  .bh-stat-badge-txt { font-size:10px; font-weight:700; color:var(--red); font-family:var(--mono); }
+  .bh-stat-badge-txt { font-size:11px; font-weight:800; color:var(--red); font-family:var(--mono); }
 
   /* ── MINI HEADER PILLS ── */
   .hdr-mini { display:none; gap:8px; padding:0 14px 12px; overflow-x:auto; scrollbar-width:none; }
@@ -595,7 +595,7 @@
   /* CHART MODE TOGGLE */
   .chart-mode-toggle { display:flex; gap:6px; margin-top:8px; }
   .chart-toggle { display:flex; gap:4px; }
-  .chart-mode-btn { padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; border:1.5px solid var(--border); background:var(--s2); color:var(--muted); cursor:pointer; transition:all .15s; }
+  .chart-mode-btn { padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700; border:1.5px solid var(--border); background:var(--s2); color:var(--muted); cursor:pointer; transition:all .15s; }
   .chart-mode-btn.active { border-color:var(--teal); color:var(--teal); background:var(--teal-dim); }
 
   /* REPORTS */
@@ -941,8 +941,8 @@
   .ins-ratio-leg    { display:flex; align-items:center; gap:8px; }
   .ins-ratio-dot    { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:2px; align-self:flex-start; }
   .ins-ratio-val    { font-family:var(--mono); font-size:16px; font-weight:800; line-height:1.1; }
-  .ins-ratio-pct    { font-size:13px; font-weight:700; color:var(--text2); margin-left:3px; }
-  .ins-ratio-name   { font-size:11px; color:var(--muted); margin-top:2px; }
+  .ins-ratio-pct    { font-size:15px; font-weight:700; color:var(--text2); margin-left:3px; }
+  .ins-ratio-name   { font-size:13px; color:var(--muted); margin-top:2px; }
 
   /* ── MONTHLY EARNED CARD (Home) ── */
   .month-earned-card {
@@ -3826,7 +3826,7 @@ function renderTally() {
           oninput="updateTallyDenom(${d}, this.value)" onchange="updateTallyDenom(${d}, this.value)">
         <div class="tally-qty-btn" onclick="stepTallyDenom(${d},1)">+</div>
       </div></td>
-      <td class="tally-sum">${sum === 0 ? '-' : sum.toLocaleString('en-PH', {minimumFractionDigits:2})}</td>
+      <td class="tally-sum">${sum === 0 ? '-' : sum.toLocaleString('en-PH', {minimumFractionDigits:0})}</td>
       <td style="text-align:center;padding:7px 10px 7px 4px;">
         <button class="tally-row-lock-btn${locked ? ' locked' : ''}" onclick="toggleDenomRowLock(${d})" title="${locked ? 'Unlock' : 'Lock'}"><i class="ti ${locked ? 'ti-lock' : 'ti-lock-open'}"></i></button>
       </td>
@@ -3859,7 +3859,7 @@ function stepTallyDenom(denom, delta) {
     const input = rows[idx].querySelector('.tally-qty-input');
     if (input) input.value = next === 0 ? '' : next;
     const sum = next * denom;
-    rows[idx].querySelector('.tally-sum').textContent = sum === 0 ? '-' : sum.toLocaleString('en-PH', {minimumFractionDigits:2});
+    rows[idx].querySelector('.tally-sum').textContent = sum === 0 ? '-' : sum.toLocaleString('en-PH', {minimumFractionDigits:0});
   }
 }
 
@@ -3872,7 +3872,7 @@ function updateTallyDenom(denom, val) {
   const idx = TALLY_DENOMS.indexOf(denom);
   if (idx >= 0 && rows[idx]) {
     const sum = tallyState.denoms[denom] * denom;
-    rows[idx].querySelector('.tally-sum').textContent = sum === 0 ? '-' : sum.toLocaleString('en-PH', {minimumFractionDigits:2});
+    rows[idx].querySelector('.tally-sum').textContent = sum === 0 ? '-' : sum.toLocaleString('en-PH', {minimumFractionDigits:0});
   }
 }
 
@@ -3888,7 +3888,7 @@ function updateTallyTotals() {
   const gcashTotal = tallyState.gcash.reduce((s, a) => s + (parseFloat(a.amount) || 0), 0);
   const grand = coh + gcashTotal;
 
-  const fmtN = n => n.toLocaleString('en-PH', { minimumFractionDigits:2 });
+  const fmtN = n => n.toLocaleString('en-PH', { minimumFractionDigits:0 });
   document.getElementById('tallyCOHTotal').textContent    = fmtN(coh);
   document.getElementById('tallyGCashTotal').textContent  = fmtN(gcashTotal);
   const fmtW = n => '₱' + Math.round(n).toLocaleString('en-PH');
