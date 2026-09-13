@@ -226,7 +226,7 @@
   .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
   .sec-link { font-size:11px; font-weight:700; color:var(--indigo); cursor:pointer; }
   .card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--s2); border-radius:var(--radius) var(--radius) 0 0; }
-  .card-hdr-title { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .card-hdr-title { font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
   .card-pad { padding:14px 16px; }
 
   /* ── COLLAPSIBLE HEADER ── */
@@ -418,20 +418,20 @@
   .txn-card { border-bottom: none; padding: 9px 14px; }
   .txn-line1 { display: flex; align-items: center; gap: 8px; width: 100%; }
   .txn-type-wrap { display: none; }
-  .txn-type-label { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; flex-shrink: 0; }
-  .txn-amt { font-family: var(--mono); font-size: 13px; font-weight: 600; text-align: right; flex: 1; font-variant-numeric: tabular-nums; min-width: 0; }
+  .txn-type-label { font-size: 15px; font-weight: 700; color: var(--text); white-space: nowrap; flex-shrink: 0; }
+  .txn-amt { font-family: var(--mono); font-size: 15px; font-weight: 700; text-align: right; flex: 1; font-variant-numeric: tabular-nums; min-width: 0; }
   .txn-amt.in  { color: var(--green); }
   .txn-amt.out { color: var(--red); }
-  .txn-earn-inline { font-size: 13px; font-family: var(--mono); font-weight: 600; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 36px; }
+  .txn-earn-inline { font-size: 15px; font-family: var(--mono); font-weight: 700; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 36px; }
   .txn-line2 { display: flex; align-items: center; gap: 6px; margin-top: 4px; margin-left: 43px; }
   .txn-line3 { display: flex; align-items: center; margin-top: 3px; margin-left: 43px; }
-  .txn-notes-txt { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
-  .txn-meta-txt { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; min-width: 0; }
+  .txn-notes-txt { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
+  .txn-meta-txt { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; min-width: 0; }
   .txn-sep { display: none; }
   .txn-bal-inline { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
-  .txn-bal-key { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-  .txn-bal-coh { font-size: 12px; font-weight: 600; color: var(--amber); font-family: var(--mono); font-variant-numeric: tabular-nums; }
-  .txn-bal-cog { font-size: 12px; font-weight: 600; color: var(--blue);  font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .txn-bal-key { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .txn-bal-coh { font-size: 12px; font-weight: 700; color: var(--amber); font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .txn-bal-cog { font-size: 12px; font-weight: 700; color: var(--blue);  font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .txn-bal-dot { font-size: 10px; color: var(--border); }
   .txn-edit-inline { font-size: 10px; font-weight: 700; color: var(--blue); border: 1.5px solid rgba(129,140,248,.4); background: rgba(129,140,248,.08); border-radius: 10px; padding: 2px 8px; cursor: pointer; flex-shrink: 0; white-space: nowrap; margin-left: auto; }
 
@@ -641,17 +641,17 @@
 
   /* HOME DASHBOARD */
   .home-section { margin-bottom: 14px; }
-  .home-section-title { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .home-section-title { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
 
   /* Quick stats with sparkline */
   .quick-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .qs-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 8px 6px; text-align: center; position: relative; overflow: hidden; }
-  .qs-val { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+  .qs-val { font-family: var(--mono); font-size: 15px; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
   .qs-val.amber { color: var(--amber); }
   .qs-val.green { color: var(--green); }
   .qs-val.red   { color: var(--red); }
   .qs-val.blue  { color: var(--blue); }
-  .qs-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
+  .qs-lbl { font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
   .qs-spark { width: 100%; height: 18px; display: block; margin-top: 4px; opacity: .7; }
 
   /* Today's earnings progress ring */
@@ -661,7 +661,7 @@
   .earn-ring-fill { fill: none; stroke: var(--teal); stroke-width: 4; stroke-linecap: round; transform-origin: center; transform: rotate(-90deg); transition: stroke-dashoffset .8s cubic-bezier(.34,1.2,.64,1); }
   .earn-ring-text { font-family: var(--mono); font-size: 10px; font-weight: 700; fill: var(--teal); text-anchor: middle; dominant-baseline: middle; font-variant-numeric: tabular-nums; }
   .earn-ring-info { flex: 1; min-width: 0; }
-  .earn-ring-title { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .earn-ring-title { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .earn-ring-today { font-family: var(--mono); font-size: 20px; font-weight: 800; color: var(--teal); font-variant-numeric: tabular-nums; line-height: 1; }
   .earn-ring-avg { font-size: 10px; color: var(--muted); margin-top: 3px; }
 
@@ -755,7 +755,7 @@
   .ring-fill { fill:none; stroke:var(--teal); stroke-width:9; stroke-linecap:round; transform-origin:center; transform:rotate(-90deg); transition:stroke-dashoffset .8s cubic-bezier(.34,1.2,.64,1); filter:drop-shadow(0 0 6px rgba(45,212,191,.4)); }
   .ring-pct  { font-family:var(--mono); font-size:9px; font-weight:700; fill:var(--teal); text-anchor:middle; dominant-baseline:middle; }
   .earn-info { flex:1; min-width:0; }
-  .earn-label  { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .earn-label  { font-size:14px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
   .earn-amount { font-family:var(--mono); font-size:28px; font-weight:800; color:var(--teal); line-height:1; letter-spacing:-.5px; }
   .earn-avg    { font-size:13px; color:var(--muted); margin-top:5px; }
 
@@ -969,9 +969,9 @@
     pointer-events: none;
   }
   .mec-top { margin-bottom:12px; }
-  .mec-label { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .mec-label { font-size:14px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
   .mec-amount {
-    font-family:var(--mono); font-size:32px; font-weight:800; letter-spacing:-.8px; line-height:1;
+    font-family:var(--mono); font-size:28px; font-weight:800; letter-spacing:-.8px; line-height:1;
     background:linear-gradient(135deg,#A78BFA 0%,#C4B5FD 55%,#7C3AED 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   }
@@ -979,7 +979,7 @@
     background:linear-gradient(135deg,#F87171 0%,#FCA5A5 55%,#DC2626 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   }
-  .mec-period { font-size:11px; color:var(--muted); margin-top:4px; font-weight:600; }
+  .mec-period { font-size:13px; color:var(--muted); margin-top:4px; font-weight:600; }
   .mec-badge {
     display:flex; align-items:center; gap:5px;
     background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25);
@@ -988,13 +988,13 @@
   .mec-badge.down { background:rgba(248,113,113,.1); border-color:rgba(248,113,113,.25); }
   .mec-badge i { font-size:13px; color:var(--green); }
   .mec-badge.down i { color:var(--red); }
-  .mec-badge-pct { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--green); }
+  .mec-badge-pct { font-family:var(--mono); font-size:13px; font-weight:700; color:var(--green); }
   .mec-badge.down .mec-badge-pct { color:var(--red); }
   .mec-progress-wrap { position:relative; z-index:1; margin-bottom:10px; }
   .mec-progress-labels { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
-  .mec-progress-lbl { font-size:10px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
-  .mec-progress-last { font-family:var(--mono); font-size:11px; color:var(--muted); }
-  .mec-bar-track { height:6px; background:var(--s4); border-radius:6px; position:relative; overflow:hidden; }
+  .mec-progress-lbl { font-size:13px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+  .mec-progress-last { font-family:var(--mono); font-size:14px; color:var(--muted); }
+  .mec-bar-track { height:10px; background:var(--s4); border-radius:10px; position:relative; overflow:hidden; }
   .mec-bar-fill {
     height:100%; border-radius:6px; width:0%;
     background:linear-gradient(90deg,#6366F1 0%,#A78BFA 60%,#C4B5FD 100%);
@@ -1005,8 +1005,8 @@
   .mec-stats { display:flex; border-top:1px solid rgba(255,255,255,.06); padding-top:10px; position:relative; z-index:1; }
   .mec-stat { flex:1; display:flex; flex-direction:column; gap:3px; }
   .mec-stat + .mec-stat { border-left:1px solid rgba(255,255,255,.06); padding-left:14px; margin-left:4px; }
-  .mec-stat-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); }
-  .mec-stat-val { font-family:var(--mono); font-size:13px; font-weight:700; color:var(--text2); }
+  .mec-stat-lbl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); }
+  .mec-stat-val { font-family:var(--mono); font-size:14px; font-weight:700; color:var(--text2); }
   [data-theme="ice"] .month-earned-card { background:linear-gradient(135deg,var(--s1) 0%,var(--s2) 100%); border-color:var(--border2); }
   [data-theme="ice"] .month-earned-card::before { background:radial-gradient(circle,rgba(109,40,217,.08) 0%,transparent 65%); }
   [data-theme="ice"] .month-earned-card::after  { background:radial-gradient(circle,rgba(99,102,241,.05) 0%,transparent 65%); }
@@ -1303,7 +1303,7 @@
             <div class="earn-info">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
                 <div class="earn-amount" id="earnRingToday">₱0</div>
-                <div id="earnAvgPill" style="display:none;align-items:center;gap:4px;border-radius:20px;padding:3px 9px;font-size:11px;font-weight:700;border:1px solid;"></div>
+                <div id="earnAvgPill" style="display:none;align-items:center;gap:4px;border-radius:20px;padding:3px 9px;font-size:13px;font-weight:700;border:1px solid;"></div>
               </div>
               <div class="earn-avg" id="earnRingAvg" style="margin-top:4px;">7-day avg: ₱0</div>
             </div>
@@ -1418,8 +1418,8 @@
       <div class="home-section">
         <div class="recent-mini" id="homeRecentList">
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);">
-            <span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Recent Transactions</span>
-            <span onclick="switchTab('log')" style="font-size:11px;color:var(--teal);cursor:pointer;font-weight:700;">See all →</span>
+            <span style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Recent Transactions</span>
+            <span onclick="switchTab('log')" style="font-size:13px;color:var(--teal);cursor:pointer;font-weight:700;">See all →</span>
           </div>
         </div>
       </div>
@@ -1431,7 +1431,7 @@
       <div class="sticky-date-header" id="stickyDateHeader"></div>
       <div style="padding:0 16px;">
         <div class="flex-between" style="margin-bottom:8px;">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Transactions</div>
+          <div style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Transactions</div>
           <span class="text-muted" style="font-size:11px;" id="recentCount"></span>
         </div>
         <div class="search-wrap">
