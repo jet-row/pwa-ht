@@ -1511,9 +1511,9 @@
               <div>
                 <div class="ins-proj-lbl">Month Projection</div>
                 <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
-                  <span class="ins-proj-val" id="insProjectedMonth">—</span>
-                  <span style="color:var(--border2);font-size:18px;font-weight:300;">|</span>
                   <span class="ins-proj-val" id="insProjectedVal">₱0</span>
+                  <span style="color:var(--border2);font-size:18px;font-weight:300;">|</span>
+                  <span class="ins-proj-val" id="insProjectedMonth">—</span>
                 </div>
                 <div class="ins-proj-sub" id="insProjectedSub">—</div>
               </div>
@@ -4083,7 +4083,7 @@ function renderHome() {
     const barPct = lastEarn > 0 ? Math.min(100, (thisEarn / lastEarn) * 100) : (thisEarn > 0 ? 100 : 0);
 
     const monthName = now.toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
-    const lastMonthName = new Date(yyyy, mm - 1, 1).toLocaleDateString('en-PH', { month: 'short', year: 'numeric' });
+    const lastMonthName = new Date(yyyy, mm - 1, 1).toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
 
     const set = (id, txt) => { const e = el(id); if (e) e.textContent = txt; };
     set('mecAmount',       fmt(thisEarn));
