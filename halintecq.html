@@ -820,6 +820,25 @@
 
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
+  /* ── FAB (mobile only) ── */
+  #fab-new {
+    position: fixed;
+    right: 20px;
+    bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+    width: 56px; height: 56px; border-radius: 50%;
+    border: none; cursor: pointer;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    color: #fff; font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(99,102,241,.55), inset 0 1px 0 rgba(255,255,255,.18);
+    z-index: 45; transition: transform .15s, box-shadow .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #fab-new:active { transform: scale(.91); box-shadow: 0 3px 12px rgba(99,102,241,.4); }
+
+  /* Hide "New" header button on mobile — FAB replaces it */
+  .btn-new { display: none !important; }
+
   /* ── REPORTS / INSIGHTS PILL TOGGLE ── */
   .rpt-pill-toggle { display:flex; background:var(--s2); border:1px solid var(--border2); border-radius:14px; padding:3px; gap:3px; margin-bottom:14px; }
   .rpt-pill-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 0; border-radius:10px; border:none; font-family:var(--font); font-size:14px; font-weight:700; cursor:pointer; color:var(--muted); background:transparent; transition:all .2s; }
@@ -1029,8 +1048,9 @@
     #app::before { display:none; }
 
     /* Hide mobile-only elements */
-    #header { display:none !important; }
-    #tabs   { display:none !important; }
+    #header  { display:none !important; }
+    #tabs    { display:none !important; }
+    #fab-new { display:none !important; }
 
     /* ── SIDEBAR ── */
     #left-sidebar {
@@ -1059,7 +1079,8 @@
     .sb-balances {
       margin:12px 12px 14px;
       background:var(--s2); border:1px solid var(--border2); border-radius:14px;
-      padding:12px 14px; flex-shrink:0;
+      padding:12px 14px;
+      flex:1; min-height:0; overflow-y:auto;
     }
     .sb-bal-row { display:flex; align-items:center; justify-content:space-between; padding:3px 0; }
     .sb-bal-lbl { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
@@ -1105,26 +1126,47 @@
 
     /* Slim desktop topbar */
     #desk-topbar {
-      display:flex; align-items:center; justify-content:space-between;
-      padding:10px 24px;
+      display:flex; flex-direction:column;
       background:var(--s1); border-bottom:1px solid var(--border2);
       flex-shrink:0; z-index:20;
     }
-    .desk-topbar-date { font-size:12px; color:var(--muted); font-weight:500; }
-    .desk-topbar-actions { display:flex; align-items:center; gap:8px; }
-    .desk-topbar-btn {
-      display:flex; align-items:center; gap:6px;
-      padding:7px 14px; border-radius:10px; border:1px solid var(--border2);
-      background:var(--s2); color:var(--text2); font-size:12px; font-weight:700;
-      cursor:pointer; font-family:var(--font); transition:all .15s;
+    .desk-tb-row1 {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:8px 20px; border-bottom:1px solid var(--border);
     }
-    .desk-topbar-btn:hover { background:var(--s3); color:var(--text); }
-    .desk-topbar-btn.primary {
+    .desk-tb-row2 {
+      display:flex; align-items:stretch;
+      background:var(--s2); min-height:44px;
+    }
+    .desk-topbar-date { font-size:12px; color:var(--muted); font-weight:500; }
+    .desk-topbar-actions { display:flex; align-items:center; gap:6px; }
+    /* icon-only action buttons */
+    .desk-icon-btn {
+      width:32px; height:32px; border-radius:9px;
+      border:1px solid var(--border2); background:var(--s2);
+      color:var(--text2); font-size:17px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .15s; font-family:var(--font);
+    }
+    .desk-icon-btn:hover { background:var(--s3); color:var(--text); }
+    .desk-icon-btn.primary {
       background:linear-gradient(135deg,#4F46E5,#6D28D9);
       border-color:rgba(99,102,241,.4); color:#fff;
-      box-shadow:0 2px 12px rgba(99,102,241,.3);
+      box-shadow:0 2px 10px rgba(99,102,241,.3);
     }
-    .desk-topbar-btn.primary:hover { box-shadow:0 4px 20px rgba(99,102,241,.4); }
+    .desk-icon-btn.primary:hover { box-shadow:0 4px 16px rgba(99,102,241,.4); }
+    /* balance stat chips in row 2 — equal width, full span */
+    .desk-bal-chip {
+      flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      padding:6px 8px; gap:2px; text-align:center;
+    }
+    .desk-bal-chip + .desk-bal-chip { border-left:1px solid var(--border); }
+    .desk-bal-lbl { font-size:9px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    .desk-bal-val { font-family:var(--mono); font-size:14px; font-weight:800; }
+    .desk-bal-val.coh  { color:var(--amber); }
+    .desk-bal-val.cog  { color:var(--teal); }
+    .desk-bal-val.earn { color:var(--green); }
+    #deskDeficitChip { transition:background .2s; }
 
     /* Content area */
     #content { flex:1; overflow-y:auto; padding:0 8px; }
@@ -1174,31 +1216,6 @@
       <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
     </div>
 
-    <!-- Live balances -->
-    <div class="sb-balances">
-      <div class="sb-bal-row">
-        <span class="sb-bal-lbl">Cash on Hand</span>
-        <span class="sb-bal-val coh" id="sbCOH">₱0</span>
-      </div>
-      <div class="sb-bal-row">
-        <span class="sb-bal-lbl">GCash</span>
-        <span class="sb-bal-val cog" id="sbCOG">₱0</span>
-      </div>
-      <div class="sb-bal-divider"></div>
-      <div class="sb-bal-row">
-        <span class="sb-bal-lbl">Total</span>
-        <span class="sb-bal-val" id="sbTotal" style="color:var(--text)">₱0</span>
-      </div>
-      <div class="sb-bal-row" id="sbDeficitRow">
-        <span class="sb-bal-lbl">Deficit</span>
-        <span class="sb-bal-val" id="sbDeficit" style="color:var(--muted)">—</span>
-      </div>
-      <div class="sb-bal-divider"></div>
-      <div class="sb-bal-row">
-        <span class="sb-bal-lbl">Earned</span>
-        <span class="sb-bal-val earn" id="sbEarned">₱0</span>
-      </div>
-    </div>
 
   </div><!-- /left-sidebar -->
 
@@ -1266,16 +1283,42 @@
 
   <div id="app-body">
 
-  <!-- Desktop slim topbar (hidden on mobile via CSS) -->
+  <!-- Desktop topbar (hidden on mobile via CSS) -->
   <div id="desk-topbar">
-    <div class="desk-topbar-date" id="deskTopbarDate">—</div>
-    <div class="desk-topbar-actions">
-      <button class="desk-topbar-btn" onclick="toggleTheme()">
-        <i class="ti ti-moon" id="deskThemeIcon"></i> <span id="deskThemeLabel">Light Mode</span>
-      </button>
-      <button class="desk-topbar-btn primary" onclick="openAddModal()">
-        <i class="ti ti-plus"></i> New Transaction
-      </button>
+    <!-- Row 1: date + icon actions -->
+    <div class="desk-tb-row1">
+      <div class="desk-topbar-date" id="deskTopbarDate">—</div>
+      <div class="desk-topbar-actions">
+        <button class="desk-icon-btn" onclick="toggleTheme()" title="Toggle theme">
+          <i class="ti ti-moon" id="deskThemeIcon"></i>
+        </button>
+        <button class="desk-icon-btn primary" onclick="openAddModal()" title="New Transaction">
+          <i class="ti ti-plus"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Row 2: live balance stats -->
+    <div class="desk-tb-row2">
+      <div class="desk-bal-chip">
+        <span class="desk-bal-lbl">Cash on Hand</span>
+        <span class="desk-bal-val coh" id="deskCOH">₱0</span>
+      </div>
+      <div class="desk-bal-chip">
+        <span class="desk-bal-lbl">GCash</span>
+        <span class="desk-bal-val cog" id="deskCOG">₱0</span>
+      </div>
+      <div class="desk-bal-chip">
+        <span class="desk-bal-lbl">Earned</span>
+        <span class="desk-bal-val earn" id="deskEarned">₱0</span>
+      </div>
+      <div class="desk-bal-chip">
+        <span class="desk-bal-lbl">Total</span>
+        <span class="desk-bal-val" id="deskTotal" style="color:var(--text)">₱0</span>
+      </div>
+      <div class="desk-bal-chip" id="deskDeficitChip">
+        <span class="desk-bal-lbl">Deficit</span>
+        <span class="desk-bal-val" id="deskDeficit" style="color:var(--muted)">—</span>
+      </div>
     </div>
   </div>
 
@@ -1854,7 +1897,10 @@
 
   </div><!-- /content -->
 
-
+  <!-- FAB — mobile new transaction shortcut -->
+  <button id="fab-new" onclick="openAddModal()" aria-label="New Transaction">
+    <i class="ti ti-plus"></i>
+  </button>
 
   <!-- BOTTOM NAV -->
   <div id="tabs">
@@ -3212,27 +3258,29 @@ function _syncSidebarBalances() {
   const bal = calcBalances();
   const fmtN = v => '₱' + Math.round(v).toLocaleString();
   const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  s('sbCOH',    fmtN(bal.coh));
-  s('sbCOG',    fmtN(bal.cog));
-  s('sbEarned', fmtN(bal.totalEarned));
 
-  const sbTotal = bal.coh + bal.cog;
-  s('sbTotal', fmtN(sbTotal));
-  const sbTallyTotal = TALLY_DENOMS.reduce((acc, d) => acc + (tallyState.denoms[d] || 0) * d, 0)
+  // Desk topbar row 2 — balance chips
+  const total = bal.coh + bal.cog;
+  s('deskCOH',    fmtN(bal.coh));
+  s('deskCOG',    fmtN(bal.cog));
+  s('deskTotal',  fmtN(total));
+  s('deskEarned', fmtN(bal.totalEarned));
+
+  const tallyTotal = TALLY_DENOMS.reduce((acc, d) => acc + (tallyState.denoms[d] || 0) * d, 0)
     + (tallyState.denoms.uncollected || 0)
     + tallyState.gcash.reduce((acc, a) => acc + (parseFloat(a.amount) || 0), 0);
-  const sbDeficitEl  = document.getElementById('sbDeficit');
-  const sbDeficitRow = document.getElementById('sbDeficitRow');
-  if (sbDeficitEl) {
-    const diff = sbTotal - sbTallyTotal;
-    if (sbTallyTotal === 0 || diff === 0) {
-      sbDeficitEl.textContent = '—';
-      sbDeficitEl.style.color = 'var(--muted)';
-      if (sbDeficitRow) sbDeficitRow.style.background = 'transparent';
+  const deskDeficitEl   = document.getElementById('deskDeficit');
+  const deskDeficitChip = document.getElementById('deskDeficitChip');
+  if (deskDeficitEl) {
+    const diff = total - tallyTotal;
+    if (tallyTotal === 0 || diff === 0) {
+      deskDeficitEl.textContent = '—';
+      deskDeficitEl.style.color = 'var(--muted)';
+      if (deskDeficitChip) deskDeficitChip.style.background = 'transparent';
     } else {
-      sbDeficitEl.textContent = (diff > 0 ? 'Short ' : 'Over ') + fmtN(Math.abs(diff));
-      sbDeficitEl.style.color = diff > 0 ? 'var(--red)' : 'var(--teal)';
-      if (sbDeficitRow) sbDeficitRow.style.background = diff > 0 ? 'rgba(248,113,113,.1)' : 'rgba(45,212,191,.1)';
+      deskDeficitEl.textContent = (diff > 0 ? 'Short ' : 'Over ') + fmtN(Math.abs(diff));
+      deskDeficitEl.style.color = diff > 0 ? 'var(--red)' : 'var(--teal)';
+      if (deskDeficitChip) deskDeficitChip.style.background = diff > 0 ? 'rgba(248,113,113,.12)' : 'rgba(45,212,191,.12)';
     }
   }
 
@@ -3240,15 +3288,11 @@ function _syncSidebarBalances() {
   const dateStr = new Date().toLocaleDateString('en-PH', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
   s('deskTopbarDate', dateStr);
 
-  // Theme icons (sidebar + topbar)
+  // Theme icon (topbar only now)
   const theme = document.documentElement.getAttribute('data-theme') || 'midnight';
   const isDark = theme === 'midnight';
-  [['sbThemeIcon','sbThemeLabel'],['deskThemeIcon','deskThemeLabel']].forEach(([iconId, lblId]) => {
-    const ic = document.getElementById(iconId);
-    const lb = document.getElementById(lblId);
-    if (ic) ic.className = isDark ? 'ti ti-sun' : 'ti ti-moon';
-    if (lb) lb.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-  });
+  const ic = document.getElementById('deskThemeIcon');
+  if (ic) ic.className = isDark ? 'ti ti-sun' : 'ti ti-moon';
 }
 
 function filterHistory(type, el) {
@@ -3935,17 +3979,18 @@ function updateDeficitDisplay() {
       dEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + fmt(Math.abs(deficit));
     }
   }
-  const sbDeficitEl  = document.getElementById('sbDeficit');
-  const sbDeficitRow = document.getElementById('sbDeficitRow');
-  if (sbDeficitEl) {
+  // Sync desk topbar deficit chip (reactive to tally changes)
+  const deskDeficitEl   = document.getElementById('deskDeficit');
+  const deskDeficitChip = document.getElementById('deskDeficitChip');
+  if (deskDeficitEl) {
     if (tallyGrandTotal === 0 || deficit === 0) {
-      sbDeficitEl.textContent = '—';
-      sbDeficitEl.style.color = 'var(--muted)';
-      if (sbDeficitRow) sbDeficitRow.style.background = 'transparent';
+      deskDeficitEl.textContent = '—';
+      deskDeficitEl.style.color = 'var(--muted)';
+      if (deskDeficitChip) deskDeficitChip.style.background = 'transparent';
     } else {
-      sbDeficitEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + '₱' + Math.round(Math.abs(deficit)).toLocaleString();
-      sbDeficitEl.style.color = deficit > 0 ? 'var(--red)' : 'var(--teal)';
-      if (sbDeficitRow) sbDeficitRow.style.background = deficit > 0 ? 'rgba(248,113,113,.1)' : 'rgba(45,212,191,.1)';
+      deskDeficitEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + '₱' + Math.round(Math.abs(deficit)).toLocaleString();
+      deskDeficitEl.style.color = deficit > 0 ? 'var(--red)' : 'var(--teal)';
+      if (deskDeficitChip) deskDeficitChip.style.background = deficit > 0 ? 'rgba(248,113,113,.12)' : 'rgba(45,212,191,.12)';
     }
   }
 }
@@ -4319,7 +4364,7 @@ function setupScrollCollapse() {
     if (scrollTicking) return;
     scrollTicking = true;
     requestAnimationFrame(() => {
-      if (state.currentTab !== 'home') collapseHeader(content.scrollTop > 40);
+      collapseHeader(content.scrollTop > 10);
       scrollTicking = false;
     });
   }, { passive: true });
