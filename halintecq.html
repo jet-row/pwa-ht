@@ -116,7 +116,7 @@
   [data-theme="ice"] .modal-bg { background:rgba(14,16,24,.55); }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; overscroll-behavior: none; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; overscroll-behavior: none; font-variant-numeric: tabular-nums; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
   /* ── LAYOUT ── */
   #app { display: flex; flex-direction: column; height: 100dvh; max-width: 430px; margin: 0 auto; position: relative; overflow: hidden; }
@@ -153,14 +153,14 @@
   }
   .hdr-date { font-size: 11px; color: var(--muted); margin-top: 1px; }
   .btn-new {
-    display: flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 24px; border: none; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: #fff;
-    font-size: 13px; font-weight: 700; font-family: var(--font); letter-spacing: .01em;
     box-shadow: 0 4px 14px rgba(99,102,241,.4), inset 0 1px 0 rgba(255,255,255,.15);
     transition: opacity .15s, transform .1s;
   }
   .btn-new:active { opacity: .85; transform: scale(.96); }
-  .btn-new i { font-size: 15px; }
+  .btn-new i { font-size: 18px; }
   .btn-theme-toggle {
     width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--border2);
     background: var(--surface2); color: var(--text2); cursor: pointer;
@@ -820,24 +820,6 @@
 
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-  /* ── FAB (mobile only) ── */
-  #fab-new {
-    position: fixed;
-    right: 20px;
-    bottom: calc(86px + env(safe-area-inset-bottom, 0px));
-    width: 56px; height: 56px; border-radius: 50%;
-    border: none; cursor: pointer;
-    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-    color: #fff; font-size: 26px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 24px rgba(99,102,241,.55), inset 0 1px 0 rgba(255,255,255,.18);
-    z-index: 45; transition: transform .15s, box-shadow .15s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #fab-new:active { transform: scale(.91); box-shadow: 0 3px 12px rgba(99,102,241,.4); }
-
-  /* Hide "New" header button on mobile — FAB replaces it */
-  .btn-new { display: none !important; }
 
   /* ── REPORTS / INSIGHTS PILL TOGGLE ── */
   .rpt-pill-toggle { display:flex; background:var(--s2); border:1px solid var(--border2); border-radius:14px; padding:3px; gap:3px; margin-bottom:14px; }
@@ -1050,7 +1032,6 @@
     /* Hide mobile-only elements */
     #header  { display:none !important; }
     #tabs    { display:none !important; }
-    #fab-new { display:none !important; }
 
     /* ── SIDEBAR ── */
     #left-sidebar {
@@ -1235,8 +1216,8 @@
       </div>
       <div style="margin-left:auto;display:flex;align-items:center;">
         <button class="btn-theme-toggle" id="btnThemeToggle" onclick="toggleTheme()" title="Toggle light/dark"></button>
-        <button class="btn-new" onclick="openAddModal()">
-          <i class="ti ti-plus"></i> New
+        <button class="btn-new" onclick="openAddModal()" aria-label="New Transaction">
+          <i class="ti ti-plus"></i>
         </button>
       </div>
     </div>
@@ -1897,11 +1878,6 @@
 
   </div><!-- /content -->
 
-  <!-- FAB — mobile new transaction shortcut -->
-  <button id="fab-new" onclick="openAddModal()" aria-label="New Transaction">
-    <i class="ti ti-plus"></i>
-  </button>
-
   <!-- BOTTOM NAV -->
   <div id="tabs">
     <div class="nav-inner">
@@ -1968,19 +1944,19 @@
         <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Out-Roll</div>
       </div>
     </div>
-    <div class="field"><label>Amount</label><input type="number" id="eAmount" placeholder="0" min="0" inputmode="decimal"></div>
-    <div class="field"><label>Earn</label><input type="number" id="eEarn" placeholder="0" min="0" inputmode="decimal"></div>
-    <div class="field">
-      <div class="toggle-row">
-        <div><div class="toggle-label">Fee in Cash?</div><div class="toggle-sub" id="editFeeDesc">Earn goes to Cash on Hand</div></div>
-        <label class="switch"><input type="checkbox" id="eFeeInCash" checked onchange="updateEditFeeDesc()"><span class="slider"></span></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
+      <div><label>Amount</label><input type="number" id="eAmount" placeholder="0" min="0" inputmode="decimal"></div>
+      <div><label>Earn</label><input type="number" id="eEarn" placeholder="0" min="0" inputmode="decimal"></div>
+      <div><label>Date</label><input type="date" id="eDate"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:2px;">
+        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Fee in Cash?</span>
+        <label class="switch"><input type="checkbox" id="eFeeInCash" checked><span class="slider"></span></label>
       </div>
     </div>
-    <div class="field"><label>Date</label><input type="date" id="eDate"></div>
     <div class="field"><label>Notes (optional)</label><input type="text" id="eNotes" placeholder="Optional note"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <button class="btn btn-ghost" onclick="closeModal('editModal')">Cancel</button>
-      <button class="btn btn-primary" onclick="submitEditTxn()">Save Changes</button>
+      <button class="btn btn-green" onclick="submitEditTxn()">Save Changes</button>
     </div>
   </div>
 </div>
@@ -1999,15 +1975,15 @@
         <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Out-Roll</div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
       <div><label>Amount</label><input type="number" id="mAmount" placeholder="0" min="0" inputmode="decimal"></div>
       <div><label>Earn</label><input type="number" id="mEarn" placeholder="0" min="0" inputmode="decimal"></div>
+      <div><label>Date</label><input type="date" id="mDate"></div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:2px;">
         <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Fee in Cash?</span>
         <label class="switch"><input type="checkbox" id="mFeeInCash" checked><span class="slider"></span></label>
       </div>
     </div>
-    <div class="field"><label>Date</label><input type="date" id="mDate"></div>
     <div class="field"><label>Notes (optional)</label><input type="text" id="mNotes" placeholder="Optional note"></div>
     <button class="btn btn-green" onclick="submitModalTxn()">Save</button>
   </div>
@@ -3540,13 +3516,14 @@ function openEditModal(id) {
   const dd   = String(d.getDate()).padStart(2,'0');
   document.getElementById('eDate').value = `${yyyy}-${mm}-${dd}`;
 
-  updateEditFeeDesc();
   document.getElementById('editModal').classList.add('open');
 }
 
 function updateEditFeeDesc() {
+  const el = document.getElementById('editFeeDesc');
+  if (!el) return;
   const checked = document.getElementById('eFeeInCash').checked;
-  document.getElementById('editFeeDesc').textContent = checked ? 'Earn goes to Cash on Hand' : 'Earn goes to GCash Balance';
+  el.textContent = checked ? 'Earn goes to Cash on Hand' : 'Earn goes to GCash Balance';
 }
 
 function submitEditTxn() {
