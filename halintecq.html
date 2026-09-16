@@ -1173,8 +1173,9 @@
       <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
     </div>
 
-    <!-- Live balances -->
-    <div class="sb-balances" style="margin-top:auto;">
+    <!-- Live balances — wrapped so nav stays fixed and balance is reachable in short viewports -->
+    <div style="flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;">
+    <div class="sb-balances">
       <div class="sb-bal-row">
         <span class="sb-bal-lbl">Cash on Hand</span>
         <span class="sb-bal-val coh" id="sbCOH">₱0</span>
@@ -1198,7 +1199,7 @@
         <span class="sb-bal-val earn" id="sbEarned">₱0</span>
       </div>
     </div>
-
+    </div><!-- /sb-scroll-area -->
 
   </div><!-- /left-sidebar -->
 
