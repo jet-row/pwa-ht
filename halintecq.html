@@ -1068,6 +1068,7 @@
     .sb-bal-val.cog  { color:var(--teal); }
     .sb-bal-val.earn { color:var(--green); }
     .sb-bal-divider  { height:1px; background:var(--border); margin:4px 0; }
+    #sbDeficitRow { border-radius:8px; padding:4px 6px; margin:0 -6px; transition:background .2s; }
 
     /* Nav */
     .sb-nav { flex-shrink:0; padding:14px 10px 8px; display:flex; flex-direction:column; gap:2px; }
@@ -1173,8 +1174,7 @@
       <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
     </div>
 
-    <!-- Live balances — wrapped so nav stays fixed and balance is reachable in short viewports -->
-    <div style="flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;">
+    <!-- Live balances -->
     <div class="sb-balances">
       <div class="sb-bal-row">
         <span class="sb-bal-lbl">Cash on Hand</span>
@@ -1189,7 +1189,7 @@
         <span class="sb-bal-lbl">Total</span>
         <span class="sb-bal-val" id="sbTotal" style="color:var(--text)">₱0</span>
       </div>
-      <div class="sb-bal-row">
+      <div class="sb-bal-row" id="sbDeficitRow">
         <span class="sb-bal-lbl">Deficit</span>
         <span class="sb-bal-val" id="sbDeficit" style="color:var(--muted)">—</span>
       </div>
@@ -1199,7 +1199,6 @@
         <span class="sb-bal-val earn" id="sbEarned">₱0</span>
       </div>
     </div>
-    </div><!-- /sb-scroll-area -->
 
   </div><!-- /left-sidebar -->
 
@@ -3222,15 +3221,18 @@ function _syncSidebarBalances() {
   const sbTallyTotal = TALLY_DENOMS.reduce((acc, d) => acc + (tallyState.denoms[d] || 0) * d, 0)
     + (tallyState.denoms.uncollected || 0)
     + tallyState.gcash.reduce((acc, a) => acc + (parseFloat(a.amount) || 0), 0);
-  const sbDeficitEl = document.getElementById('sbDeficit');
+  const sbDeficitEl  = document.getElementById('sbDeficit');
+  const sbDeficitRow = document.getElementById('sbDeficitRow');
   if (sbDeficitEl) {
     const diff = sbTotal - sbTallyTotal;
     if (sbTallyTotal === 0 || diff === 0) {
       sbDeficitEl.textContent = '—';
       sbDeficitEl.style.color = 'var(--muted)';
+      if (sbDeficitRow) sbDeficitRow.style.background = 'transparent';
     } else {
       sbDeficitEl.textContent = (diff > 0 ? 'Short ' : 'Over ') + fmtN(Math.abs(diff));
       sbDeficitEl.style.color = diff > 0 ? 'var(--red)' : 'var(--teal)';
+      if (sbDeficitRow) sbDeficitRow.style.background = diff > 0 ? 'rgba(248,113,113,.1)' : 'rgba(45,212,191,.1)';
     }
   }
 
@@ -3933,14 +3935,17 @@ function updateDeficitDisplay() {
       dEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + fmt(Math.abs(deficit));
     }
   }
-  const sbDeficitEl = document.getElementById('sbDeficit');
+  const sbDeficitEl  = document.getElementById('sbDeficit');
+  const sbDeficitRow = document.getElementById('sbDeficitRow');
   if (sbDeficitEl) {
     if (tallyGrandTotal === 0 || deficit === 0) {
       sbDeficitEl.textContent = '—';
       sbDeficitEl.style.color = 'var(--muted)';
+      if (sbDeficitRow) sbDeficitRow.style.background = 'transparent';
     } else {
       sbDeficitEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + '₱' + Math.round(Math.abs(deficit)).toLocaleString();
       sbDeficitEl.style.color = deficit > 0 ? 'var(--red)' : 'var(--teal)';
+      if (sbDeficitRow) sbDeficitRow.style.background = deficit > 0 ? 'rgba(248,113,113,.1)' : 'rgba(45,212,191,.1)';
     }
   }
 }
