@@ -1057,7 +1057,7 @@
 
     /* Balance summary block */
     .sb-balances {
-      margin:12px 12px 0;
+      margin:12px 12px 14px;
       background:var(--s2); border:1px solid var(--border2); border-radius:14px;
       padding:12px 14px; flex-shrink:0;
     }
@@ -1070,7 +1070,7 @@
     .sb-bal-divider  { height:1px; background:var(--border); margin:4px 0; }
 
     /* Nav */
-    .sb-nav { flex:1; padding:14px 10px 8px; display:flex; flex-direction:column; gap:2px; overflow-y:auto; }
+    .sb-nav { flex-shrink:0; padding:14px 10px 8px; display:flex; flex-direction:column; gap:2px; }
     .sb-section-lbl {
       font-size:9px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
       color:var(--muted); padding:10px 10px 4px;
@@ -1163,8 +1163,18 @@
       <div class="sb-logo-text">Halin<span>TecQ</span></div>
     </div>
 
+    <!-- Navigation -->
+    <div class="sb-nav">
+      <div class="sb-section-lbl">Menu</div>
+      <button class="sb-btn active" id="sb-tab-home"     onclick="switchTab('home')">    <i class="ti ti-layout-dashboard"></i> Home</button>
+      <button class="sb-btn"        id="sb-tab-log"      onclick="switchTab('log')">     <i class="ti ti-arrows-exchange"></i>  Txns</button>
+      <button class="sb-btn"        id="sb-tab-reports"  onclick="switchTab('reports')"> <i class="ti ti-sparkles"></i>          Insights</button>
+      <button class="sb-btn"        id="sb-tab-tally"    onclick="switchTab('tally')">   <i class="ti ti-abacus"></i>            Tally</button>
+      <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
+    </div>
+
     <!-- Live balances -->
-    <div class="sb-balances">
+    <div class="sb-balances" style="margin-top:auto;">
       <div class="sb-bal-row">
         <span class="sb-bal-lbl">Cash on Hand</span>
         <span class="sb-bal-val coh" id="sbCOH">₱0</span>
@@ -1187,16 +1197,6 @@
         <span class="sb-bal-lbl">Earned</span>
         <span class="sb-bal-val earn" id="sbEarned">₱0</span>
       </div>
-    </div>
-
-    <!-- Navigation -->
-    <div class="sb-nav">
-      <div class="sb-section-lbl">Menu</div>
-      <button class="sb-btn active" id="sb-tab-home"     onclick="switchTab('home')">    <i class="ti ti-layout-dashboard"></i> Home</button>
-      <button class="sb-btn"        id="sb-tab-log"      onclick="switchTab('log')">     <i class="ti ti-arrows-exchange"></i>  Txns</button>
-      <button class="sb-btn"        id="sb-tab-reports"  onclick="switchTab('reports')"> <i class="ti ti-sparkles"></i>          Insights</button>
-      <button class="sb-btn"        id="sb-tab-tally"    onclick="switchTab('tally')">   <i class="ti ti-abacus"></i>            Tally</button>
-      <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
     </div>
 
 
@@ -3930,6 +3930,16 @@ function updateDeficitDisplay() {
     } else {
       deficitBadge.style.display = 'inline-flex';
       dEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + fmt(Math.abs(deficit));
+    }
+  }
+  const sbDeficitEl = document.getElementById('sbDeficit');
+  if (sbDeficitEl) {
+    if (tallyGrandTotal === 0 || deficit === 0) {
+      sbDeficitEl.textContent = '—';
+      sbDeficitEl.style.color = 'var(--muted)';
+    } else {
+      sbDeficitEl.textContent = (deficit > 0 ? 'Short ' : 'Over ') + '₱' + Math.round(Math.abs(deficit)).toLocaleString();
+      sbDeficitEl.style.color = deficit > 0 ? 'var(--red)' : 'var(--teal)';
     }
   }
 }
