@@ -1444,9 +1444,8 @@
       <!-- Recent Activity -->
       <div class="home-section">
         <div class="recent-mini" id="homeRecentList">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);">
-            <span style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Recent Transactions</span>
-            <span onclick="switchTab('log')" style="font-size:13px;color:var(--teal);cursor:pointer;font-weight:700;">See all →</span>
+          <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);">
+            <span style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Today's Transactions</span>
           </div>
         </div>
       </div>
@@ -1554,7 +1553,7 @@
         <!-- 2. Earning Streak -->
         <div class="ins-card amber">
           <div class="ins-card-hdr">
-            <span class="ins-section-title">Consistency</span>
+            <span class="ins-section-title">Earning Streak</span>
           </div>
           <div class="ins-card-body">
             <div class="ins-streak-inner">
@@ -1563,7 +1562,6 @@
                 <div class="streak-days">days</div>
               </div>
               <div style="flex:1;">
-                <div class="streak-lbl">Earning Streak</div>
                 <div class="streak-title" id="insStreakTitle">—</div>
                 <div class="streak-sub"   id="insStreakSub">—</div>
                 <div class="streak-dots"  id="insStreakDots"></div>
@@ -2657,7 +2655,7 @@ function renderInsights() {
       if (prev > 0) {
         const gp = ((curr - prev) / prev * 100);
         const up = gp >= 0;
-        histBadgeEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;color:${up?'var(--green)':'var(--red)'};background:${up?'var(--green-dim)':'var(--red-dim)'};border:1px solid ${up?'rgba(52,211,153,.3)':'rgba(248,113,113,.25)'};border-radius:20px;padding:2px 7px;"><i class="ti ti-arrow-${up?'up':'down'}" style="font-size:11px;"></i>${up?'+':''}${gp.toFixed(0)}% vs last mo</span>`;
+        histBadgeEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;color:${up?'var(--green)':'var(--red)'};background:${up?'var(--green-dim)':'var(--red-dim)'};border:1px solid ${up?'rgba(52,211,153,.3)':'rgba(248,113,113,.25)'};border-radius:20px;padding:2px 7px;"><i class="ti ti-trending-${up?'up':'down'}" style="font-size:11px;vertical-align:middle;line-height:1;"></i>${up?'+':''}${gp.toFixed(0)}% vs last mo</span>`;
       } else {
         histBadgeEl.innerHTML = '';
       }
@@ -4169,9 +4167,10 @@ function renderHome() {
   if (recentEl) {
     // remove previous txn rows (keep first child = header)
     while (recentEl.children.length > 1) recentEl.removeChild(recentEl.lastChild);
-    const recent = [...state.transactions].reverse().slice(0, 5);
+    const todayStr = new Date().toDateString();
+    const recent = [...state.transactions].filter(t => new Date(t.ts).toDateString() === todayStr).reverse();
     if (!recent.length) {
-      recentEl.insertAdjacentHTML('beforeend', '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">No transactions yet</div>');
+      recentEl.insertAdjacentHTML('beforeend', '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">No transactions today</div>');
     } else {
       recentEl.insertAdjacentHTML('beforeend', recent.map(t => txnHTML(t, true)).join(''));
     }
@@ -4562,12 +4561,12 @@ function updateEarnRing(todayEarn) {
         pill.style.background  = 'rgba(52,211,153,.1)';
         pill.style.borderColor = 'rgba(52,211,153,.3)';
         pill.style.color       = 'var(--green)';
-        pill.innerHTML = `<i class="ti ti-arrow-up" style="font-size:11px;"></i> Above avg${avg7 > 0 ? ' +' + diffPct + '%' : ''}`;
+        pill.innerHTML = `<i class="ti ti-trending-up" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Above avg${avg7 > 0 ? ' +' + diffPct + '%' : ''}`;
       } else {
         pill.style.background    = 'rgba(248,113,113,.1)';
         pill.style.borderColor   = 'rgba(248,113,113,.3)';
         pill.style.color         = 'var(--red)';
-        pill.innerHTML = `<i class="ti ti-arrow-down" style="font-size:11px;"></i> Below avg −${diffPct}%`;
+        pill.innerHTML = `<i class="ti ti-trending-down" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Below avg −${diffPct}%`;
       }
     }
   }
