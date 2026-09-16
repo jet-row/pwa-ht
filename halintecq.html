@@ -1175,6 +1175,15 @@
       </div>
       <div class="sb-bal-divider"></div>
       <div class="sb-bal-row">
+        <span class="sb-bal-lbl">Total</span>
+        <span class="sb-bal-val" id="sbTotal" style="color:var(--text)">₱0</span>
+      </div>
+      <div class="sb-bal-row">
+        <span class="sb-bal-lbl">Deficit</span>
+        <span class="sb-bal-val" id="sbDeficit" style="color:var(--muted)">—</span>
+      </div>
+      <div class="sb-bal-divider"></div>
+      <div class="sb-bal-row">
         <span class="sb-bal-lbl">Earned</span>
         <span class="sb-bal-val earn" id="sbEarned">₱0</span>
       </div>
@@ -1190,15 +1199,6 @@
       <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
     </div>
 
-    <!-- Footer actions -->
-    <div class="sb-footer">
-      <button class="sb-btn" onclick="openAddModal()">
-        <i class="ti ti-plus"></i> New Transaction
-      </button>
-      <button class="sb-btn" onclick="toggleTheme()">
-        <i class="ti ti-moon" id="sbThemeIcon"></i> <span id="sbThemeLabel">Dark Mode</span>
-      </button>
-    </div>
 
   </div><!-- /left-sidebar -->
 
@@ -3215,6 +3215,23 @@ function _syncSidebarBalances() {
   s('sbCOH',    fmtN(bal.coh));
   s('sbCOG',    fmtN(bal.cog));
   s('sbEarned', fmtN(bal.totalEarned));
+
+  const sbTotal = bal.coh + bal.cog;
+  s('sbTotal', fmtN(sbTotal));
+  const sbTallyTotal = TALLY_DENOMS.reduce((acc, d) => acc + (tallyState.denoms[d] || 0) * d, 0)
+    + (tallyState.denoms.uncollected || 0)
+    + tallyState.gcash.reduce((acc, a) => acc + (parseFloat(a.amount) || 0), 0);
+  const sbDeficitEl = document.getElementById('sbDeficit');
+  if (sbDeficitEl) {
+    const diff = sbTotal - sbTallyTotal;
+    if (sbTallyTotal === 0 || diff === 0) {
+      sbDeficitEl.textContent = '—';
+      sbDeficitEl.style.color = 'var(--muted)';
+    } else {
+      sbDeficitEl.textContent = (diff > 0 ? 'Short ' : 'Over ') + fmtN(Math.abs(diff));
+      sbDeficitEl.style.color = diff > 0 ? 'var(--red)' : 'var(--teal)';
+    }
+  }
 
   // Desk topbar date
   const dateStr = new Date().toLocaleDateString('en-PH', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
