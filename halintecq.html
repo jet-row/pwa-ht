@@ -1335,18 +1335,20 @@
               <div class="earn-avg" id="earnRingAvg" style="margin-top:4px;">7-day avg: ₱0</div>
             </div>
           </div>
-        </div>
-
-        <div class="qs-grid">
-          <div class="qs-card in">
-            <div class="qs-val green" id="hsTodayIn">₱0</div>
-            <div class="qs-lbl">Cash-In · Load</div>
-            <i class="ti ti-arrow-badge-down-filled qs-icon" style="color:var(--green);"></i>
-          </div>
-          <div class="qs-card out">
-            <div class="qs-val red" id="hsTodayOut">₱0</div>
-            <div class="qs-lbl">Cash-Out</div>
-            <i class="ti ti-arrow-badge-up-filled qs-icon" style="color:var(--red);"></i>
+          <div style="border-top:1px solid var(--border);margin-top:2px;"></div>
+          <div style="padding:12px 16px 14px;">
+            <div class="qs-grid" style="margin-bottom:0;">
+              <div class="qs-card in">
+                <div class="qs-val green" id="hsTodayIn">₱0</div>
+                <div class="qs-lbl">Cash-In · Load</div>
+                <i class="ti ti-arrow-badge-down-filled qs-icon" style="color:var(--green);"></i>
+              </div>
+              <div class="qs-card out">
+                <div class="qs-val red" id="hsTodayOut">₱0</div>
+                <div class="qs-lbl">Cash-Out</div>
+                <i class="ti ti-arrow-badge-up-filled qs-icon" style="color:var(--red);"></i>
+              </div>
+            </div>
           </div>
         </div>
         <!-- hidden canvases for JS compat -->
@@ -1407,39 +1409,11 @@
       <div class="week-chart-card">
         <div class="card-hdr">
           <div class="card-hdr-title">This Week's Earnings</div>
-          <!-- <div class="chart-toggle" id="homeChartToggle">
-            <button class="chart-mode-btn active" onclick="setHomeChartMode('bar',this)">Bar</button>
-            <button class="chart-mode-btn"        onclick="setHomeChartMode('line',this)">Line</button>
-          </div> -->
         </div>
         <div style="padding:12px 14px 10px;">
           <canvas id="homeChart" height="120" style="width:100%;display:block;"></canvas>
         </div>
       </div>
-
-      <!-- Quick Entry -->
-      <!-- <div class="home-section">
-        <div class="section-divider"><span class="section-divider-label">Quick Entry</span></div>
-        <div class="qe-card">
-          <div class="qe-type-chips" id="qeTypeChips" style="flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;">
-            <div class="qe-chip sel"  data-type="Cash-In"          onclick="qeSelectType(this)">Cash-In</div>
-            <div class="qe-chip out" data-type="Cash-Out"          onclick="qeSelectType(this)">Cash-Out</div>
-            <div class="qe-chip"     data-type="Load"              onclick="qeSelectType(this)">Load</div>
-            <div class="qe-chip"     data-type="Cash-In-Rollover"  onclick="qeSelectType(this)">In-Rollover</div>
-            <div class="qe-chip out" data-type="Cash-Out-Rollover" onclick="qeSelectType(this)">Out-Rollover</div>
-          </div>
-          <div class="qe-row">
-            <div class="qe-field"><label>Amount</label><input type="number" id="qeAmount" placeholder="0" inputmode="decimal"></div>
-            <div class="qe-field"><label>Earn</label><input type="number" id="qeEarn" placeholder="0" inputmode="decimal"></div>
-            <div class="qe-fee-row">
-              <div><div class="qe-fee-label">Fee in Cash?</div><div class="qe-fee-sub" id="qeFeeDesc">Earn → Cash on Hand</div></div>
-              <label class="switch"><input type="checkbox" id="qeFeeInCash" checked onchange="updateQEFeeDesc()"><span class="slider"></span></label>
-            </div>
-          </div>
-          <div class="qe-notes"><input type="text" id="qeNotes" placeholder="Notes (optional)"></div>
-          <button class="btn btn-green" onclick="submitQE()" style="font-size:15px;padding:13px;">Save</button>
-        </div>
-      </div> -->
 
       <!-- Recent Activity -->
       <div class="home-section">
@@ -4072,9 +4046,11 @@ function renderHome() {
   const bal   = calcBalances();
   const today = new Date().toDateString();
   const todayTxns = state.transactions.filter(t => new Date(t.ts).toDateString() === today);
-  const todayEarn = todayTxns.reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
-  const todayIn   = todayTxns.filter(t => !t.type.includes('Cash-Out') && !t.type.includes('Rollover')).reduce((s,t) => s + (parseFloat(t.amount)||0), 0);
-  const todayOut  = todayTxns.filter(t =>  t.type.includes('Cash-Out') && !t.type.includes('Rollover')).reduce((s,t) => s + (parseFloat(t.amount)||0), 0);
+  const todayEarn    = todayTxns.reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
+  const todayIn      = todayTxns.filter(t => !t.type.includes('Cash-Out') && !t.type.includes('Rollover')).reduce((s,t) => s + (parseFloat(t.amount)||0), 0);
+  const todayOut     = todayTxns.filter(t =>  t.type.includes('Cash-Out') && !t.type.includes('Rollover')).reduce((s,t) => s + (parseFloat(t.amount)||0), 0);
+  const todayEarnIn  = todayTxns.filter(t => !t.type.includes('Cash-Out')).reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
+  const todayEarnOut = todayTxns.filter(t =>  t.type.includes('Cash-Out')).reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
 
   // Quick stats with animated counter
   const el = id => document.getElementById(id);
@@ -4089,8 +4065,8 @@ function renderHome() {
     }
   }
   setAnimated('hsTodayEarn', fmt(todayEarn));
-  setAnimated('hsTodayIn',   fmt(todayIn));
-  setAnimated('hsTodayOut',  fmt(todayOut));
+  setAnimated('hsTodayIn',   fmt(todayEarnIn));
+  setAnimated('hsTodayOut',  fmt(todayEarnOut));
   setAnimated('hsTodayTxns', todayTxns.length);
 
   // Earnings progress ring
