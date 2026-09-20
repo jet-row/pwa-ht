@@ -110,7 +110,7 @@
   [data-theme="ice"] .tally-mini-pod.coh { background:linear-gradient(135deg,#F5EDCC,#EEE4B8); border-color:rgba(245,158,11,.35); }
   [data-theme="ice"] .tally-mini-pod.cog { background:linear-gradient(135deg,#C8E8E4,#BAE0DC); border-color:rgba(45,212,191,.35); }
   [data-theme="ice"] #app::before { background:radial-gradient(ellipse 70% 45% at 15% 0%,rgba(99,102,241,.08) 0%,transparent 65%),radial-gradient(ellipse 55% 40% at 85% 100%,rgba(45,212,191,.06) 0%,transparent 60%); }
-  [data-theme="ice"] .hdr-name { background:linear-gradient(135deg,#312E81 0%,#4F46E5 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  [data-theme="ice"] .hdr-name { color:var(--text); background:none; -webkit-text-fill-color:initial; }
   [data-theme="ice"] .hdr-date { color:#3E4560; }
   [data-theme="ice"] input[type=date]::-webkit-calendar-picker-indicator { filter:none; opacity:.5; }
   [data-theme="ice"] .modal-bg { background:rgba(14,16,24,.55); }
@@ -148,9 +148,9 @@
   .hdr-brand { flex: 1; min-width: 0; }
   .hdr-name {
     font-size: 17px; font-weight: 800; letter-spacing: -.4px;
-    background: linear-gradient(135deg, #E0E7FF 0%, #A5B4FC 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    color: var(--text);
   }
+  .hdr-name span { color: var(--teal); }
   .hdr-date { font-size: 11px; color: var(--muted); margin-top: 1px; }
   .btn-new {
     width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
@@ -1214,7 +1214,7 @@
         </svg>
       </div>
       <div class="hdr-brand">
-        <div class="hdr-name">HalinTecQ</div>
+        <div class="hdr-name">Halin<span>TecQ</span></div>
         <div class="hdr-date" id="headerDate"></div>
       </div>
       <div style="margin-left:auto;display:flex;align-items:center;">
