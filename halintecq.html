@@ -15,7 +15,7 @@
 <link rel="manifest" id="webManifest">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
   :root {
     /* surfaces */
@@ -48,8 +48,10 @@
     --text2:  #9398C0;
     --muted:  #5C6090;
     /* typography */
-    --font:      'Inter', system-ui, -apple-system, sans-serif;
-    --mono:      'DM Mono', 'SF Mono', monospace;
+    --font:      'Inter', 'Segoe UI', sans-serif;
+    --font-heading: 'Inter', 'Segoe UI', sans-serif;
+    --font-body: 'Inter', 'Segoe UI', sans-serif;
+    --mono:      'JetBrains Mono', 'SFMono-Regular', monospace;
     /* layout */
     --radius:    20px;
     --radius-sm: 12px;
@@ -116,7 +118,9 @@
   [data-theme="ice"] .modal-bg { background:rgba(14,16,24,.55); }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; overscroll-behavior: none; font-variant-numeric: tabular-nums; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; overscroll-behavior: none; font-variant-numeric: tabular-nums; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, .hdr-name, .hdr-date, .sec-title, .card-hdr-title, .bh-pod-label, .bh-stat-label, .mini-pill-lbl { font-family: var(--font-heading); letter-spacing: -0.03em; }
+  .bh-pod-amount, .bh-stat-val, .mini-pill-val, .mini-bal-amt, .featured-value, .amount, .currency { font-family: var(--mono); }
 
   /* ── LAYOUT ── */
   #app { display: flex; flex-direction: column; height: 100dvh; max-width: 430px; margin: 0 auto; position: relative; overflow: hidden; }
@@ -147,11 +151,11 @@
   .logo-mark svg { position: relative; z-index: 1; }
   .hdr-brand { flex: 1; min-width: 0; }
   .hdr-name {
-    font-size: 17px; font-weight: 800; letter-spacing: -.4px;
+    font-size: 17px; font-weight: 800; letter-spacing: -.38px;
     color: var(--text);
   }
   .hdr-name span { color: var(--teal); }
-  .hdr-date { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .hdr-date { font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 600; letter-spacing: .02em; }
   .btn-new {
     width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
@@ -191,19 +195,19 @@
   }
   .bh-pod.coh { background: linear-gradient(135deg,rgba(245,158,11,.12) 0%,rgba(245,158,11,.06) 100%); border:1px solid rgba(245,158,11,.2); }
   .bh-pod.cog { background: linear-gradient(135deg,rgba(45,212,191,.12) 0%,rgba(45,212,191,.06) 100%); border:1px solid rgba(45,212,191,.2); }
-  .bh-pod-label { font-size:13px; font-weight:1000; letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px; position:relative; }
+  .bh-pod-label { font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; position:relative; }
   .bh-pod.coh .bh-pod-label { color: rgba(245,158,11,.7); }
   .bh-pod.cog .bh-pod-label { color: rgba(45,212,191,.7); }
   .bh-pod-amount {
-    font-family:var(--mono); font-size:clamp(18px,5.5vw,26px); font-weight:1000; letter-spacing:-.5px; line-height:1; position:relative;
+    font-family:var(--mono); font-size:clamp(18px,5.5vw,26px); font-weight:800; letter-spacing:-.42px; line-height:1; position:relative;
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   }
   .bh-pod.coh .bh-pod-amount { background-image: linear-gradient(135deg,#F59E0B 0%,#FCD34D 60%,#D97706 100%); }
   .bh-pod.cog .bh-pod-amount { background-image: linear-gradient(135deg,#2DD4BF 0%,#5EEAD4 60%,#0D9488 100%); }
   .bh-bottom { display:flex; border-top:1px solid var(--border); padding:10px 16px; gap:16px; }
   .bh-stat { flex:1; }
-  .bh-stat-label { font-size:12px; font-weight:1000; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
-  .bh-stat-val { font-family:var(--mono); font-size:17px; font-weight:1000; line-height:1; }
+  .bh-stat-label { font-size:11px; font-weight:800; letter-spacing:.10em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+  .bh-stat-val { font-family:var(--mono); font-size:17px; font-weight:800; line-height:1; letter-spacing:-.2px; }
   .bh-stat-val.earned { color:var(--purple); }
   .bh-stat-val.total  { color:var(--text); }
   .bh-stat-badge { display:inline-flex; align-items:center; gap:4px; background:rgba(248,113,113,.12); border:1px solid rgba(248,113,113,.3); border-radius:20px; padding:2px 8px; margin-top:5px; }
@@ -215,18 +219,18 @@
   .hdr-mini.show { display:flex; }
   .hdr-mini::-webkit-scrollbar { display:none; }
   .mini-pill { display:flex; align-items:center; gap:6px; flex-shrink:0; background:var(--s2); border:1px solid var(--border2); border-radius:20px; padding:5px 12px; }
-  .mini-pill-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
-  .mini-pill-val { font-family:var(--mono); font-size:13px; font-weight:700; }
+  .mini-pill-lbl { font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); }
+  .mini-pill-val { font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:-.12px; }
   .mini-pill-val.coh  { color:var(--amber); }
   .mini-pill-val.cog  { color:var(--teal); }
   .mini-pill-val.earn { color:var(--purple); }
 
   /* ── SECTION HELPERS ── */
-  .sec-title { font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+  .sec-title { font-size:11px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
   .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
   .sec-link { font-size:11px; font-weight:700; color:var(--indigo); cursor:pointer; }
   .card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--s2); border-radius:var(--radius) var(--radius) 0 0; }
-  .card-hdr-title { font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .card-hdr-title { font-size:12px; font-weight:800; letter-spacing:.10em; text-transform:uppercase; color:var(--muted); }
   .card-pad { padding:14px 16px; }
 
   /* ── COLLAPSIBLE HEADER ── */
@@ -1915,8 +1919,8 @@
         <div class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</div>
         <div class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</div>
         <div class="chip indigo"         data-type="Load"              onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</div>
-        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange"></i>In-Roll</div>
-        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Out-Roll</div>
+        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</div>
+        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
@@ -1946,8 +1950,8 @@
         <div class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</div>
         <div class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</div>
         <div class="chip indigo"         data-type="Load"              onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</div>
-        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange"></i>In-Roll</div>
-        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Out-Roll</div>
+        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</div>
+        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
@@ -2221,7 +2225,7 @@ function txnHTML(t, showActions = false, editOnly = false) {
   const earn = parseFloat(t.earn)   || 0;
   const typeLabels = {
     'Cash-In': 'Cash-In', 'Cash-Out': 'Cash-Out', 'Load': 'Load',
-    'Cash-In-Rollover': 'In-Rollover', 'Cash-Out-Rollover': 'Out-Rollover', 'CBV': 'CBV'
+    'Cash-In-Rollover': 'Cash Add', 'Cash-Out-Rollover': 'GCash Add', 'CBV': 'CBV'
   };
   const typeLabel = typeLabels[t.type] || t.type;
   const d = new Date(t.ts);
@@ -2282,12 +2286,15 @@ function renderHistory() {
 
   const q = (state.searchQuery || '').toLowerCase().trim();
   if (q) {
-    txns = txns.filter(t =>
-      t.type.toLowerCase().includes(q) ||
-      String(t.amount).includes(q) ||
-      (t.notes && t.notes.toLowerCase().includes(q)) ||
-      fmt(t.amount).toLowerCase().includes(q)
-    );
+    txns = txns.filter(t => {
+      const typeLabel = t.type === 'Cash-In-Rollover' ? 'Cash Add'
+        : t.type === 'Cash-Out-Rollover' ? 'GCash Add' : t.type;
+      return t.type.toLowerCase().includes(q) ||
+        typeLabel.toLowerCase().includes(q) ||
+        String(t.amount).includes(q) ||
+        (t.notes && t.notes.toLowerCase().includes(q)) ||
+        fmt(t.amount).toLowerCase().includes(q);
+    });
   }
 
   if (!txns.length) {
@@ -2491,7 +2498,7 @@ function renderInsights() {
         const c = typeColors[type] || { bg:'var(--indigo-dim)', color:'var(--blue)', icon:'ti-currency-peso' };
         const barW = maxTypeEarn > 0 ? Math.round((earn / maxTypeEarn) * 100) : 0;
         const pct  = totalTypeEarn > 0 ? Math.round((earn / totalTypeEarn) * 100) : 0;
-        const label = type.replace('Cash-In-Rollover','In-Roll').replace('Cash-Out-Rollover','Out-Roll');
+        const label = type.replace('Cash-In-Rollover','Cash Add').replace('Cash-Out-Rollover','GCash Add');
         return `<div class="type-row">
           <div class="type-icon-sm" style="background:${c.bg};color:${c.color};"><i class="ti ${c.icon}"></i></div>
           <div class="type-name">${label}</div>
@@ -2945,7 +2952,7 @@ function renderTrendTable(groups) {
           const dateLabel = d.toLocaleDateString('en-PH', { month:'short', day:'numeric' });
           return `<tr>
             <td>${dateLabel}</td>
-            <td>${t.type}</td>
+            <td>${t.type === 'Cash-In-Rollover' ? 'Cash Add' : t.type === 'Cash-Out-Rollover' ? 'GCash Add' : t.type}</td>
             <td style="color:${color};">${sign}${fmt(t.amount)}</td>
             <td>${earn > 0 ? `<span style="color:var(--teal);">+${fmt(earn)}</span>` : '—'}</td>
           </tr>`;
@@ -3405,7 +3412,10 @@ function handleXlsxFile(input) {
       // Build preview
       const typeCount = {};
       txns.forEach(t => typeCount[t.type] = (typeCount[t.type]||0)+1);
-      const typeLines = Object.entries(typeCount).map(([k,v]) => `<span style="color:var(--text)">${k}</span>: <strong>${v}</strong>`).join('<br>');
+      const typeLines = Object.entries(typeCount).map(([k,v]) => {
+        const label = k === 'Cash-In-Rollover' ? 'Cash Add' : k === 'Cash-Out-Rollover' ? 'GCash Add' : k;
+        return `<span style="color:var(--text)">${label}</span>: <strong>${v}</strong>`;
+      }).join('<br>');
       const dateFirst = new Date(txns[0].ts).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});
       const dateLast  = new Date(txns[txns.length-1].ts).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});
 
