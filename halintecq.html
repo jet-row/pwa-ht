@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="HalinIQ">
 <meta name="mobile-web-app-capable" content="yes">
 <title>HalinTecQ v2</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%233730A3'/><stop offset='.5' stop-color='%236366F1'/><stop offset='1' stop-color='%238B5CF6'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><ellipse cx='23' cy='32' rx='14' ry='14' fill='none' stroke='%23A5B4FC' stroke-width='4'/><ellipse cx='41' cy='32' rx='14' ry='14' fill='none' stroke='%232DD4BF' stroke-width='4'/><text x='32' y='38' font-size='18' font-weight='700' fill='%23F59E0B' font-family='system-ui' text-anchor='middle'>&#8369;</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23171C34'/><stop offset='.55' stop-color='%23292F72'/><stop offset='1' stop-color='%234338A8'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><circle cx='32' cy='32' r='23' fill='none' stroke='%23F59E0B' stroke-width='1.6'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23F59E0B' stroke-opacity='.3' stroke-width='.8'/><path d='M19 21v22M28 21v22M19 32h9' fill='none' stroke='%23F4F5FF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/><path d='M28 23h16M36 23v22' fill='none' stroke='%232DD4BF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='50' cy='14' r='2.6' fill='%232DD4BF'/></svg>">
 <!-- apple-touch-icon and manifest hrefs are populated at runtime by setupPWAIcons() (iOS requires a PNG, not SVG) -->
 <link rel="apple-touch-icon" id="appleTouchIcon">
 <link rel="manifest" id="webManifest">
@@ -142,19 +142,17 @@
   .hdr-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px 12px; }
   .logo-mark {
     width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
-    background: linear-gradient(145deg, #3730A3 0%, #6366F1 50%, #8B5CF6 100%);
+    background: linear-gradient(145deg, #171C34 0%, #292F72 55%, #4338A8 100%);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 16px rgba(99,102,241,.45), inset 0 1px 0 rgba(255,255,255,.15);
     position: relative; overflow: hidden;
   }
   .logo-mark::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 60%); }
   .logo-mark svg { position: relative; z-index: 1; }
+  .brand-assets { position:absolute; width:0; height:0; overflow:hidden; }
+  .brand-wordmark { display:block; width:108px; height:19px; flex-shrink:0; }
+  .about-wordmark { width:120px; height:21px; margin:0 auto; }
   .hdr-brand { flex: 1; min-width: 0; }
-  .hdr-name {
-    font-size: 17px; font-weight: 800; letter-spacing: -.38px;
-    color: var(--text);
-  }
-  .hdr-name span { color: var(--teal); }
   .hdr-date { font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 600; letter-spacing: .02em; }
   .btn-new {
     width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
@@ -1055,12 +1053,11 @@
     }
     .sb-logo-icon {
       width:38px; height:38px; border-radius:12px;
-      background:linear-gradient(135deg,#3730A3,#6366F1);
+      background:linear-gradient(135deg,#171C34 0%,#292F72 55%,#4338A8 100%);
       display:flex; align-items:center; justify-content:center; flex-shrink:0;
     }
     .sb-logo-icon svg { display:block; }
-    .sb-logo-text { font-size:16px; font-weight:800; letter-spacing:.02em; white-space:nowrap; }
-    .sb-logo-text span { color:var(--teal); }
+    .sb-logo .brand-wordmark { width:104px; height:18px; }
     .sb-logo-sub { font-size:10px; color:var(--muted); font-weight:500; margin-top:1px; }
 
     /* Balance summary block */
@@ -1177,6 +1174,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
+<svg class="brand-assets" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="halintecq-wordmark" viewBox="0 0 400 70">
+    <text x="0" y="60" fill="var(--text)" font-family="'Avenir Next',Avenir,sans-serif" font-size="64" font-weight="800"><tspan>Halin</tspan><tspan fill="#2DD4BF">TecQ</tspan></text>
+  </symbol>
+</svg>
 <div id="app">
 
   <!-- ── LEFT SIDEBAR (desktop ≥768px) ── -->
@@ -1185,13 +1187,15 @@
     <!-- Logo -->
     <div class="sb-logo">
       <div class="sb-logo-icon">
-        <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-          <ellipse cx="8"  cy="11" rx="5.5" ry="5.5" stroke="#A5B4FC" stroke-width="2"/>
-          <ellipse cx="14" cy="11" rx="5.5" ry="5.5" stroke="#2DD4BF" stroke-width="2"/>
-          <text x="11" y="14.5" font-size="7" font-weight="700" fill="#F59E0B" font-family="system-ui" text-anchor="middle">₱</text>
+        <svg width="20" height="20" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <circle cx="32" cy="32" r="23" stroke="#F59E0B" stroke-width="1.6"/>
+          <circle cx="32" cy="32" r="19" stroke="#F59E0B" stroke-opacity=".3" stroke-width=".8"/>
+          <path d="M19 21v22M28 21v22M19 32h9" stroke="#F4F5FF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M28 23h16M36 23v22" stroke="#2DD4BF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="50" cy="14" r="2.6" fill="#2DD4BF"/>
         </svg>
       </div>
-      <div class="sb-logo-text">Halin<span>TecQ</span></div>
+      <svg class="brand-wordmark" viewBox="0 0 400 70" role="img" aria-label="HalinTecQ"><use href="#halintecq-wordmark"/></svg>
     </div>
 
     <!-- Navigation -->
@@ -1211,14 +1215,16 @@
   <div id="header">
     <div class="hdr-top">
       <div class="logo-mark">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-          <ellipse cx="8"  cy="11" rx="5.5" ry="5.5" stroke="#A5B4FC" stroke-width="2"/>
-          <ellipse cx="14" cy="11" rx="5.5" ry="5.5" stroke="#2DD4BF" stroke-width="2"/>
-          <text x="11" y="14.5" font-size="7" font-weight="700" fill="#F59E0B" font-family="system-ui" text-anchor="middle">₱</text>
+        <svg width="22" height="22" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <circle cx="32" cy="32" r="23" stroke="#F59E0B" stroke-width="1.6"/>
+          <circle cx="32" cy="32" r="19" stroke="#F59E0B" stroke-opacity=".3" stroke-width=".8"/>
+          <path d="M19 21v22M28 21v22M19 32h9" stroke="#F4F5FF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M28 23h16M36 23v22" stroke="#2DD4BF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="50" cy="14" r="2.6" fill="#2DD4BF"/>
         </svg>
       </div>
       <div class="hdr-brand">
-        <div class="hdr-name">Halin<span>TecQ</span></div>
+        <svg class="brand-wordmark" viewBox="0 0 400 70" role="img" aria-label="HalinTecQ"><use href="#halintecq-wordmark"/></svg>
         <div class="hdr-date" id="headerDate"></div>
       </div>
       <div style="margin-left:auto;display:flex;align-items:center;">
@@ -1777,18 +1783,20 @@
           <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
             <defs>
               <linearGradient id="abg" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#3730A3"/>
-                <stop offset=".5" stop-color="#6366F1"/>
-                <stop offset="1" stop-color="#8B5CF6"/>
+                <stop offset="0" stop-color="#171C34"/>
+                <stop offset=".55" stop-color="#292F72"/>
+                <stop offset="1" stop-color="#4338A8"/>
               </linearGradient>
             </defs>
             <rect width="64" height="64" rx="18" fill="url(#abg)"/>
-            <ellipse cx="23" cy="32" rx="14" ry="14" fill="none" stroke="#A5B4FC" stroke-width="4"/>
-            <ellipse cx="41" cy="32" rx="14" ry="14" fill="none" stroke="#2DD4BF" stroke-width="4"/>
-            <text x="32" y="38" font-size="18" font-weight="700" fill="#F59E0B" font-family="system-ui" text-anchor="middle">₱</text>
+            <circle cx="32" cy="32" r="23" fill="none" stroke="#F59E0B" stroke-width="1.6"/>
+            <circle cx="32" cy="32" r="19" fill="none" stroke="#F59E0B" stroke-opacity=".3" stroke-width=".8"/>
+            <path d="M19 21v22M28 21v22M19 32h9" fill="none" stroke="#F4F5FF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M28 23h16M36 23v22" fill="none" stroke="#2DD4BF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="50" cy="14" r="2.6" fill="#2DD4BF"/>
           </svg>
         </div>
-        <div style="font-size:14px;font-weight:800;color:var(--text);">Halin-TecQ</div>
+        <svg class="brand-wordmark about-wordmark" viewBox="0 0 400 70" role="img" aria-label="HalinTecQ"><use href="#halintecq-wordmark"/></svg>
         <div style="font-size:11px;color:var(--muted);margin-top:4px;">Version 3.0</div>
       </div>
 
@@ -4689,29 +4697,50 @@ function drawAppIconOnCanvas(ctx, size) {
   ctx.clearRect(0, 0, size, size);
 
   const grad = ctx.createLinearGradient(0, 0, size, size);
-  grad.addColorStop(0, '#3730A3');
-  grad.addColorStop(0.5, '#6366F1');
-  grad.addColorStop(1, '#8B5CF6');
+  grad.addColorStop(0, '#171C34');
+  grad.addColorStop(0.55, '#292F72');
+  grad.addColorStop(1, '#4338A8');
   ctx.fillStyle = grad;
   ctx.beginPath();
   ctx.roundRect(0, 0, size, size, 14 * s);
   ctx.fill();
 
-  ctx.lineWidth = 4 * s;
-  ctx.strokeStyle = '#A5B4FC';
+  ctx.lineWidth = 1.6 * s;
+  ctx.strokeStyle = '#F59E0B';
   ctx.beginPath();
-  ctx.ellipse(23 * s, 32 * s, 14 * s, 14 * s, 0, 0, Math.PI * 2);
+  ctx.arc(32 * s, 32 * s, 23 * s, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.globalAlpha = 0.3;
+  ctx.lineWidth = 0.8 * s;
+  ctx.beginPath();
+  ctx.arc(32 * s, 32 * s, 19 * s, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  ctx.lineWidth = 3.6 * s;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#F4F5FF';
+  ctx.beginPath();
+  ctx.moveTo(19 * s, 21 * s);
+  ctx.lineTo(19 * s, 43 * s);
+  ctx.moveTo(28 * s, 21 * s);
+  ctx.lineTo(28 * s, 43 * s);
+  ctx.moveTo(19 * s, 32 * s);
+  ctx.lineTo(28 * s, 32 * s);
   ctx.stroke();
   ctx.strokeStyle = '#2DD4BF';
   ctx.beginPath();
-  ctx.ellipse(41 * s, 32 * s, 14 * s, 14 * s, 0, 0, Math.PI * 2);
+  ctx.moveTo(28 * s, 23 * s);
+  ctx.lineTo(44 * s, 23 * s);
+  ctx.moveTo(36 * s, 23 * s);
+  ctx.lineTo(36 * s, 45 * s);
   ctx.stroke();
 
   ctx.fillStyle = '#F59E0B';
-  ctx.font = `700 ${18 * s}px system-ui, sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillText('₱', 32 * s, 38 * s);
+  ctx.beginPath();
+  ctx.arc(50 * s, 14 * s, 2.6 * s, 0, Math.PI * 2);
+  ctx.fill();
 }
 
 function generateAppIcon(size) {
