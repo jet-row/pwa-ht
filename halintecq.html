@@ -8,11 +8,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="HalinIQ">
 <meta name="mobile-web-app-capable" content="yes">
-<title>HalinTecQ v2</title>
+<title>HalinTecQ</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23171C34'/><stop offset='.55' stop-color='%23292F72'/><stop offset='1' stop-color='%234338A8'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><circle cx='32' cy='32' r='23' fill='none' stroke='%23F59E0B' stroke-width='1.6'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23F59E0B' stroke-opacity='.3' stroke-width='.8'/><path d='M19 21v22M28 21v22M19 32h9' fill='none' stroke='%23F4F5FF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/><path d='M28 23h16M36 23v22' fill='none' stroke='%232DD4BF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='50' cy='14' r='2.6' fill='%232DD4BF'/></svg>">
-<!-- apple-touch-icon and manifest hrefs are populated at runtime by setupPWAIcons() (iOS requires a PNG, not SVG) -->
+<!-- apple-touch-icon href is set at runtime by setupPWAIcons() (iOS requires a PNG, not SVG) -->
 <link rel="apple-touch-icon" id="appleTouchIcon">
-<link rel="manifest" id="webManifest">
+<link rel="manifest" href="./manifest.json">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
@@ -24,7 +24,8 @@
     --surface2:  #111528;
     --surface3:  #171C34;
     --surface4:  #1E2440;
-    --s1: #0C0F1E; --s2: #111528; --s3: #171C34; --s4: #1E2440;
+    /* short aliases — always derived from the canonical surface vars above */
+    --s1: var(--surface); --s2: var(--surface2); --s3: var(--surface3); --s4: var(--surface4);
     --border:    rgba(255,255,255,.07);
     --border2:   rgba(255,255,255,.12);
     /* brand */
@@ -46,7 +47,7 @@
     /* text */
     --text:   #EEF0FC;
     --text2:  #9398C0;
-    --muted:  #5C6090;
+    --muted:  #7A7FAA;
     /* typography */
     --font:      'Inter', 'Segoe UI', sans-serif;
     --font-heading: 'Inter', 'Segoe UI', sans-serif;
@@ -55,9 +56,8 @@
     /* layout */
     --radius:    20px;
     --radius-sm: 12px;
-    --r:         20px;
-    --r-sm:      12px;
     --r-xs:      8px;
+    --r: var(--radius); --r-sm: var(--radius-sm);
     /* glass */
     --glass-header: rgba(6,8,17,.88);
     --glass-nav:    rgba(6,8,17,.92);
@@ -69,15 +69,13 @@
   /* ── THEMES ── */
   [data-theme="midnight"] {
     --bg:#060811; --surface:#0C0F1E; --surface2:#111528; --surface3:#171C34; --surface4:#1E2440;
-    --s1:#0C0F1E; --s2:#111528; --s3:#171C34; --s4:#1E2440;
     --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.12);
-    --text:#EEF0FC; --text2:#9398C0; --muted:#5C6090;
+    --text:#EEF0FC; --text2:#9398C0; --muted:#7A7FAA;
     --glass-header:rgba(6,8,17,.88); --glass-tabs:rgba(6,8,17,.92); --glass-sticky:rgba(6,8,17,.85);
     --shadow-tabs:0 -4px 24px rgba(0,0,0,.5);
   }
   [data-theme="ice"] {
     --bg:#EFF1F5; --surface:#E4E7EE; --surface2:#D8DCE6; --surface3:#CDD2DE; --surface4:#C2C8D6;
-    --s1:#E4E7EE; --s2:#D8DCE6; --s3:#CDD2DE; --s4:#C2C8D6;
     --border:rgba(62,69,96,.10); --border2:rgba(62,69,96,.18);
     --text:#0E1018; --text2:#3E4560; --muted:#6A7290;
     --green:#059669; --green-dim:rgba(5,150,105,.1);
@@ -381,7 +379,7 @@
 
   /* TYPE CHIPS */
   .chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip { display:inline-flex; align-items:center; gap:5px; padding: 7px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; border: 1.5px solid var(--border); color: var(--muted); cursor: pointer; transition: all .15s; user-select: none; background: var(--s2); white-space: nowrap; }
+  .chip { display:inline-flex; align-items:center; gap:5px; padding: 7px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; border: 1.5px solid var(--border); color: var(--muted); cursor: pointer; transition: all .15s; user-select: none; background: var(--s2); white-space: nowrap; font-family: var(--font); }
   .chip i { font-size:13px; }
   .chip.selected       { border-color: var(--indigo); color: var(--indigo); background: var(--indigo-dim); }
   .chip.green.selected { border-color: var(--green);  color: var(--green);  background: var(--green-dim);  }
@@ -493,7 +491,7 @@
   /* FILTER BAR */
   .filter-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
   .filter-bar::-webkit-scrollbar { display: none; }
-  .filter-chip { display:inline-flex; align-items:center; gap:5px; padding: 7px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; border: 1.5px solid var(--border); color: var(--muted); cursor: pointer; white-space: nowrap; background: var(--s2); flex-shrink: 0; transition: all .15s; }
+  .filter-chip { display:inline-flex; align-items:center; gap:5px; padding: 7px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; border: 1.5px solid var(--border); color: var(--muted); cursor: pointer; white-space: nowrap; background: var(--s2); flex-shrink: 0; transition: all .15s; font-family: var(--font); }
   .filter-chip i { font-size:13px; }
   .filter-chip.active              { border-color: var(--indigo); color: var(--indigo); background: var(--indigo-dim); }
   .filter-chip.green.active        { border-color: var(--green);  color: var(--green);  background: var(--green-dim); }
@@ -1450,11 +1448,11 @@
           <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
         </div>
         <div class="filter-bar" id="logFilterBar" style="margin-bottom:10px;">
-          <div class="filter-chip active"  onclick="filterHistory('all', this)"><i class="ti ti-apps"></i>All</div>
-          <div class="filter-chip green"   onclick="filterHistory('Cash-In', this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</div>
-          <div class="filter-chip red"     onclick="filterHistory('Cash-Out', this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</div>
-          <div class="filter-chip indigo"  onclick="filterHistory('Load', this)"><i class="ti ti-device-mobile-filled"></i>Load</div>
-          <div class="filter-chip teal"    onclick="filterHistory('Rollover', this)"><i class="ti ti-arrows-exchange"></i>Rollover</div>
+          <button type="button" class="filter-chip active"  onclick="filterHistory('all', this)"><i class="ti ti-apps"></i>All</button>
+          <button type="button" class="filter-chip green"   onclick="filterHistory('Cash-In', this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
+          <button type="button" class="filter-chip red"     onclick="filterHistory('Cash-Out', this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
+          <button type="button" class="filter-chip indigo"  onclick="filterHistory('Load', this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
+          <button type="button" class="filter-chip teal"    onclick="filterHistory('Rollover', this)"><i class="ti ti-arrows-exchange"></i>Rollover</button>
         </div>
       </div>
       <div id="historyList" class="skeleton-init" style="padding:0 16px;"></div>
@@ -1798,7 +1796,7 @@
           </svg>
         </div>
         <svg class="brand-wordmark about-wordmark" viewBox="0 0 400 70" role="img" aria-label="HalinTecQ"><use href="#halintecq-wordmark"/></svg>
-        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Version 3.0</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;" id="aboutVersion"></div>
       </div>
 
     </div>
@@ -1867,15 +1865,15 @@
   </div><!-- /content -->
 
   <!-- BOTTOM NAV -->
-  <div id="tabs">
+  <nav id="tabs" aria-label="Main">
     <div class="nav-inner">
-      <button type="button" class="tab active" onclick="switchTab('home')"     id="tab-home"><span class="tab-icon"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></span>Home</button>
+      <button type="button" class="tab active" onclick="switchTab('home')"     id="tab-home"     aria-current="page"><span class="tab-icon"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></span>Home</button>
       <button type="button" class="tab"        onclick="switchTab('log')"      id="tab-log"><span class="tab-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></span>Txns</button>
       <button type="button" class="tab"        onclick="switchTab('reports')"  id="tab-reports"><span class="tab-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span>Insights</button>
       <button type="button" class="tab"        onclick="switchTab('tally')"    id="tab-tally"><span class="tab-icon"><i class="ti ti-abacus" aria-hidden="true"></i></span>Tally</button>
       <button type="button" class="tab"        onclick="switchTab('settings')" id="tab-settings"><span class="tab-icon"><i class="ti ti-settings-2" aria-hidden="true"></i></span>More</button>
     </div>
-  </div>
+  </nav>
 
   </div><!-- /app-body -->
 </div><!-- /app -->
@@ -1925,11 +1923,11 @@
     <div class="modal-title">Edit Transaction <button class="modal-close" aria-label="Close" onclick="closeModal('editModal')">×</button></div>
     <div class="field"><label>Type</label>
       <div class="chips" id="eTypeChips">
-        <div class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</div>
-        <div class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</div>
-        <div class="chip indigo"         data-type="Load"              onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</div>
-        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</div>
-        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</div>
+        <button type="button" class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
+        <button type="button" class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
+        <button type="button" class="chip indigo"         data-type="Load"              onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
+        <button type="button" class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</button>
+        <button type="button" class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</button>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
@@ -1956,11 +1954,11 @@
     <div class="modal-title">New Transaction <button class="modal-close" aria-label="Close" onclick="closeModal('addModal')">×</button></div>
     <div class="field"><label>Type</label>
       <div class="chips" id="mTypeChips">
-        <div class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</div>
-        <div class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</div>
-        <div class="chip indigo"         data-type="Load"              onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</div>
-        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</div>
-        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</div>
+        <button type="button" class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
+        <button type="button" class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
+        <button type="button" class="chip indigo"         data-type="Load"              onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
+        <button type="button" class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</button>
+        <button type="button" class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</button>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
@@ -1984,11 +1982,11 @@
     <div class="modal-title">Copy Transaction <button class="modal-close" aria-label="Close" onclick="closeModal('copyModal')">×</button></div>
     <div class="field"><label>Type</label>
       <div class="chips" id="cTypeChips">
-        <div class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</div>
-        <div class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</div>
-        <div class="chip indigo"         data-type="Load"              onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</div>
-        <div class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</div>
-        <div class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</div>
+        <button type="button" class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
+        <button type="button" class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
+        <button type="button" class="chip indigo"         data-type="Load"              onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
+        <button type="button" class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</button>
+        <button type="button" class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</button>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
@@ -2014,7 +2012,7 @@
   <div class="modal">
     <div class="modal-handle"><div class="modal-handle-bar"></div></div>
     <div class="modal-title" id="confirmTitle">Confirm</div>
-    <div id="confirmBody" style="color:var(--muted);font-size:14px;line-height:1.5;"></div>
+    <div id="confirmBody" style="color:var(--muted);font-size:14px;line-height:1.5;white-space:pre-line;"></div>
     <div class="confirm-btns">
       <button class="btn btn-ghost" onclick="closeModal('confirmModal')">Cancel</button>
       <button class="btn btn-red" id="confirmOkBtn">Confirm</button>
@@ -2040,6 +2038,7 @@ let state = {
 };
 
 // ── INDEXEDDB STORAGE ──────────────────────────────────────────────────────
+const APP_VERSION = '3.0';
 const DB_NAME    = 'haliniq_db';
 const DB_VERSION = 1;
 let _db = null;
@@ -2102,8 +2101,13 @@ function saveAllTxns() {
   return openDB().then(db => new Promise((resolve, reject) => {
     const tx    = db.transaction('transactions', 'readwrite');
     const store = tx.objectStore('transactions');
-    store.clear();
+    const currentIds = new Set(state.transactions.map(t => String(t.id)));
+    // Upsert all current records first
     state.transactions.forEach(t => store.put(t));
+    // Then remove any IDB records no longer in state
+    store.getAllKeys().onsuccess = e => {
+      e.target.result.forEach(k => { if (!currentIds.has(String(k))) store.delete(k); });
+    };
     tx.oncomplete = () => resolve();
     tx.onerror    = e => reject(e.target.error);
   })).then(() => {
@@ -2135,15 +2139,16 @@ async function migrateFromLocalStorage() {
   } catch(e) { console.warn('[Halin-TecQ] Migration skipped — localStorage preserved', e); }
 }
 
-// Loads all persisted data at boot. Falls back to migration on first run.
+// Loads all persisted data at boot. Falls back to migration only on a genuine fresh install
+// (no IDB settings record), not after a transaction reset which would leave settings intact.
 async function loadAll() {
   const [txns, settings, tally] = await Promise.all([
     idbGetAll('transactions', 'by_ts'),
     idbGet('settings', 'main'),
     idbGet('tally',    'main'),
   ]);
-  if (txns && txns.length) {
-    state.transactions = txns;
+  if (txns?.length || settings) {
+    if (txns?.length) state.transactions = txns;
     if (settings) { const { id: _id, ...rest } = settings; Object.assign(state.settings, rest); }
     if (tally)    { const { id: _id, ...rest } = tally;    Object.assign(tallyState, rest); }
   } else {
@@ -2174,7 +2179,8 @@ function calcBalances() {
     totalEarned += earn;
     if (fee) earnCOH += earn; else earnCOG += earn;
   }
-  return { coh, cog, totalEarned, earnCOH, earnCOG };
+  const r2 = v => Math.round(v * 100) / 100;
+  return { coh: r2(coh), cog: r2(cog), totalEarned: r2(totalEarned), earnCOH: r2(earnCOH), earnCOG: r2(earnCOG) };
 }
 
 function fmt(n) {
@@ -2185,7 +2191,7 @@ function fmt(n) {
 function render() {
   recalcCohAfter(); // ensure cogAfter is always populated (covers imported transactions)
   const bal = calcBalances();
-  _syncSidebarBalances();
+  _syncSidebarBalances(bal);
 
   // Header date
   document.getElementById('headerDate').textContent =
@@ -2221,13 +2227,13 @@ function render() {
   }
 
   updateMiniBalance(bal);
-  checkBalanceMismatch();
+  checkBalanceMismatch(bal);
   checkBackupWarning();
   updateBackupDot();
 
   // Only render the active tab — avoids repainting hidden views
   const tab = state.currentTab || 'home';
-  if (tab === 'home')    { renderHome(); setTimeout(renderHomeChart, 0); }
+  if (tab === 'home')    { renderHome(bal); setTimeout(renderHomeChart, 0); }
   if (tab === 'log')     { renderHistory(); }
   if (tab === 'reports') { renderReports(bal); }
   if (tab === 'settings'){ renderSettings(); renderBackupMeta(); renderCloudSyncMeta(); }
@@ -3106,7 +3112,7 @@ function openAddModal() {
   const mm = String(now.getMonth()+1).padStart(2,'0');
   const dd = String(now.getDate()).padStart(2,'0');
   document.getElementById('mDate').value = `${yyyy}-${mm}-${dd}`;
-  document.getElementById('addModal').classList.add('open');
+  openModal('addModal');
 }
 
 function submitModalTxn() {
@@ -3213,6 +3219,8 @@ function _syncThemeToggle(name) {
 function applyTheme(name) {
   document.documentElement.setAttribute('data-theme', name);
   localStorage.setItem('haliniq_theme', name);
+  state.settings.theme = name;
+  saveSettingsToIDB();
   document.querySelectorAll('.theme-card,.theme-chip').forEach(c => {
     c.classList.toggle('active', c.dataset.theme === name);
   });
@@ -3234,9 +3242,11 @@ function toggleTheme() {
 // ── NAVIGATION ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
   state.currentTab = tab;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.removeAttribute('aria-current'); });
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+  const activeTab = document.getElementById('tab-' + tab);
+  activeTab.classList.add('active');
+  activeTab.setAttribute('aria-current', 'page');
   document.getElementById('view-' + tab).classList.add('active');
 
   // sync sidebar buttons
@@ -3255,8 +3265,8 @@ function switchTab(tab) {
   collapseHeader(false);
 }
 
-function _syncSidebarBalances() {
-  const bal = calcBalances();
+function _syncSidebarBalances(bal) {
+  bal = bal || calcBalances();
   const fmtN = v => '₱' + Math.round(v).toLocaleString();
   const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
 
@@ -3304,15 +3314,45 @@ function filterHistory(type, el) {
 }
 
 // ── MODALS ─────────────────────────────────────────────────────────────────
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+let _modalFocusOrigin = null;
+
+function openModal(id) {
+  _modalFocusOrigin = document.activeElement;
+  const el = document.getElementById(id);
+  el.classList.add('open');
+  requestAnimationFrame(() => {
+    const first = el.querySelector('button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])');
+    if (first) first.focus();
+  });
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  if (_modalFocusOrigin) { _modalFocusOrigin.focus(); _modalFocusOrigin = null; }
+}
+
+// Focus trap + Escape close for all modals
+document.addEventListener('keydown', e => {
+  const bg = document.querySelector('.modal-bg.open');
+  if (!bg) return;
+  if (e.key === 'Escape') { const id = bg.id; closeModal(id); return; }
+  if (e.key !== 'Tab') return;
+  const focusable = [...bg.querySelectorAll('button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])')];
+  if (!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+    e.preventDefault();
+    (e.shiftKey ? last : first).focus();
+  }
+});
 
 let _confirmCb = null;
 function showConfirm(title, body, cb) {
   document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmBody').innerHTML = body;
+  document.getElementById('confirmBody').textContent = body;
   _confirmCb = cb;
   document.getElementById('confirmOkBtn').onclick = () => { closeModal('confirmModal'); cb && cb(); };
-  document.getElementById('confirmModal').classList.add('open');
+  openModal('confirmModal');
 }
 
 function confirmReset() {
@@ -3355,7 +3395,7 @@ let _importPayload = null; // { settings, transactions } pending confirmation
 
 function openImportModal() {
   resetImport();
-  document.getElementById('importModal').classList.add('open');
+  openModal('importModal');
 }
 
 function resetImport() {
@@ -3437,7 +3477,7 @@ function handleXlsxFile(input) {
         const cohAfter = parseFloat(r[6]) || 0;
 
         txns.push({
-          id: String(ts) + '-' + Math.random().toString(36).slice(2),
+          id: btoa([ts, tClean, amount, i].join('|')).replace(/[^a-z0-9]/gi, '').slice(0, 24),
           type: tClean,
           amount,
           earn,
@@ -3544,7 +3584,7 @@ function openEditModal(id) {
   const dd   = String(d.getDate()).padStart(2,'0');
   document.getElementById('eDate').value = `${yyyy}-${mm}-${dd}`;
 
-  document.getElementById('editModal').classList.add('open');
+  openModal('editModal');
 }
 
 function updateEditFeeDesc() {
@@ -3596,7 +3636,7 @@ function deleteTxn(id) {
   if (!t) return;
   showConfirm(
     'Delete Transaction',
-    `Delete this <strong>${esc(t.type)}</strong> of <strong>${fmt(t.amount)}</strong>?<br><br>This cannot be undone.`,
+    `Delete this ${t.type} of ${fmt(t.amount)}?\n\nThis cannot be undone.`,
     () => {
       state.transactions = state.transactions.filter(x => String(x.id) !== String(id));
       recalcCohAfter();
@@ -3620,7 +3660,7 @@ function copyTxn(id) {
   // Pre-populate fee toggle from source
   document.getElementById('cFeeInCash').checked = t.feeInCash !== false;
 
-  document.getElementById('copyModal').classList.add('open');
+  openModal('copyModal');
 }
 
 function submitCopyTxn(useNow) {
@@ -3684,9 +3724,10 @@ function restoreJSON(input) {
         : 'Unknown date';
       showConfirm(
         'Restore Backup',
-        `Backup from: <strong>${esc(exported)}</strong><br>Transactions: <strong>${count}</strong><br><br>This will <strong>replace all current data</strong>. Continue?`,
+        `Backup from: ${exported}\nTransactions: ${count}\n\nThis will replace all current data. Continue?`,
         () => {
-          state.transactions = backup.state.transactions || [];
+          const VALID_TXN_TYPES = new Set(['Cash-In','Cash-Out','Load','Cash-In-Rollover','Cash-Out-Rollover','CBV','Beg. Bal']);
+          state.transactions = (backup.state.transactions || []).filter(t => t && VALID_TXN_TYPES.has(t.type));
           state.settings     = backup.state.settings     || { openCOH:20000, openCOG:20000, capital:40000 };
           if (backup.tallyState) { Object.assign(tallyState, backup.tallyState); saveTallyState(); }
           recalcCohAfter();
@@ -4051,7 +4092,7 @@ function renderGCashTable() {
   tbody.innerHTML = tallyState.gcash.map((a, i) => {
     const locked = !!gcashLocks[i];
     return `<tr>
-      <td><input class="tally-gcash-name" type="text" value="${a.name}" placeholder="Account name"
+      <td><input class="tally-gcash-name" type="text" value="${esc(a.name)}" placeholder="Account name"
         oninput="updateGCashName(${i}, this.value)"></td>
       <td style="text-align:right;"><input type="number" class="tally-qty-input" style="width:100%;max-width:120px;" value="${a.amount || ''}" min="0" inputmode="decimal" placeholder="-"
         oninput="updateGCashAmt(${i}, this.value)" onchange="updateGCashAmt(${i}, this.value)"></td>
@@ -4101,46 +4142,8 @@ function clearTally() {
 }
 
 // ── HOME DASHBOARD ─────────────────────────────────────────────────────────
-let qeSelectedType = 'Cash-In';
-
-function qeSelectType(el) {
-  document.querySelectorAll('#qeTypeChips .qe-chip').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
-  qeSelectedType = el.dataset.type;
-}
-
-function updateQEFeeDesc() {
-  const checked = document.getElementById('qeFeeInCash').checked;
-  document.getElementById('qeFeeDesc').textContent = checked ? 'Earn → Cash on Hand' : 'Earn → GCash Balance';
-}
-
-function submitQE() {
-  if (window._submitting) return; window._submitting = true; setTimeout(() => window._submitting = false, 800);
-  const amount = parseFloat(document.getElementById('qeAmount').value) || 0;
-  const earn   = parseFloat(document.getElementById('qeEarn').value)   || 0;
-  const fee    = document.getElementById('qeFeeInCash').checked;
-  const notes  = document.getElementById('qeNotes').value.trim();
-  if (amount === 0 && earn === 0) { showToast('Enter an amount or earn'); return; }
-
-  // Build and insert transaction with today's date
-  const t = buildTxn(qeSelectedType, amount, earn, fee, notes);
-  state.transactions.push(t);
-  state.transactions.sort((a, b) => a.ts - b.ts);
-  recalcCohAfter();
-  saveAllTxns();
-
-  // Clear inputs
-  document.getElementById('qeAmount').value = '';
-  document.getElementById('qeEarn').value   = '';
-  document.getElementById('qeNotes').value  = '';
-
-  pulsePod(qeSelectedType.includes('Cash-Out') ? 'podCOG' : 'podCOH');
-  render();
-  showToast('Transaction recorded ✓');
-}
-
-function renderHome() {
-  const bal   = calcBalances();
+function renderHome(bal) {
+  bal = bal || calcBalances();
   const today = new Date().toDateString();
   const todayTxns = state.transactions.filter(t => new Date(t.ts).toDateString() === today);
   const todayEarn    = todayTxns.reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
@@ -4435,10 +4438,12 @@ function skeletonHTML() {
     ${row()}${row()}${row()}
   </div>`;
 }
+let _searchTimer = null;
 function onSearchInput(input) {
   state.searchQuery = input.value;
   document.getElementById('searchClear').classList.toggle('show', input.value.length > 0);
-  renderHistory();
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(renderHistory, 200);
 }
 function clearSearch() {
   document.getElementById('txnSearch').value = '';
@@ -4451,12 +4456,12 @@ function clearSearch() {
 
 
 // ── MISMATCH CHECK ──────────────────────────────────────────────────────────
-function checkBalanceMismatch() {
+function checkBalanceMismatch(bal) {
   const banner = document.getElementById('mismatchBanner');
   if (!banner || !state.transactions.length) { if (banner) banner.classList.remove('show'); return; }
   // Compare last transaction's stored cohAfter vs recalculated
   const last = state.transactions[state.transactions.length - 1];
-  const bal = calcBalances();
+  bal = bal || calcBalances();
   const diff = Math.abs(bal.coh - (last.cohAfter || 0));
   if (diff > 1) {
     banner.innerHTML = `⚠ Balance mismatch detected: calculated COH is ${fmt(bal.coh)} but last recorded is ${fmt(last.cohAfter||0)}. <a href="#" onclick="recalcCohAfter();saveAllTxns();render();return false;" style="color:var(--teal);font-weight:700;">Recalculate</a>`;
@@ -4601,7 +4606,7 @@ function updateEarnRing(todayEarn) {
 
   // 100% ring = you hit your avg; capped visually at 100%
   const pct = avg7 > 0 ? Math.min(todayEarn / avg7, 1) : (todayEarn > 0 ? 1 : 0);
-  const circumference = 169.6;
+  const circumference = 2 * Math.PI * 27; // r=27 matches SVG circle cx=33 cy=33 r=27
   const offset = circumference - pct * circumference;
 
   const ring      = document.getElementById('earnRingFill');
@@ -4831,24 +4836,10 @@ function generateAppIcon(size) {
 
 function setupPWAIcons() {
   try {
+    // Set apple-touch-icon with a canvas-generated PNG (iOS requires PNG, not SVG)
     const icon180 = generateAppIcon(180);
-    const icon192 = generateAppIcon(192);
-    const icon512 = generateAppIcon(512);
-
     const appleLink = document.getElementById('appleTouchIcon');
     if (appleLink) appleLink.href = icon180;
-
-    const manifest = {
-      name: 'Halin-TecQ', short_name: 'Halin-TecQ', start_url: '.', display: 'standalone',
-      background_color: '#07080F', theme_color: '#07080F',
-      icons: [
-        { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-        { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
-      ]
-    };
-    const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
-    const manifestLink = document.getElementById('webManifest');
-    if (manifestLink) manifestLink.href = manifestUrl;
   } catch (e) { console.error('PWA icon setup failed:', e); }
 }
 
@@ -4859,10 +4850,11 @@ const SB_ANON_KEY = 'haliniq_sb_anon';
 let _sbClient   = null;
 let _sbUser     = null;
 let _sbSyncTimer = null;
+let _sbSyncDeadline = null;
 
 function sbInit() {
   const url  = localStorage.getItem(SB_URL_KEY)  || '';
-  const anon = localStorage.getItem(SB_ANON_KEY) || '';
+  const anon = sessionStorage.getItem(SB_ANON_KEY) || '';
   if (!url || !anon) return false;
   try {
     _sbClient = supabase.createClient(url, anon);
@@ -4916,11 +4908,11 @@ async function sbSignInWithGoogle() {
   }
 
   const url  = (document.getElementById('sbUrl')?.value  || '').trim() || localStorage.getItem(SB_URL_KEY)  || '';
-  const anon = (document.getElementById('sbAnon')?.value || '').trim() || localStorage.getItem(SB_ANON_KEY) || '';
+  const anon = (document.getElementById('sbAnon')?.value || '').trim() || sessionStorage.getItem(SB_ANON_KEY) || '';
   if (!url || !anon) { showErr('Server Address and Access Key are required.'); return; }
 
   localStorage.setItem(SB_URL_KEY, url);
-  localStorage.setItem(SB_ANON_KEY, anon);
+  sessionStorage.setItem(SB_ANON_KEY, anon);
   if (!sbInit()) { showErr('Failed to connect. Check your Server Address and Access Key.'); return; }
 
   const { error } = await _sbClient.auth.signInWithOAuth({
@@ -4936,7 +4928,7 @@ async function sbSignInWithEmail() {
   if (errEl) errEl.style.display = 'none';
 
   const url      = (document.getElementById('sbUrl')?.value      || '').trim() || localStorage.getItem(SB_URL_KEY)  || '';
-  const anon     = (document.getElementById('sbAnon')?.value     || '').trim() || localStorage.getItem(SB_ANON_KEY) || '';
+  const anon     = (document.getElementById('sbAnon')?.value     || '').trim() || sessionStorage.getItem(SB_ANON_KEY) || '';
   const email    = (document.getElementById('sbEmail')?.value    || '').trim();
   const password = (document.getElementById('sbPassword')?.value || '').trim();
 
@@ -4944,7 +4936,7 @@ async function sbSignInWithEmail() {
   if (!email || !password)   { showErr('Email and password are required.'); return; }
 
   localStorage.setItem(SB_URL_KEY, url);
-  localStorage.setItem(SB_ANON_KEY, anon);
+  sessionStorage.setItem(SB_ANON_KEY, anon);
   if (!sbInit()) { showErr('Failed to connect. Check your Server Address and Access Key.'); return; }
 
   const { error } = await _sbClient.auth.signInWithPassword({ email, password });
@@ -4972,25 +4964,33 @@ async function sbPushAll(silent = false) {
   if (!_sbClient || !_sbUser) { if (!silent) showToast('Not logged in to cloud storage.'); return; }
   setSbStatus('syncing', 'Pushing…');
   try {
-    // Full sync: delete all user rows then upsert current state
-    const { error: delErr } = await _sbClient.from('transactions').delete().eq('user_id', _sbUser.id);
-    if (delErr) throw Object.assign(delErr, { _step: 'delete transactions' });
-
-    if (state.transactions.length) {
-      const rows = state.transactions.map(t => ({
-        id:          String(t.id),
-        user_id:     _sbUser.id,
-        ts:          new Date(t.ts).toISOString(),
-        type:        t.type,
-        amount:      t.amount,
-        earn:        t.earn,
-        fee_in_cash: t.feeInCash ?? true,
-        notes:       t.notes || '',
-        coh_after:   t.cohAfter || 0,
-        cog_after:   t.cogAfter || 0,
-      }));
-      const { error: insErr } = await _sbClient.from('transactions').insert(rows);
-      if (insErr) throw Object.assign(insErr, { _step: 'insert transactions' });
+    // Upsert current local transactions to cloud
+    const rows = state.transactions.map(t => ({
+      id:          String(t.id),
+      user_id:     _sbUser.id,
+      ts:          new Date(t.ts).toISOString(),
+      type:        t.type,
+      amount:      t.amount,
+      earn:        t.earn,
+      fee_in_cash: t.feeInCash ?? true,
+      notes:       t.notes || '',
+      coh_after:   t.cohAfter || 0,
+      cog_after:   t.cogAfter || 0,
+    }));
+    if (rows.length) {
+      const { error: upsertErr } = await _sbClient.from('transactions').upsert(rows, { onConflict: 'id' });
+      if (upsertErr) throw Object.assign(upsertErr, { _step: 'upsert transactions' });
+    }
+    // Delete remote rows that no longer exist locally
+    const localIds = state.transactions.map(t => String(t.id));
+    if (localIds.length) {
+      const { error: delErr } = await _sbClient.from('transactions')
+        .delete().eq('user_id', _sbUser.id).not('id', 'in', `(${localIds.join(',')})`);
+      if (delErr) throw Object.assign(delErr, { _step: 'delete removed transactions' });
+    } else {
+      // No local transactions — wipe remote
+      const { error: delErr } = await _sbClient.from('transactions').delete().eq('user_id', _sbUser.id);
+      if (delErr) throw Object.assign(delErr, { _step: 'delete all transactions' });
     }
 
     await sbPushSettings();
@@ -5107,8 +5107,11 @@ async function sbPull() {
 
 function sbScheduleSync() {
   if (!_sbClient || !_sbUser) return;
+  const now = Date.now();
+  if (!_sbSyncDeadline) _sbSyncDeadline = now + 30000;
   clearTimeout(_sbSyncTimer);
-  _sbSyncTimer = setTimeout(() => sbPushAll(true), 4000);
+  const delay = Math.max(0, Math.min(4000, _sbSyncDeadline - now));
+  _sbSyncTimer = setTimeout(() => { _sbSyncDeadline = null; sbPushAll(true); }, delay);
 }
 
 // ── Card renderer ─────────────────────────────────────────────────────────────
@@ -5119,7 +5122,7 @@ function renderSbCard() {
 
   // Pre-fill stored URL/anon key
   const url  = localStorage.getItem(SB_URL_KEY)  || '';
-  const anon = localStorage.getItem(SB_ANON_KEY) || '';
+  const anon = sessionStorage.getItem(SB_ANON_KEY) || '';
   const urlEl  = document.getElementById('sbUrl');
   const anonEl = document.getElementById('sbAnon');
   if (urlEl  && !urlEl.value)  urlEl.value  = url;
@@ -5164,10 +5167,13 @@ function registerServiceWorker() {
 
 // ── INIT ───────────────────────────────────────────────────────────────────
 async function init() {
+  const aboutVer = document.getElementById('aboutVersion');
+  if (aboutVer) aboutVer.textContent = 'Version ' + APP_VERSION;
   loadTheme();
   loadTallyLock();
   loadSettingsLock();
   await loadAll();
+  if (state.settings.theme) applyTheme(state.settings.theme);
   recalcCohAfter();
   state.currentTab = 'home';
   render();
