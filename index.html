@@ -422,10 +422,10 @@
   .txn-line1 { display: flex; align-items: center; gap: 8px; width: 100%; }
   .txn-type-wrap { display: none; }
   .txn-type-label { font-size: 15px; font-weight: 700; color: var(--text); white-space: nowrap; flex-shrink: 0; }
-  .txn-amt { font-family: var(--mono); font-size: 15px; font-weight: 700; text-align: right; flex: 1; font-variant-numeric: tabular-nums; min-width: 0; }
+  .txn-amt { font-family: var(--mono); font-size: 15px; font-weight: 700; text-align: right; flex: 1; font-variant-numeric: tabular-nums; min-width: 0; white-space: nowrap; }
   .txn-amt.in  { color: var(--green); }
   .txn-amt.out { color: var(--red); }
-  .txn-earn-inline { font-size: 15px; font-family: var(--mono); font-weight: 700; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 36px; }
+  .txn-earn-inline { font-size: 12px; font-family: var(--mono); font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .txn-line2 { display: flex; align-items: center; gap: 6px; margin-top: 4px; margin-left: 43px; }
   .txn-line3 { display: flex; align-items: center; margin-top: 3px; margin-left: 43px; }
   .txn-notes-txt { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
@@ -439,13 +439,13 @@
   .txn-edit-inline { font-size: 10px; font-weight: 700; color: var(--blue); border: 1.5px solid rgba(129,140,248,.4); background: rgba(129,140,248,.08); border-radius: 10px; padding: 2px 8px; cursor: pointer; flex-shrink: 0; white-space: nowrap; margin-left: auto; }
 
   /* ── INLINE ACTION BUTTONS (Edit / Delete) ── */
-  .txn-action-btns { display: flex; flex-direction: row; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; padding-left: 10px; border-left: 1.5px solid var(--border); }
-  .txn-action-btn { border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 34px; padding: 0; flex-shrink: 0; transition: opacity .15s, transform .1s; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .txn-action-btns { display: flex; flex-direction: row; align-items: center; gap: 5px; margin-left: auto; flex-shrink: 0; }
+  .txn-action-btn { border: none; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 26px; padding: 0; flex-shrink: 0; transition: opacity .15s, transform .1s; user-select: none; -webkit-tap-highlight-color: transparent; }
   .txn-action-btn:active { opacity: .75; transform: scale(.93); }
   .txn-action-btn.edit   { background: rgba(129,140,248,.15); color: var(--blue);  border: 1.5px solid rgba(129,140,248,.35); }
   .txn-action-btn.delete { background: rgba(248,113,113,.12); color: var(--red);   border: 1.5px solid rgba(248,113,113,.3);  }
   .txn-action-btn.copy   { background: rgba(52,211,153,.13);  color: var(--teal);  border: 1.5px solid rgba(52,211,153,.35);  }
-  .txn-action-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .txn-action-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* ── RUNNING BALANCE BAR ── */
   .txn-balance-bar { height: 2px; margin: 0 14px 0 57px; border-radius: 2px; background: var(--border); overflow: hidden; }
@@ -2291,17 +2291,17 @@ function txnHTML(t, showActions = false, editOnly = false) {
     </div>` : '';
 
   const inner = `<div class="txn-card">
-    <!-- Line 1: icon | type | amount | earn | action btns -->
+    <!-- Line 1: icon | type | amount | actions -->
     <div class="txn-line1">
       <div class="txn-icon ${iconClass}">${iconHTML}</div>
       <span class="txn-type-label">${esc(typeLabel)}</span>
       <span class="txn-amt ${amt > 0 ? amtClass : ''}" style="${amt === 0 ? 'color:var(--muted)' : ''}">${amt > 0 ? amtSign + fmt(amt) : '—'}</span>
-      <span class="txn-earn-inline" style="${earn > 0 ? 'color:var(--teal)' : 'color:var(--muted)'}">${earn > 0 ? '+' + fmt(earn) : '—'}</span>
       ${actionBtns}
     </div>
-    <!-- Line 2: time · COH · GCash -->
+    <!-- Line 2: time · earn · balances -->
     <div class="txn-line2">
       <span class="txn-meta-txt">${timeStr}</span>
+      ${earn > 0 ? `<span class="txn-earn-inline" style="color:var(--teal)">+${fmt(earn)}</span>` : ''}
       <div class="txn-bal-inline">
         <span class="txn-bal-key">COH</span>
         <span class="txn-bal-coh">${fmt(t.cohAfter||0)}</span>
