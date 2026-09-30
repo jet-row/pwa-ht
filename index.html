@@ -448,7 +448,7 @@
   .txn-action-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* ⋯ menu trigger */
-  .txn-menu-btn { width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--border2); background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s, background .15s; -webkit-tap-highlight-color: transparent; }
+  .txn-menu-btn { width: 34px; height: 34px; border-radius: 10px; border: 1.5px solid var(--border2); background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s, background .15s; -webkit-tap-highlight-color: transparent; font-size: 18px; }
   .txn-menu-btn:active { opacity: .7; }
   /* Expandable action drawer */
   .txn-action-drawer { display: flex; gap: 6px; margin-left: 43px; max-height: 0; overflow: hidden; transition: max-height .2s ease, padding-top .2s ease; padding-top: 0; }
@@ -2265,7 +2265,7 @@ function renderRecent() {
 }
 
 function txnHTML(t, showActions = false, editOnly = false) {
-  const isCashOut = t.type.includes('Cash-Out');
+  const isCashOut = t.type === 'Cash-Out';
   const isLoad = t.type === 'Load';
   const isInRoll = t.type === 'Cash-In-Rollover';
   const isOutRoll = t.type === 'Cash-Out-Rollover';
@@ -2281,8 +2281,8 @@ function txnHTML(t, showActions = false, editOnly = false) {
   const iconHTML = iconMap[t.type] || '<i class="ti ti-currency-peso" aria-hidden="true"></i>';
   const amtClass = isCashOut ? 'out' : 'in';
   const amtSign  = isCashOut ? '-' : '+';
-  const amt  = parseFloat(t.amount) || 0;
-  const earn = parseFloat(t.earn)   || 0;
+  const amt  = Math.abs(parseFloat(t.amount) || 0);
+  const earn = Math.abs(parseFloat(t.earn)   || 0);
   const typeLabels = {
     'Cash-In': 'Cash-In', 'Cash-Out': 'Cash-Out', 'Load': 'Load',
     'Cash-In-Rollover': 'Cash Add', 'Cash-Out-Rollover': 'GCash Add', 'CBV': 'CBV'
@@ -2310,8 +2310,8 @@ function txnHTML(t, showActions = false, editOnly = false) {
     <div class="txn-line1">
       <div class="txn-icon ${iconClass}">${iconHTML}</div>
       <span class="txn-type-label">${esc(typeLabel)}</span>
-      <span class="txn-amt ${amt > 0 ? amtClass : ''}" style="${amt === 0 ? 'color:var(--muted)' : ''}">${amt > 0 ? amtSign + fmt(amt) : '—'}</span>
-      ${earn > 0 ? `<span class="txn-earn-inline" style="color:var(--teal)">+${fmt(earn)}</span>` : ''}
+      <span class="txn-amt ${amt > 0 ? amtClass : ''}">${amt > 0 ? amtSign + fmt(amt) : '—'}</span>
+      ${earn > 0 ? `<span class="txn-earn-inline" style="color:var(--teal)">+${fmt(earn)}</span>` : `<span class="txn-earn-inline" style="color:var(--muted)">—</span>`}
       ${menuBtn}
     </div>
     <!-- Line 2: time · balances -->
