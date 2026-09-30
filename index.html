@@ -477,7 +477,7 @@
   .acc-chevron.open { transform: rotate(180deg); }
   .acc-body { overflow: hidden; max-height: 0; transition: max-height .3s ease; }
   .acc-body.open { max-height: 4000px; }
-  .acc-inner { background: var(--surface); overflow: hidden; }
+  .acc-inner { background: var(--surface); overflow: visible; }
 
   /* Sticky date header (Log tab) */
   .sticky-date-header { position: sticky; top: 0; z-index: 5; background: var(--glass-sticky); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 6px 16px 5px; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); display: none; }
@@ -2293,7 +2293,7 @@ function txnHTML(t, showActions = false, editOnly = false) {
   const dateStr = d.toLocaleDateString('en-PH', { month:'short', day:'numeric' });
 
   const menuBtn = (showActions || editOnly) ?
-    `<button class="txn-menu-btn" aria-label="More options" onclick="event.stopPropagation();toggleTxnMenu('${t.id}')"><i class="ti ti-dots"></i></button>` : '';
+    `<button class="txn-menu-btn" aria-label="More options" onclick="event.stopPropagation();toggleTxnMenu(this)"><i class="ti ti-dots"></i></button>` : '';
 
   const drawer = showActions ? `
     <div class="txn-action-drawer" id="txn-drawer-${t.id}">
@@ -2333,8 +2333,9 @@ function txnHTML(t, showActions = false, editOnly = false) {
   return `<div class="txn-swipe-wrap">${inner}</div>`;
 }
 
-function toggleTxnMenu(id) {
-  const drawer = document.getElementById('txn-drawer-' + id);
+function toggleTxnMenu(btn) {
+  const wrap = btn.closest('.txn-swipe-wrap');
+  const drawer = wrap ? wrap.querySelector('.txn-action-drawer') : null;
   if (!drawer) return;
   const isOpen = drawer.classList.contains('open');
   document.querySelectorAll('.txn-action-drawer.open').forEach(d => d.classList.remove('open'));
