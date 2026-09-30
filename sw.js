@@ -3,7 +3,7 @@
 const CACHE_NAME = 'halin-tecq-v1';
 
 // The single HTML shell to pre-cache on install.
-const SHELL = './halintecq_pwa_v02.html';
+const SHELL = './index.html';
 
 // CDN hosts whose assets are cached aggressively (content-addressed / versioned URLs).
 const CDN_HOSTS = [
