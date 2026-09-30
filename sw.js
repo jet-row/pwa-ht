@@ -1,6 +1,6 @@
-// Halin-TecQ Service Worker
+// HalinTraq Service Worker
 // Bump CACHE_NAME whenever the app shell changes to force a cache refresh.
-const CACHE_NAME = 'halin-tecq-v1';
+const CACHE_NAME = 'halintraq-v2';
 
 // The single HTML shell to pre-cache on install.
 const SHELL = './index.html';
