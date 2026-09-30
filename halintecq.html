@@ -4854,7 +4854,7 @@ let _sbSyncDeadline = null;
 
 function sbInit() {
   const url  = localStorage.getItem(SB_URL_KEY)  || '';
-  const anon = sessionStorage.getItem(SB_ANON_KEY) || '';
+  const anon = localStorage.getItem(SB_ANON_KEY) || '';
   if (!url || !anon) return false;
   try {
     _sbClient = supabase.createClient(url, anon);
@@ -4908,11 +4908,11 @@ async function sbSignInWithGoogle() {
   }
 
   const url  = (document.getElementById('sbUrl')?.value  || '').trim() || localStorage.getItem(SB_URL_KEY)  || '';
-  const anon = (document.getElementById('sbAnon')?.value || '').trim() || sessionStorage.getItem(SB_ANON_KEY) || '';
+  const anon = (document.getElementById('sbAnon')?.value || '').trim() || localStorage.getItem(SB_ANON_KEY) || '';
   if (!url || !anon) { showErr('Server Address and Access Key are required.'); return; }
 
   localStorage.setItem(SB_URL_KEY, url);
-  sessionStorage.setItem(SB_ANON_KEY, anon);
+  localStorage.setItem(SB_ANON_KEY, anon);
   if (!sbInit()) { showErr('Failed to connect. Check your Server Address and Access Key.'); return; }
 
   const { error } = await _sbClient.auth.signInWithOAuth({
@@ -4928,7 +4928,7 @@ async function sbSignInWithEmail() {
   if (errEl) errEl.style.display = 'none';
 
   const url      = (document.getElementById('sbUrl')?.value      || '').trim() || localStorage.getItem(SB_URL_KEY)  || '';
-  const anon     = (document.getElementById('sbAnon')?.value     || '').trim() || sessionStorage.getItem(SB_ANON_KEY) || '';
+  const anon     = (document.getElementById('sbAnon')?.value     || '').trim() || localStorage.getItem(SB_ANON_KEY) || '';
   const email    = (document.getElementById('sbEmail')?.value    || '').trim();
   const password = (document.getElementById('sbPassword')?.value || '').trim();
 
@@ -4936,7 +4936,7 @@ async function sbSignInWithEmail() {
   if (!email || !password)   { showErr('Email and password are required.'); return; }
 
   localStorage.setItem(SB_URL_KEY, url);
-  sessionStorage.setItem(SB_ANON_KEY, anon);
+  localStorage.setItem(SB_ANON_KEY, anon);
   if (!sbInit()) { showErr('Failed to connect. Check your Server Address and Access Key.'); return; }
 
   const { error } = await _sbClient.auth.signInWithPassword({ email, password });
@@ -5122,7 +5122,7 @@ function renderSbCard() {
 
   // Pre-fill stored URL/anon key
   const url  = localStorage.getItem(SB_URL_KEY)  || '';
-  const anon = sessionStorage.getItem(SB_ANON_KEY) || '';
+  const anon = localStorage.getItem(SB_ANON_KEY) || '';
   const urlEl  = document.getElementById('sbUrl');
   const anonEl = document.getElementById('sbAnon');
   if (urlEl  && !urlEl.value)  urlEl.value  = url;
