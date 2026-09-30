@@ -425,7 +425,7 @@
   .txn-amt { font-family: var(--mono); font-size: 15px; font-weight: 700; text-align: right; flex: 1; font-variant-numeric: tabular-nums; min-width: 0; white-space: nowrap; }
   .txn-amt.in  { color: var(--green); }
   .txn-amt.out { color: var(--red); }
-  .txn-earn-inline { font-size: 12px; font-family: var(--mono); font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .txn-earn-inline { font-size: 15px; font-family: var(--mono); font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .txn-line2 { display: flex; align-items: center; gap: 6px; margin-top: 4px; margin-left: 43px; }
   .txn-line3 { display: flex; align-items: center; margin-top: 3px; margin-left: 43px; }
   .txn-notes-txt { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
@@ -446,6 +446,19 @@
   .txn-action-btn.delete { background: rgba(248,113,113,.12); color: var(--red);   border: 1.5px solid rgba(248,113,113,.3);  }
   .txn-action-btn.copy   { background: rgba(52,211,153,.13);  color: var(--teal);  border: 1.5px solid rgba(52,211,153,.35);  }
   .txn-action-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ⋯ menu trigger */
+  .txn-menu-btn { width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--border2); background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s, background .15s; -webkit-tap-highlight-color: transparent; }
+  .txn-menu-btn:active { opacity: .7; }
+  /* Expandable action drawer */
+  .txn-action-drawer { display: flex; gap: 6px; margin-left: 43px; max-height: 0; overflow: hidden; transition: max-height .2s ease, padding-top .2s ease; padding-top: 0; }
+  .txn-action-drawer.open { max-height: 44px; padding-top: 6px; }
+  .txn-drawer-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 4px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: var(--font); transition: opacity .15s; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .txn-drawer-btn:active { opacity: .75; }
+  .txn-drawer-btn.edit   { background: rgba(129,140,248,.15); color: var(--blue);  border: 1.5px solid rgba(129,140,248,.35); }
+  .txn-drawer-btn.copy   { background: rgba(52,211,153,.13);  color: var(--teal);  border: 1.5px solid rgba(52,211,153,.35);  }
+  .txn-drawer-btn.delete { background: rgba(248,113,113,.12); color: var(--red);   border: 1.5px solid rgba(248,113,113,.3);  }
+  .txn-drawer-btn i { font-size: 13px; }
 
   /* ── RUNNING BALANCE BAR ── */
   .txn-balance-bar { height: 2px; margin: 0 14px 0 57px; border-radius: 2px; background: var(--border); overflow: hidden; }
@@ -2279,15 +2292,17 @@ function txnHTML(t, showActions = false, editOnly = false) {
   const timeStr = d.toLocaleTimeString('en-PH', { hour:'numeric', minute:'2-digit', hour12:true });
   const dateStr = d.toLocaleDateString('en-PH', { month:'short', day:'numeric' });
 
-  const editBtn   = (showActions || editOnly) ? `<button class="txn-action-btn edit" aria-label="Edit" onclick="openEditModal('${t.id}')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>` : '';
-  const copyBtn   = showActions ? `<button class="txn-action-btn copy" aria-label="Copy" onclick="copyTxn('${t.id}')"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>` : '';
-  const deleteBtn = showActions ? `<button class="txn-action-btn delete" aria-label="Delete" onclick="deleteTxn('${t.id}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>` : '';
+  const menuBtn = (showActions || editOnly) ?
+    `<button class="txn-menu-btn" aria-label="More options" onclick="event.stopPropagation();toggleTxnMenu('${t.id}')"><i class="ti ti-dots"></i></button>` : '';
 
-  const actionBtns = (showActions || editOnly) ? `
-    <div class="txn-action-btns">
-      ${editBtn}
-      ${copyBtn}
-      ${deleteBtn}
+  const drawer = showActions ? `
+    <div class="txn-action-drawer" id="txn-drawer-${t.id}">
+      <button class="txn-drawer-btn edit" onclick="openEditModal('${t.id}')"><i class="ti ti-pencil"></i> Edit</button>
+      <button class="txn-drawer-btn copy" onclick="copyTxn('${t.id}')"><i class="ti ti-copy"></i> Copy</button>
+      <button class="txn-drawer-btn delete" onclick="deleteTxn('${t.id}')"><i class="ti ti-trash"></i> Delete</button>
+    </div>` : editOnly ? `
+    <div class="txn-action-drawer" id="txn-drawer-${t.id}">
+      <button class="txn-drawer-btn edit" onclick="openEditModal('${t.id}')"><i class="ti ti-pencil"></i> Edit</button>
     </div>` : '';
 
   const inner = `<div class="txn-card">
@@ -2296,12 +2311,12 @@ function txnHTML(t, showActions = false, editOnly = false) {
       <div class="txn-icon ${iconClass}">${iconHTML}</div>
       <span class="txn-type-label">${esc(typeLabel)}</span>
       <span class="txn-amt ${amt > 0 ? amtClass : ''}" style="${amt === 0 ? 'color:var(--muted)' : ''}">${amt > 0 ? amtSign + fmt(amt) : '—'}</span>
-      ${actionBtns}
+      ${earn > 0 ? `<span class="txn-earn-inline" style="color:var(--teal)">+${fmt(earn)}</span>` : ''}
+      ${menuBtn}
     </div>
-    <!-- Line 2: time · earn · balances -->
+    <!-- Line 2: time · balances -->
     <div class="txn-line2">
       <span class="txn-meta-txt">${timeStr}</span>
-      ${earn > 0 ? `<span class="txn-earn-inline" style="color:var(--teal)">+${fmt(earn)}</span>` : ''}
       <div class="txn-bal-inline">
         <span class="txn-bal-key">COH</span>
         <span class="txn-bal-coh">${fmt(t.cohAfter||0)}</span>
@@ -2312,9 +2327,18 @@ function txnHTML(t, showActions = false, editOnly = false) {
     </div>
     <!-- Line 3: notes (only if present) -->
     ${t.notes ? `<div class="txn-line3"><span class="txn-notes-txt">${esc(t.notes)}</span></div>` : ''}
+    ${drawer}
   </div>`;
 
   return `<div class="txn-swipe-wrap">${inner}</div>`;
+}
+
+function toggleTxnMenu(id) {
+  const drawer = document.getElementById('txn-drawer-' + id);
+  if (!drawer) return;
+  const isOpen = drawer.classList.contains('open');
+  document.querySelectorAll('.txn-action-drawer.open').forEach(d => d.classList.remove('open'));
+  if (!isOpen) drawer.classList.add('open');
 }
 
 let _openAccordions = new Set();
