@@ -3110,9 +3110,26 @@ function buildTxn(type, amount, earn, feeInCash, notes) {
   return { id: String(Date.now()) + '-' + Math.random().toString(36).slice(2), type, amount: amt, earn: e, feeInCash, notes: notes||'', ts: Date.now(), cohAfter: newCOH, cogAfter: newCOG };
 }
 
+const _ROLLOVER_NOTE_DEFAULTS = {
+  'Cash-In-Rollover':  'rollover from GCash',
+  'Cash-Out-Rollover': 'rollover from Cash On Hand',
+};
+const _ROLLOVER_NOTE_VALUES = Object.values(_ROLLOVER_NOTE_DEFAULTS);
+
 function selectTypeChip(containerId, el) {
   document.querySelectorAll('#' + containerId + ' .chip').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
+  // Auto-fill notes for rollover types in Add and Edit modals
+  // Auto-fill notes for rollover types in Add modal only
+  if (containerId === 'mTypeChips') {
+    const notesEl = document.getElementById('mNotes');
+    if (notesEl) {
+      const cur = notesEl.value.trim();
+      if (!cur || _ROLLOVER_NOTE_VALUES.includes(cur)) {
+        notesEl.value = _ROLLOVER_NOTE_DEFAULTS[el.dataset.type] || '';
+      }
+    }
+  }
 }
 
 function mGetSelectedType() {
