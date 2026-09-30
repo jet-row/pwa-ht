@@ -2,7 +2,7 @@
   "name": "HalinTraQ",
   "short_name": "HalinTraQ",
   "description": "GCash transaction tracker and tally tool",
-  "start_url": "./halintecq_pwa_v02.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#07080F",
   "theme_color": "#07080F",
