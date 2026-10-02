@@ -2040,6 +2040,19 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ── INPUT SANITIZATION ──────────────────────────────────────────────────────
+// Returns a valid, finite, non-negative number or null if the value is
+// out-of-range (NaN, Infinity, negative, or above the hard cap).
+const _MAX_AMOUNT = 10_000_000; // ₱10M ceiling for any single field
+function sanitizeNum(raw, { allowZero = false, max = _MAX_AMOUNT } = {}) {
+  const n = parseFloat(raw);
+  if (!isFinite(n)) return null;
+  if (n < 0) return null;
+  if (n > max) return null;
+  if (!allowZero && n === 0) return 0; // zero is valid; caller decides whether to reject
+  return n;
+}
+
 // ── STATE ──────────────────────────────────────────────────────────────────
 let state = {
   transactions: [],
@@ -2245,7 +2258,7 @@ function render() {
 
   // Only render the active tab — avoids repainting hidden views
   const tab = state.currentTab || 'home';
-  if (tab === 'home')    { renderHome(bal); setTimeout(renderHomeChart, 0); }
+  if (tab === 'home')    { renderHome(bal); }
   if (tab === 'log')     { renderHistory(); }
   if (tab === 'reports') { renderReports(bal); }
   if (tab === 'settings'){ renderSettings(); renderBackupMeta(); renderCloudSyncMeta(); }
@@ -3161,8 +3174,12 @@ function submitModalTxn() {
   window._submitting = true;
   setTimeout(() => { window._submitting = false; }, 800);
   const type   = mGetSelectedType();
-  const amount = parseFloat(document.getElementById('mAmount').value) || 0;
-  const earn   = parseFloat(document.getElementById('mEarn').value) || 0;
+  const rawAmt  = sanitizeNum(document.getElementById('mAmount').value);
+  const rawEarn = sanitizeNum(document.getElementById('mEarn').value);
+  if (rawAmt === null)  { showToast('Invalid amount — must be a positive number under ₱10M'); window._submitting = false; return; }
+  if (rawEarn === null) { showToast('Invalid earn — must be a positive number under ₱10M');  window._submitting = false; return; }
+  const amount = rawAmt;
+  const earn   = rawEarn;
   const fee    = document.getElementById('mFeeInCash').checked;
   const notes  = document.getElementById('mNotes').value.trim();
   const dateVal= document.getElementById('mDate').value;
@@ -3226,13 +3243,12 @@ function exportCSV() {
 
 // ── SETTINGS ───────────────────────────────────────────────────────────────
 function saveSettings() {
-  if (parseFloat(document.getElementById('settingOpenCOH')?.value) < 0 ||
-      parseFloat(document.getElementById('settingOpenCOG')?.value) < 0) {
-    showToast('Values cannot be negative.');
-    return;
-  }
-  const newCOH = parseFloat(document.getElementById('settingOpenCOH').value) || 0;
-  const newCOG = parseFloat(document.getElementById('settingOpenCOG').value) || 0;
+  const rawCOH = sanitizeNum(document.getElementById('settingOpenCOH')?.value, { allowZero: true });
+  const rawCOG = sanitizeNum(document.getElementById('settingOpenCOG')?.value, { allowZero: true });
+  if (rawCOH === null) { showToast('Invalid opening COH — must be 0 or a positive number under ₱10M'); return; }
+  if (rawCOG === null) { showToast('Invalid opening GCash — must be 0 or a positive number under ₱10M'); return; }
+  const newCOH = rawCOH;
+  const newCOG = rawCOG;
   const newCap = newCOH + newCOG;
 
   const changed = newCOH !== state.settings.openCOH ||
@@ -3297,7 +3313,7 @@ function switchTab(tab) {
 
   if (tab === 'tally')   renderTally();
   if (tab === 'reports') { if (_reportsMode === 'insights') renderInsights(); else { const bal = calcBalances(); renderReports(bal); } }
-  if (tab === 'home')    { renderHome(); setTimeout(renderHomeChart, 50); }
+  if (tab === 'home')    { renderHome(); }
   if (tab === 'log')     renderHistory();
 
   // Reset scroll and header state
@@ -3637,8 +3653,12 @@ function updateEditFeeDesc() {
 
 function submitEditTxn() {
   const type     = eGetSelectedType();
-  const amount   = parseFloat(document.getElementById('eAmount').value)  || 0;
-  const earn     = parseFloat(document.getElementById('eEarn').value)    || 0;
+  const rawAmt   = sanitizeNum(document.getElementById('eAmount').value);
+  const rawEarn  = sanitizeNum(document.getElementById('eEarn').value);
+  if (rawAmt === null)  { showToast('Invalid amount — must be a positive number under ₱10M'); return; }
+  if (rawEarn === null) { showToast('Invalid earn — must be a positive number under ₱10M');  return; }
+  const amount   = rawAmt;
+  const earn     = rawEarn;
   const fee      = document.getElementById('eFeeInCash').checked;
   const notes    = document.getElementById('eNotes').value.trim();
   const dateVal  = document.getElementById('eDate').value;
@@ -4249,8 +4269,10 @@ function renderHome(bal) {
     const bestDay = Object.values(earnByDay).length ? Math.max(...Object.values(earnByDay)) : 0;
 
     // % change vs last month
-    const pctChange = lastEarn > 0 ? ((thisEarn - lastEarn) / lastEarn) * 100 : null;
-    const isUp      = pctChange === null || pctChange >= 0;
+    const pctChange   = lastEarn > 0 ? ((thisEarn - lastEarn) / lastEarn) * 100 : null;
+    const pctRounded  = pctChange !== null ? Math.round(pctChange) : null;
+    const isEqual     = pctRounded === 0;
+    const isUp        = pctChange === null || pctChange > 0;
 
     // bar fill width: thisEarn / lastEarn, capped at 100%
     const barPct = lastEarn > 0 ? Math.min(100, (thisEarn / lastEarn) * 100) : (thisEarn > 0 ? 100 : 0);
@@ -4272,11 +4294,24 @@ function renderHome(bal) {
     const pctEl   = el('mecBadgePct');
     const barEl   = el('mecBarFill');
 
-    if (amtEl)  { amtEl.className  = isUp ? 'mec-amount' : 'mec-amount down'; }
-    if (badgeEl){ badgeEl.className = isUp ? 'mec-badge'  : 'mec-badge down'; }
-    if (iconEl) { iconEl.className  = isUp ? 'ti ti-trending-up' : 'ti ti-trending-down'; }
-    if (pctEl)  { pctEl.textContent = pctChange === null ? 'New' : (isUp ? '+' : '') + pctChange.toFixed(1) + '%'; }
-    if (barEl)  { barEl.className = isUp ? 'mec-bar-fill' : 'mec-bar-fill down'; setTimeout(() => { barEl.style.width = barPct + '%'; }, 60); }
+    if (amtEl) {
+      amtEl.className = (isUp || isEqual) ? 'mec-amount' : 'mec-amount down';
+    }
+    if (badgeEl) {
+      badgeEl.className = isEqual ? 'mec-badge' : isUp ? 'mec-badge' : 'mec-badge down';
+      badgeEl.style.background   = isEqual ? 'rgba(129,140,248,.1)'  : '';
+      badgeEl.style.borderColor  = isEqual ? 'rgba(129,140,248,.25)' : '';
+    }
+    if (iconEl) {
+      iconEl.className = isEqual ? 'ti ti-minus' : isUp ? 'ti ti-trending-up' : 'ti ti-trending-down';
+      iconEl.style.color = isEqual ? 'var(--blue)' : '';
+    }
+    if (pctEl) {
+      if (pctChange === null)   { pctEl.textContent = 'New'; pctEl.style.color = ''; }
+      else if (isEqual)         { pctEl.textContent = '='; pctEl.style.color = 'var(--blue)'; }
+      else                      { pctEl.textContent = (isUp ? '+' : '') + pctRounded + '%'; pctEl.style.color = ''; }
+    }
+    if (barEl)  { barEl.className = (isUp || isEqual) ? 'mec-bar-fill' : 'mec-bar-fill down'; setTimeout(() => { barEl.style.width = barPct + '%'; }, 60); }
   })();
 
   // Recent mini list (last 5) — preserves header row, appends txn rows after it
@@ -4672,20 +4707,26 @@ function updateEarnRing(todayEarn) {
       pill.style.display = 'none';
     } else {
       pill.style.display = 'inline-flex';
-      const above   = todayEarn >= avg7;
       const diff    = Math.abs(todayEarn - avg7);
-      const diffPct = avg7 > 0 ? ((diff / avg7) * 100).toFixed(0) : '—';
-      const gap     = avg7 > 0 ? fmt(Math.round(diff)) + ' gap' : '';
-      if (above) {
+      const diffPct = avg7 > 0 ? Math.round((diff / avg7) * 100) : null;
+      const isAbove = todayEarn > avg7;
+      const isEqual = todayEarn === avg7 || diffPct === 0;
+
+      if (isEqual) {
+        pill.style.background  = 'rgba(129,140,248,.1)';
+        pill.style.borderColor = 'rgba(129,140,248,.3)';
+        pill.style.color       = 'var(--blue)';
+        pill.innerHTML = `<i class="ti ti-minus" style="font-size:11px;vertical-align:middle;line-height:1;"></i> On target`;
+      } else if (isAbove) {
         pill.style.background  = 'rgba(52,211,153,.1)';
         pill.style.borderColor = 'rgba(52,211,153,.3)';
         pill.style.color       = 'var(--green)';
-        pill.innerHTML = `<i class="ti ti-trending-up" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Above avg${avg7 > 0 ? ' +' + diffPct + '%' : ''}`;
+        pill.innerHTML = `<i class="ti ti-trending-up" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Above avg${diffPct !== null ? ' +' + diffPct + '%' : ''}`;
       } else {
-        pill.style.background    = 'rgba(248,113,113,.1)';
-        pill.style.borderColor   = 'rgba(248,113,113,.3)';
-        pill.style.color         = 'var(--red)';
-        pill.innerHTML = `<i class="ti ti-trending-down" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Below avg −${diffPct}%`;
+        pill.style.background  = 'rgba(248,113,113,.1)';
+        pill.style.borderColor = 'rgba(248,113,113,.3)';
+        pill.style.color       = 'var(--red)';
+        pill.innerHTML = `<i class="ti ti-trending-down" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Below avg ${diffPct !== null ? '−' + diffPct + '%' : '—'}`;
       }
     }
   }
