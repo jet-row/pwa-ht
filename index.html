@@ -626,6 +626,10 @@
   .rpt-chart-legend-item { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--muted); font-weight:600; }
   .rpt-chart-legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 
+  .rpt-tab-bar { display:flex; border-bottom:1px solid var(--border); margin:-14px -16px 14px; }
+  .rpt-tab { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 0; font-size:13px; font-weight:700; color:var(--muted); border-bottom:2px solid transparent; cursor:pointer; background:none; border-top:none; border-left:none; border-right:none; transition:color .18s, border-color .18s; }
+  .rpt-tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+
   .rpt-table { width:100%; border-collapse:collapse; min-width:0; }
   .rpt-table thead tr { background:var(--surface2); }
   .rpt-table th { padding:9px 8px; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap; border-bottom:1px solid var(--border); }
@@ -1487,8 +1491,14 @@
     <!-- REPORTS VIEW -->
     <div class="view" id="view-reports" style="padding:14px 16px;">
 
+      <!-- ── TAB BAR ── -->
+      <div class="rpt-tab-bar">
+        <button class="rpt-tab active" id="rptTabInsights" onclick="switchReportsTab('insights')"><i class="ti ti-sparkles"></i> Insights</button>
+        <button class="rpt-tab"        id="rptTabReports"  onclick="switchReportsTab('reports')"><i class="ti ti-chart-bar"></i> Reports</button>
+      </div>
+
       <!-- ── REPORTS PANEL ── -->
-      <div id="rptReportsPanel">
+      <div id="rptReportsPanel" style="display:none;">
         <div class="rpt-period-bar">
           <button class="rpt-period-btn active" id="rptBtn-week"   onclick="setReportPeriod('week',this)">Weekly</button>
           <button class="rpt-period-btn"        id="rptBtn-month"  onclick="setReportPeriod('month',this)">Monthly</button>
@@ -1540,7 +1550,7 @@
       </div>
 
       <!-- ── INSIGHTS PANEL ── -->
-      <div id="rptInsightsPanel" style="margin-top:14px;">
+      <div id="rptInsightsPanel">
 
         <!-- 1. Month Projection -->
         <div class="ins-card indigo">
@@ -2294,7 +2304,7 @@ function render() {
   const tab = state.currentTab || 'home';
   if (tab === 'home')    { renderHome(bal); setTimeout(renderHomeChart, 0); }
   if (tab === 'log')     { renderHistory(); }
-  if (tab === 'reports') { renderReports(bal); }
+  if (tab === 'reports') { renderInsights(); switchReportsTab('insights'); }
   if (tab === 'settings'){ renderSettings(); renderBackupMeta(); renderCloudSyncMeta(); }
   if (tab === 'tally')   { renderTally(); }
 }
@@ -2521,7 +2531,17 @@ function setReportPeriod(p, el) {
   renderReports(bal);
 }
 
-// ── REPORTS / INSIGHTS TOGGLE ───────────────────────────────────────────────
+// ── REPORTS / INSIGHTS TAB BAR ──────────────────────────────────────────────
+
+function switchReportsTab(tab) {
+  const isInsights = tab === 'insights';
+  document.getElementById('rptReportsPanel').style.display  = isInsights ? 'none' : '';
+  document.getElementById('rptInsightsPanel').style.display = isInsights ? ''     : 'none';
+  document.getElementById('rptTabReports').classList.toggle('active',  !isInsights);
+  document.getElementById('rptTabInsights').classList.toggle('active', isInsights);
+  if (isInsights) renderInsights();
+  else renderReports(calcBalances());
+}
 
 function renderInsights() {
   const now   = new Date();
@@ -3387,7 +3407,7 @@ function switchTab(tab) {
   if (sbBtn) sbBtn.classList.add('active');
 
   if (tab === 'tally')   renderTally();
-  if (tab === 'reports') { const bal = calcBalances(); renderReports(bal); renderInsights(); }
+  if (tab === 'reports') { renderInsights(); switchReportsTab('insights'); }
   if (tab === 'home')    { renderHome(); setTimeout(renderHomeChart, 50); }
   if (tab === 'log')     renderHistory();
 
