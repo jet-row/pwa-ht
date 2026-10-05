@@ -2299,6 +2299,7 @@ function render() {
   checkBalanceMismatch(bal);
   checkBackupWarning();
   updateBackupDot();
+  renderBackupMeta();
 
   // Only render the active tab — avoids repainting hidden views
   const tab = state.currentTab || 'home';
