@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="HalinTraQ">
 <meta name="mobile-web-app-capable" content="yes">
 <title>HalinTraQ</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23171C34'/><stop offset='.55' stop-color='%23292F72'/><stop offset='1' stop-color='%234338A8'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><circle cx='32' cy='32' r='23' fill='none' stroke='%23F59E0B' stroke-width='1.6'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23F59E0B' stroke-opacity='.3' stroke-width='.8'/><path d='M19 21v22M28 21v22M19 32h9' fill='none' stroke='%23F4F5FF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/><path d='M28 23h16M36 23v22' fill='none' stroke='%232DD4BF' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='50' cy='14' r='2.6' fill='%232DD4BF'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2306060e'/><stop offset='.5' stop-color='%230e0c38'/><stop offset='1' stop-color='%23172a5e'/></linearGradient><linearGradient id='s' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23fde68a'/><stop offset='1' stop-color='%23d97706'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><path d='M 60 32 A 28 28 0 1 1 32 4 L 32 17 A 15 15 0 1 0 47 32 Z' fill='%23d8e2ff' fill-opacity='.82'/><path d='M 32 4 A 28 28 0 0 1 60 32 L 47 32 A 15 15 0 0 0 32 17 Z' fill='url(%23s)'/><circle cx='32' cy='32' r='7' fill='%23f59e0b'/><circle cx='32' cy='32' r='4' fill='%23fde68a'/><circle cx='32' cy='4' r='2.5' fill='%23f59e0b'/><circle cx='60' cy='32' r='2' fill='%23f59e0b' fill-opacity='.7'/></svg>">
 <!-- apple-touch-icon href is set at runtime by setupPWAIcons() (iOS requires a PNG, not SVG) -->
 <link rel="apple-touch-icon" id="appleTouchIcon">
 <link rel="manifest" href="./manifest.json">
@@ -140,9 +140,9 @@
   .hdr-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px 12px; }
   .logo-mark {
     width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
-    background: linear-gradient(145deg, #171C34 0%, #292F72 55%, #4338A8 100%);
+    background: linear-gradient(145deg, #06060e 0%, #0e0c38 50%, #172a5e 100%);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(99,102,241,.45), inset 0 1px 0 rgba(255,255,255,.15);
+    box-shadow: 0 4px 16px rgba(245,158,11,.25), inset 0 1px 0 rgba(255,255,255,.12);
     position: relative; overflow: hidden;
   }
   .logo-mark::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 60%); }
@@ -211,9 +211,10 @@
   .bh-stat-badge-txt { font-size:11px; font-weight:800; color:var(--red); font-family:var(--mono); }
 
   /* ── MINI HEADER PILLS ── */
-  .hdr-mini { display:none; gap:8px; padding:0 14px 12px; }
+  .hdr-mini { display:none; gap:8px; padding:0 14px 12px; overflow-x:auto; scrollbar-width:none; }
   .hdr-mini.show { display:flex; }
-  .mini-pill { display:flex; flex:1; justify-content:center; align-items:center; gap:6px; background:var(--s2); border:1px solid var(--border2); border-radius:20px; padding:5px 12px; }
+  .hdr-mini::-webkit-scrollbar { display:none; }
+  .mini-pill { display:flex; align-items:center; gap:6px; flex-shrink:0; background:var(--s2); border:1px solid var(--border2); border-radius:20px; padding:5px 12px; }
   .mini-pill-lbl { font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); }
   .mini-pill-val { font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:-.12px; }
   .mini-pill-val.coh  { color:var(--amber); }
@@ -224,7 +225,7 @@
   .sec-title { font-size:11px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
   .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
   .sec-link { font-size:11px; font-weight:700; color:var(--indigo); cursor:pointer; }
-  .card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--s2); position:relative; z-index:1; border-radius:var(--radius) var(--radius) 0 0; }
+  .card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--s2); border-radius:var(--radius) var(--radius) 0 0; }
   .card-hdr-title { font-size:14px; font-weight:800; letter-spacing:.10em; text-transform:uppercase; color:var(--muted); }
   .card-pad { padding:14px 16px; }
 
@@ -762,6 +763,7 @@
   /* ── EARN HERO (Home) ── */
   .earn-hero { background:linear-gradient(135deg,var(--s1) 0%,var(--s2) 100%); border:1px solid var(--border2); border-radius:var(--radius); padding:0; margin-bottom:12px; box-shadow:0 4px 20px rgba(0,0,0,.3); position:relative; overflow:hidden; }
   .earn-hero::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,rgba(45,212,191,.15) 0%,transparent 70%); pointer-events:none; }
+  .earn-hero-hdr { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--s3); border-bottom:1px solid var(--border); position:relative; z-index:1; }
   .earn-hero-body { display:flex; align-items:center; gap:16px; padding:14px 16px; position:relative; z-index:1; }
   .earn-date-pill { background:var(--s4); border:1px solid var(--border2); border-radius:10px; padding:3px 9px; font-size:10px; font-weight:700; color:var(--text2); }
   .earn-ring { flex-shrink:0; position:relative; }
@@ -847,6 +849,7 @@
   .ins-section-title { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 
   .ins-card { background:linear-gradient(135deg,var(--s1),var(--s2)); border:1px solid var(--border2); border-radius:var(--radius); padding:0; margin-bottom:10px; position:relative; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.3); }
+  .ins-card-hdr { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--s3); border-bottom:1px solid var(--border); position:relative; z-index:1; }
   .ins-card-body { padding:14px 16px; position:relative; z-index:1; }
   .ins-card::before { content:''; position:absolute; top:-20px; right:-20px; width:90px; height:90px; border-radius:50%; pointer-events:none; }
   .ins-card.indigo::before { background:radial-gradient(circle,rgba(99,102,241,.12) 0%,transparent 70%); }
@@ -969,6 +972,7 @@
     position: relative; overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,.3);
   }
+  .mec-header { display:flex; align-items:center; justify-content:space-between; padding:10px 18px; background:var(--s3); border-bottom:1px solid var(--border); position:relative; z-index:1; }
   .mec-body   { padding:14px 18px 16px; position:relative; z-index:1; }
   .month-earned-card::before {
     content: ''; position: absolute; top: -40px; right: -30px;
@@ -1061,7 +1065,7 @@
     }
     .sb-logo-icon {
       width:38px; height:38px; border-radius:12px;
-      background:linear-gradient(135deg,#171C34 0%,#292F72 55%,#4338A8 100%);
+      background:linear-gradient(135deg,#06060e 0%,#0e0c38 50%,#172a5e 100%);
       display:flex; align-items:center; justify-content:center; flex-shrink:0;
     }
     .sb-logo-icon svg { display:block; }
@@ -1195,12 +1199,21 @@
     <!-- Logo -->
     <div class="sb-logo">
       <div class="sb-logo-icon">
-        <svg width="20" height="20" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <circle cx="32" cy="32" r="23" stroke="#F59E0B" stroke-width="1.6"/>
-          <circle cx="32" cy="32" r="19" stroke="#F59E0B" stroke-opacity=".3" stroke-width=".8"/>
-          <path d="M19 21v22M28 21v22M19 32h9" stroke="#F4F5FF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M28 23h16M36 23v22" stroke="#2DD4BF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="50" cy="14" r="2.6" fill="#2DD4BF"/>
+        <svg width="20" height="20" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="sbseg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#d97706"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="23.75" fill="none" stroke="#f59e0b" stroke-width=".5" stroke-opacity=".15"/>
+          <path d="M 60 32 A 28 28 0 1 1 32 4 L 32 17 A 15 15 0 1 0 47 32 Z" fill="#d8e2ff" fill-opacity=".82"/>
+          <path d="M 32 4 A 28 28 0 0 1 60 32 L 47 32 A 15 15 0 0 0 32 17 Z" fill="url(#sbseg)"/>
+          <circle cx="32" cy="32" r="6.75" fill="#f59e0b" fill-opacity=".2"/>
+          <circle cx="32" cy="32" r="5"    fill="#f59e0b"/>
+          <circle cx="32" cy="32" r="3.25" fill="#fde68a"/>
+          <circle cx="32" cy="4"  r="1.875" fill="#f59e0b"/>
+          <circle cx="32" cy="4"  r="1"     fill="#fde68a"/>
+          <circle cx="60" cy="32" r="1.875" fill="#f59e0b" fill-opacity=".7"/>
         </svg>
       </div>
       <svg class="brand-wordmark" viewBox="0 0 400 70" role="img" aria-label="HalinTraQ"><use href="#halintraq-wordmark"/></svg>
@@ -1223,12 +1236,21 @@
   <div id="header">
     <div class="hdr-top">
       <div class="logo-mark">
-        <svg width="22" height="22" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <circle cx="32" cy="32" r="23" stroke="#F59E0B" stroke-width="1.6"/>
-          <circle cx="32" cy="32" r="19" stroke="#F59E0B" stroke-opacity=".3" stroke-width=".8"/>
-          <path d="M19 21v22M28 21v22M19 32h9" stroke="#F4F5FF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M28 23h16M36 23v22" stroke="#2DD4BF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="50" cy="14" r="2.6" fill="#2DD4BF"/>
+        <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="hdseg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#d97706"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="23.75" fill="none" stroke="#f59e0b" stroke-width=".5" stroke-opacity=".15"/>
+          <path d="M 60 32 A 28 28 0 1 1 32 4 L 32 17 A 15 15 0 1 0 47 32 Z" fill="#d8e2ff" fill-opacity=".82"/>
+          <path d="M 32 4 A 28 28 0 0 1 60 32 L 47 32 A 15 15 0 0 0 32 17 Z" fill="url(#hdseg)"/>
+          <circle cx="32" cy="32" r="6.75" fill="#f59e0b" fill-opacity=".2"/>
+          <circle cx="32" cy="32" r="5"    fill="#f59e0b"/>
+          <circle cx="32" cy="32" r="3.25" fill="#fde68a"/>
+          <circle cx="32" cy="4"  r="1.875" fill="#f59e0b"/>
+          <circle cx="32" cy="4"  r="1"     fill="#fde68a"/>
+          <circle cx="60" cy="32" r="1.875" fill="#f59e0b" fill-opacity=".7"/>
         </svg>
       </div>
       <div class="hdr-brand">
@@ -1333,7 +1355,7 @@
       <!-- Today's earnings ring + quick stats -->
       <div class="home-section">
         <div class="earn-hero">
-          <div class="card-hdr">
+          <div class="earn-hero-hdr">
             <div class="card-hdr-title">Today's Earnings</div>
           </div>
           <div class="earn-hero-body">
@@ -1381,7 +1403,7 @@
 
       <!-- Monthly Earned -->
       <div class="month-earned-card" id="monthEarnedCard">
-        <div class="card-hdr">
+        <div class="mec-header">
           <div class="card-hdr-title">Total Earned This Month</div>
         </div>
         <div class="mec-body">
@@ -1436,7 +1458,7 @@
       <!-- Recent Activity -->
       <div class="home-section">
         <div class="recent-mini" id="homeRecentList">
-          <div class="card-hdr">
+          <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);">
             <span class="card-hdr-title">Today's Transactions</span>
           </div>
         </div>
@@ -1492,15 +1514,15 @@
           </div>
         </div>
         <div class="card" style="padding:0;overflow:clip;">
-          <div class="card-hdr">
-            <div class="card-hdr-title" id="rptTableTitle">Weekly Breakdown</div>
+          <div style="padding:10px 16px 8px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <div id="rptTableTitle" style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Weekly Breakdown</div>
             <div id="rptTableCount" style="font-size:13px;color:var(--muted);"></div>
           </div>
           <div id="rptTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"></div>
         </div>
         <div class="card" style="padding:0;overflow:hidden;margin-top:12px;">
-          <div class="card-hdr">
-            <div class="card-hdr-title">All-Time Summary</div>
+          <div style="padding:10px 16px 8px;background:var(--surface2);border-bottom:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">All-Time Summary</div>
           </div>
           <div class="stat-grid" style="padding:12px;margin:0;">
             <div class="stat-box"><div class="stat-val green" id="rTotalIn">₱0</div><div class="stat-lbl">Total Cash-In</div></div>
@@ -1520,7 +1542,7 @@
 
         <!-- 1. Month Projection -->
         <div class="ins-card indigo">
-          <div class="card-hdr">
+          <div class="ins-card-hdr">
             <span class="card-hdr-title">Earnings Forecast</span>
             <div class="ins-days-pill" id="insDaysLeft">— days left</div>
           </div>
@@ -1544,7 +1566,7 @@
 
         <!-- 2. Earning Streak -->
         <div class="ins-card amber">
-          <div class="card-hdr">
+          <div class="ins-card-hdr">
             <span class="card-hdr-title">Earning Streak</span>
           </div>
           <div class="ins-card-body">
@@ -1564,7 +1586,7 @@
 
         <!-- 3. Earn by Type -->
         <div class="ins-card purple">
-          <div class="card-hdr">
+          <div class="ins-card-hdr">
             <span class="card-hdr-title">Earn by Type · This Month</span>
           </div>
           <div class="ins-card-body">
@@ -1574,7 +1596,7 @@
 
         <!-- 4. Cash Flow This Month -->
         <div class="ins-card red">
-          <div class="card-hdr">
+          <div class="ins-card-hdr">
             <span class="card-hdr-title">Cash Flow · This Month</span>
           </div>
           <div class="ins-card-body">
@@ -1613,7 +1635,7 @@
 
         <!-- 5. Monthly Earnings History -->
         <div class="ins-card blue">
-          <div class="card-hdr">
+          <div class="ins-card-hdr">
             <span class="card-hdr-title">Earnings Last 6 Months</span>
             <div id="insHistoryBadge"></div>
           </div>
@@ -1625,7 +1647,7 @@
 
         <!-- 6. Account Health -->
         <div class="ins-card amber">
-          <div class="card-hdr">
+          <div class="ins-card-hdr">
             <span class="card-hdr-title">Account Health</span>
             <span style="font-size:12px;color:var(--muted);">COH vs GCash</span>
           </div>
@@ -1791,17 +1813,42 @@
           <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
             <defs>
               <linearGradient id="abg" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#171C34"/>
-                <stop offset=".55" stop-color="#292F72"/>
-                <stop offset="1" stop-color="#4338A8"/>
+                <stop offset="0"   stop-color="#06060e"/>
+                <stop offset=".5"  stop-color="#0e0c38"/>
+                <stop offset="1"   stop-color="#172a5e"/>
               </linearGradient>
+              <linearGradient id="aseg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fde68a"/>
+                <stop offset="1" stop-color="#d97706"/>
+              </linearGradient>
+              <radialGradient id="aamb" cx="40%" cy="25%" r="65%">
+                <stop offset="0%"   stop-color="white" stop-opacity=".05"/>
+                <stop offset="100%" stop-color="white" stop-opacity="0"/>
+              </radialGradient>
             </defs>
+            <!-- Background + ambient overlay -->
             <rect width="64" height="64" rx="18" fill="url(#abg)"/>
-            <circle cx="32" cy="32" r="23" fill="none" stroke="#F59E0B" stroke-width="1.6"/>
-            <circle cx="32" cy="32" r="19" fill="none" stroke="#F59E0B" stroke-opacity=".3" stroke-width=".8"/>
-            <path d="M19 21v22M28 21v22M19 32h9" fill="none" stroke="#F4F5FF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M28 23h16M36 23v22" fill="none" stroke="#2DD4BF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="50" cy="14" r="2.6" fill="#2DD4BF"/>
+            <rect width="64" height="64" rx="18" fill="url(#aamb)"/>
+            <!-- Outer subtle glow ring -->
+            <circle cx="32" cy="32" r="23.75" fill="none" stroke="#f59e0b" stroke-width=".5" stroke-opacity=".15"/>
+            <!-- White ring 270°: from 3 o'clock CW to 12 o'clock -->
+            <path d="M 60 32 A 28 28 0 1 1 32 4 L 32 17 A 15 15 0 1 0 47 32 Z" fill="#d8e2ff" fill-opacity=".82"/>
+            <!-- Amber ring 90°: from 12 o'clock CW to 3 o'clock -->
+            <path d="M 32 4 A 28 28 0 0 1 60 32 L 47 32 A 15 15 0 0 0 32 17 Z" fill="url(#aseg)"/>
+            <!-- Junction dot — 12 o'clock (three layers) -->
+            <circle cx="32" cy="4"  r="1.875" fill="#f59e0b"/>
+            <circle cx="32" cy="4"  r="1"     fill="#fde68a"/>
+            <circle cx="32" cy="4"  r=".4"    fill="white"/>
+            <!-- Junction dot — 3 o'clock (two layers) -->
+            <circle cx="60" cy="32" r="1.875" fill="#f59e0b" fill-opacity=".7"/>
+            <circle cx="60" cy="32" r="1"     fill="#fde68a" fill-opacity=".7"/>
+            <!-- Center coin (three layers + glow) -->
+            <circle cx="32" cy="32" r="6.75"  fill="#f59e0b" fill-opacity=".2"/>
+            <circle cx="32" cy="32" r="5"     fill="#f59e0b"/>
+            <circle cx="32" cy="32" r="3.25"  fill="#fde68a"/>
+            <!-- Upward arrow -->
+            <polygon points="32,26 27,31 37,31" fill="white" fill-opacity=".95"/>
+            <rect x="29.5" y="30.5" width="5" height="6" rx="1.5" fill="white" fill-opacity=".95"/>
           </svg>
         </div>
         <svg class="brand-wordmark about-wordmark" viewBox="0 0 400 70" role="img" aria-label="HalinTraQ"><use href="#halintraq-wordmark"/></svg>
@@ -2037,19 +2084,6 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── INPUT SANITIZATION ──────────────────────────────────────────────────────
-// Returns a valid, finite, non-negative number or null if the value is
-// out-of-range (NaN, Infinity, negative, or above the hard cap).
-const _MAX_AMOUNT = 10_000_000; // ₱10M ceiling for any single field
-function sanitizeNum(raw, { allowZero = false, max = _MAX_AMOUNT } = {}) {
-  const n = parseFloat(raw);
-  if (!isFinite(n)) return null;
-  if (n < 0) return null;
-  if (n > max) return null;
-  if (!allowZero && n === 0) return 0; // zero is valid; caller decides whether to reject
-  return n;
-}
-
 // ── STATE ──────────────────────────────────────────────────────────────────
 let state = {
   transactions: [],
@@ -2255,7 +2289,7 @@ function render() {
 
   // Only render the active tab — avoids repainting hidden views
   const tab = state.currentTab || 'home';
-  if (tab === 'home')    { renderHome(bal); }
+  if (tab === 'home')    { renderHome(bal); setTimeout(renderHomeChart, 0); }
   if (tab === 'log')     { renderHistory(); }
   if (tab === 'reports') { renderReports(bal); }
   if (tab === 'settings'){ renderSettings(); renderBackupMeta(); renderCloudSyncMeta(); }
@@ -3171,12 +3205,8 @@ function submitModalTxn() {
   window._submitting = true;
   setTimeout(() => { window._submitting = false; }, 800);
   const type   = mGetSelectedType();
-  const rawAmt  = sanitizeNum(document.getElementById('mAmount').value);
-  const rawEarn = sanitizeNum(document.getElementById('mEarn').value);
-  if (rawAmt === null)  { showToast('Invalid amount — must be a positive number under ₱10M'); window._submitting = false; return; }
-  if (rawEarn === null) { showToast('Invalid earn — must be a positive number under ₱10M');  window._submitting = false; return; }
-  const amount = rawAmt;
-  const earn   = rawEarn;
+  const amount = parseFloat(document.getElementById('mAmount').value) || 0;
+  const earn   = parseFloat(document.getElementById('mEarn').value) || 0;
   const fee    = document.getElementById('mFeeInCash').checked;
   const notes  = document.getElementById('mNotes').value.trim();
   const dateVal= document.getElementById('mDate').value;
@@ -3240,12 +3270,13 @@ function exportCSV() {
 
 // ── SETTINGS ───────────────────────────────────────────────────────────────
 function saveSettings() {
-  const rawCOH = sanitizeNum(document.getElementById('settingOpenCOH')?.value, { allowZero: true });
-  const rawCOG = sanitizeNum(document.getElementById('settingOpenCOG')?.value, { allowZero: true });
-  if (rawCOH === null) { showToast('Invalid opening COH — must be 0 or a positive number under ₱10M'); return; }
-  if (rawCOG === null) { showToast('Invalid opening GCash — must be 0 or a positive number under ₱10M'); return; }
-  const newCOH = rawCOH;
-  const newCOG = rawCOG;
+  if (parseFloat(document.getElementById('settingOpenCOH')?.value) < 0 ||
+      parseFloat(document.getElementById('settingOpenCOG')?.value) < 0) {
+    showToast('Values cannot be negative.');
+    return;
+  }
+  const newCOH = parseFloat(document.getElementById('settingOpenCOH').value) || 0;
+  const newCOG = parseFloat(document.getElementById('settingOpenCOG').value) || 0;
   const newCap = newCOH + newCOG;
 
   const changed = newCOH !== state.settings.openCOH ||
@@ -3310,7 +3341,7 @@ function switchTab(tab) {
 
   if (tab === 'tally')   renderTally();
   if (tab === 'reports') { if (_reportsMode === 'insights') renderInsights(); else { const bal = calcBalances(); renderReports(bal); } }
-  if (tab === 'home')    { renderHome(); }
+  if (tab === 'home')    { renderHome(); setTimeout(renderHomeChart, 50); }
   if (tab === 'log')     renderHistory();
 
   // Reset scroll and header state
@@ -3650,12 +3681,8 @@ function updateEditFeeDesc() {
 
 function submitEditTxn() {
   const type     = eGetSelectedType();
-  const rawAmt   = sanitizeNum(document.getElementById('eAmount').value);
-  const rawEarn  = sanitizeNum(document.getElementById('eEarn').value);
-  if (rawAmt === null)  { showToast('Invalid amount — must be a positive number under ₱10M'); return; }
-  if (rawEarn === null) { showToast('Invalid earn — must be a positive number under ₱10M');  return; }
-  const amount   = rawAmt;
-  const earn     = rawEarn;
+  const amount   = parseFloat(document.getElementById('eAmount').value)  || 0;
+  const earn     = parseFloat(document.getElementById('eEarn').value)    || 0;
   const fee      = document.getElementById('eFeeInCash').checked;
   const notes    = document.getElementById('eNotes').value.trim();
   const dateVal  = document.getElementById('eDate').value;
@@ -4266,10 +4293,8 @@ function renderHome(bal) {
     const bestDay = Object.values(earnByDay).length ? Math.max(...Object.values(earnByDay)) : 0;
 
     // % change vs last month
-    const pctChange   = lastEarn > 0 ? ((thisEarn - lastEarn) / lastEarn) * 100 : null;
-    const pctRounded  = pctChange !== null ? Math.round(pctChange) : null;
-    const isEqual     = pctRounded === 0;
-    const isUp        = pctChange === null || pctChange > 0;
+    const pctChange = lastEarn > 0 ? ((thisEarn - lastEarn) / lastEarn) * 100 : null;
+    const isUp      = pctChange === null || pctChange >= 0;
 
     // bar fill width: thisEarn / lastEarn, capped at 100%
     const barPct = lastEarn > 0 ? Math.min(100, (thisEarn / lastEarn) * 100) : (thisEarn > 0 ? 100 : 0);
@@ -4291,24 +4316,11 @@ function renderHome(bal) {
     const pctEl   = el('mecBadgePct');
     const barEl   = el('mecBarFill');
 
-    if (amtEl) {
-      amtEl.className = (isUp || isEqual) ? 'mec-amount' : 'mec-amount down';
-    }
-    if (badgeEl) {
-      badgeEl.className = isEqual ? 'mec-badge' : isUp ? 'mec-badge' : 'mec-badge down';
-      badgeEl.style.background   = isEqual ? 'rgba(129,140,248,.1)'  : '';
-      badgeEl.style.borderColor  = isEqual ? 'rgba(129,140,248,.25)' : '';
-    }
-    if (iconEl) {
-      iconEl.className = isEqual ? 'ti ti-minus' : isUp ? 'ti ti-trending-up' : 'ti ti-trending-down';
-      iconEl.style.color = isEqual ? 'var(--blue)' : '';
-    }
-    if (pctEl) {
-      if (pctChange === null)   { pctEl.textContent = 'New'; pctEl.style.color = ''; }
-      else if (isEqual)         { pctEl.textContent = '='; pctEl.style.color = 'var(--blue)'; }
-      else                      { pctEl.textContent = (isUp ? '+' : '') + pctRounded + '%'; pctEl.style.color = ''; }
-    }
-    if (barEl)  { barEl.className = (isUp || isEqual) ? 'mec-bar-fill' : 'mec-bar-fill down'; setTimeout(() => { barEl.style.width = barPct + '%'; }, 60); }
+    if (amtEl)  { amtEl.className  = isUp ? 'mec-amount' : 'mec-amount down'; }
+    if (badgeEl){ badgeEl.className = isUp ? 'mec-badge'  : 'mec-badge down'; }
+    if (iconEl) { iconEl.className  = isUp ? 'ti ti-trending-up' : 'ti ti-trending-down'; }
+    if (pctEl)  { pctEl.textContent = pctChange === null ? 'New' : (isUp ? '+' : '') + pctChange.toFixed(1) + '%'; }
+    if (barEl)  { barEl.className = isUp ? 'mec-bar-fill' : 'mec-bar-fill down'; setTimeout(() => { barEl.style.width = barPct + '%'; }, 60); }
   })();
 
   // Recent mini list (last 5) — preserves header row, appends txn rows after it
@@ -4704,26 +4716,20 @@ function updateEarnRing(todayEarn) {
       pill.style.display = 'none';
     } else {
       pill.style.display = 'inline-flex';
+      const above   = todayEarn >= avg7;
       const diff    = Math.abs(todayEarn - avg7);
-      const diffPct = avg7 > 0 ? Math.round((diff / avg7) * 100) : null;
-      const isAbove = todayEarn > avg7;
-      const isEqual = todayEarn === avg7 || diffPct === 0;
-
-      if (isEqual) {
-        pill.style.background  = 'rgba(129,140,248,.1)';
-        pill.style.borderColor = 'rgba(129,140,248,.3)';
-        pill.style.color       = 'var(--blue)';
-        pill.innerHTML = `<i class="ti ti-minus" style="font-size:11px;vertical-align:middle;line-height:1;"></i> On target`;
-      } else if (isAbove) {
+      const diffPct = avg7 > 0 ? ((diff / avg7) * 100).toFixed(0) : '—';
+      const gap     = avg7 > 0 ? fmt(Math.round(diff)) + ' gap' : '';
+      if (above) {
         pill.style.background  = 'rgba(52,211,153,.1)';
         pill.style.borderColor = 'rgba(52,211,153,.3)';
         pill.style.color       = 'var(--green)';
-        pill.innerHTML = `<i class="ti ti-trending-up" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Above avg${diffPct !== null ? ' +' + diffPct + '%' : ''}`;
+        pill.innerHTML = `<i class="ti ti-trending-up" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Above avg${avg7 > 0 ? ' +' + diffPct + '%' : ''}`;
       } else {
-        pill.style.background  = 'rgba(248,113,113,.1)';
-        pill.style.borderColor = 'rgba(248,113,113,.3)';
-        pill.style.color       = 'var(--red)';
-        pill.innerHTML = `<i class="ti ti-trending-down" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Below avg ${diffPct !== null ? '−' + diffPct + '%' : '—'}`;
+        pill.style.background    = 'rgba(248,113,113,.1)';
+        pill.style.borderColor   = 'rgba(248,113,113,.3)';
+        pill.style.color         = 'var(--red)';
+        pill.innerHTML = `<i class="ti ti-trending-down" style="font-size:11px;vertical-align:middle;line-height:1;"></i> Below avg −${diffPct}%`;
       }
     }
   }
@@ -4857,53 +4863,78 @@ function setupPullToRefresh() {
 // Both are generated on canvas here so no extra image files are required.
 function drawAppIconOnCanvas(ctx, size) {
   const s = size / 64;
+  const cx = 32 * s, cy = 32 * s;
+  const outerR = 28 * s, innerR = 15 * s;
+  const PI = Math.PI;
+  const angle12 = 3 * PI / 2; // 12 o'clock in canvas coords
+  const angle3  = 0;          // 3 o'clock
+
   ctx.clearRect(0, 0, size, size);
 
-  const grad = ctx.createLinearGradient(0, 0, size, size);
-  grad.addColorStop(0, '#171C34');
-  grad.addColorStop(0.55, '#292F72');
-  grad.addColorStop(1, '#4338A8');
-  ctx.fillStyle = grad;
+  // Background
+  const bg = ctx.createLinearGradient(0, 0, size, size);
+  bg.addColorStop(0,   '#06060e');
+  bg.addColorStop(0.5, '#0e0c38');
+  bg.addColorStop(1,   '#172a5e');
+  ctx.fillStyle = bg;
   ctx.beginPath();
   ctx.roundRect(0, 0, size, size, 14 * s);
   ctx.fill();
 
-  ctx.lineWidth = 1.6 * s;
-  ctx.strokeStyle = '#F59E0B';
+  // White ring segment: 270° clockwise from 3 o'clock to 12 o'clock
   ctx.beginPath();
-  ctx.arc(32 * s, 32 * s, 23 * s, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.globalAlpha = 0.3;
-  ctx.lineWidth = 0.8 * s;
-  ctx.beginPath();
-  ctx.arc(32 * s, 32 * s, 19 * s, 0, Math.PI * 2);
-  ctx.stroke();
+  ctx.arc(cx, cy, outerR, angle3, angle12, false); // outer: 3→12 CW (270°)
+  ctx.arc(cx, cy, innerR, angle12, angle3, true);  // inner: 12→3 CCW (back)
+  ctx.closePath();
+  ctx.fillStyle = '#d8e2ff';
+  ctx.globalAlpha = 0.82;
+  ctx.fill();
   ctx.globalAlpha = 1;
 
-  ctx.lineWidth = 3.6 * s;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#F4F5FF';
+  // Amber segment: 90° clockwise from 12 o'clock to 3 o'clock
+  const segGrad = ctx.createLinearGradient(cx - outerR * 0.4, cy - outerR, cx + outerR, cy);
+  segGrad.addColorStop(0, '#fde68a');
+  segGrad.addColorStop(1, '#d97706');
   ctx.beginPath();
-  ctx.moveTo(19 * s, 21 * s);
-  ctx.lineTo(19 * s, 43 * s);
-  ctx.moveTo(28 * s, 21 * s);
-  ctx.lineTo(28 * s, 43 * s);
-  ctx.moveTo(19 * s, 32 * s);
-  ctx.lineTo(28 * s, 32 * s);
-  ctx.stroke();
-  ctx.strokeStyle = '#2DD4BF';
-  ctx.beginPath();
-  ctx.moveTo(28 * s, 23 * s);
-  ctx.lineTo(44 * s, 23 * s);
-  ctx.moveTo(36 * s, 23 * s);
-  ctx.lineTo(36 * s, 45 * s);
-  ctx.stroke();
-
-  ctx.fillStyle = '#F59E0B';
-  ctx.beginPath();
-  ctx.arc(50 * s, 14 * s, 2.6 * s, 0, Math.PI * 2);
+  ctx.arc(cx, cy, outerR, angle12, angle3 + 2 * PI, false); // outer: 12→3 CW (90°)
+  ctx.arc(cx, cy, innerR, angle3 + 2 * PI, angle12, true);  // inner: 3→12 CCW (back)
+  ctx.closePath();
+  ctx.fillStyle = segGrad;
   ctx.fill();
+
+  // Center coin
+  ctx.beginPath();
+  ctx.arc(cx, cy, 8 * s, 0, 2 * PI);
+  ctx.fillStyle = '#f59e0b';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(cx, cy, 5 * s, 0, 2 * PI);
+  ctx.fillStyle = '#fde68a';
+  ctx.fill();
+
+  // Upward arrow (visible at larger sizes like 180px)
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.beginPath();
+  ctx.moveTo(cx,           cy - 5 * s);
+  ctx.lineTo(cx - 4.5 * s, cy + 1 * s);
+  ctx.lineTo(cx + 4.5 * s, cy + 1 * s);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillRect(cx - 2 * s, cy + 1 * s, 4 * s, 5 * s);
+
+  // Junction dot — 12 o'clock
+  ctx.beginPath();
+  ctx.arc(cx, cy - outerR, 2.5 * s, 0, 2 * PI);
+  ctx.fillStyle = '#f59e0b';
+  ctx.fill();
+
+  // Junction dot — 3 o'clock
+  ctx.beginPath();
+  ctx.arc(cx + outerR, cy, 2 * s, 0, 2 * PI);
+  ctx.globalAlpha = 0.7;
+  ctx.fillStyle = '#f59e0b';
+  ctx.fill();
+  ctx.globalAlpha = 1;
 }
 
 function generateAppIcon(size) {
