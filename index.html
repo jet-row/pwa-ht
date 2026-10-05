@@ -5088,15 +5088,23 @@ async function sbPushAll(silent = false) {
       cog_after:   t.cogAfter || 0,
     }));
     if (rows.length) {
-      const { error: upsertErr } = await _sbClient.from('transactions').upsert(rows, { onConflict: 'id' });
-      if (upsertErr) throw Object.assign(upsertErr, { _step: 'upsert transactions' });
-    }
-    // Delete remote rows that no longer exist locally
-    const localIds = state.transactions.map(t => String(t.id));
-    if (localIds.length) {
-      const { error: delErr } = await _sbClient.from('transactions')
-        .delete().eq('user_id', _sbUser.id).not('id', 'in', `(${localIds.join(',')})`);
-      if (delErr) throw Object.assign(delErr, { _step: 'delete removed transactions' });
+      // Upsert in 500-row batches to stay within PostgREST limits
+      for (let i = 0; i < rows.length; i += 500) {
+        const chunk = rows.slice(i, i + 500);
+        const { error: upsertErr } = await _sbClient.from('transactions').upsert(chunk, { onConflict: 'id' });
+        if (upsertErr) throw Object.assign(upsertErr, { _step: 'upsert transactions' });
+      }
+      // Remove remote rows no longer in local state.
+      // Non-fatal: a URL-too-long error here (many IDs) doesn't abort the push —
+      // the upsert already succeeded and orphaned rows cause no data loss.
+      try {
+        const localIds = state.transactions.map(t => String(t.id));
+        const { error: delErr } = await _sbClient.from('transactions')
+          .delete().eq('user_id', _sbUser.id).not('id', 'in', `(${localIds.join(',')})`);
+        if (delErr) console.warn('[HalinTraq] selective delete failed (orphans may remain):', delErr);
+      } catch(delEx) {
+        console.warn('[HalinTraq] selective delete failed (orphans may remain):', delEx);
+      }
     } else {
       // No local transactions — wipe remote
       const { error: delErr } = await _sbClient.from('transactions').delete().eq('user_id', _sbUser.id);
