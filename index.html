@@ -214,8 +214,8 @@
   .hdr-mini { display:none; gap:8px; padding:0 14px 12px; overflow-x:auto; scrollbar-width:none; }
   .hdr-mini.show { display:flex; }
   .hdr-mini::-webkit-scrollbar { display:none; }
-  .mini-pill { display:flex; align-items:center; gap:6px; flex-shrink:0; background:var(--s2); border:1px solid var(--border2); border-radius:20px; padding:5px 12px; }
-  .mini-pill-lbl { font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); }
+  .mini-pill { display:flex; align-items:center; justify-content:center; gap:6px; flex:1; background:var(--s2); border:1px solid var(--border2); border-radius:20px; padding:5px 12px; }
+  .mini-pill-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); }
   .mini-pill-val { font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:-.12px; }
   .mini-pill-val.coh  { color:var(--amber); }
   .mini-pill-val.cog  { color:var(--teal); }
@@ -416,7 +416,7 @@
   .txn-icon.out  { background: rgba(248,113,113,.1); color: var(--red);   border: 1px solid rgba(248,113,113,.2); }
   .txn-icon.load { background: rgba(129,140,248,.1); color: var(--blue);  border: 1px solid rgba(129,140,248,.2); }
   .txn-icon.roll { background: rgba(251,191,36,.1);  color: var(--amber); border: 1px solid rgba(251,191,36,.2); }
-  .txn-icon.oroll{ background: rgba(167,139,250,.1); color: var(--purple);border: 1px solid rgba(167,139,250,.2); }
+  .txn-icon.oroll{ background: rgba(52,211,153,.1);  color: var(--teal);  border: 1px solid rgba(52,211,153,.2); }
 
   .txn-card { border-bottom: none; padding: 9px 14px; }
   .txn-line1 { display: flex; align-items: center; gap: 8px; width: 100%; }
@@ -721,7 +721,7 @@
   .tally-table th:nth-child(2), .tally-table th:nth-child(3) { text-align:right; }
   .tally-table td { padding:7px 14px; font-size:13px; border-bottom:1px solid var(--border); color:var(--text); vertical-align:middle; }
   .tally-table tbody tr:last-child td { border-bottom:none; }
-  .tally-denom { font-family:var(--mono); font-weight:600; color:var(--teal); text-align:right; font-variant-numeric:tabular-nums; }
+  .tally-denom { font-family:var(--mono); font-weight:600; color:var(--amber); text-align:right; font-variant-numeric:tabular-nums; }
   .tally-qty-wrap { display:flex; align-items:center; gap:4px; width:100%; }
   .tally-qty-btn { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); font-size:16px; font-weight:700; width:30px; height:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; flex-shrink:0; transition:background .15s, border-color .15s; line-height:1; }
   .tally-qty-btn:active { background:var(--surface3,#2a2d45); border-color:var(--teal); }
@@ -839,11 +839,6 @@
 
 
   /* ── REPORTS / INSIGHTS PILL TOGGLE ── */
-  .rpt-pill-toggle { display:flex; background:var(--s2); border:1px solid var(--border2); border-radius:14px; padding:3px; gap:3px; margin-bottom:14px; }
-  .rpt-pill-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 0; border-radius:10px; border:none; font-family:var(--font); font-size:14px; font-weight:700; cursor:pointer; color:var(--muted); background:transparent; transition:all .2s; }
-  .rpt-pill-btn i { font-size:17px; }
-  .rpt-pill-btn.active-rpt { color:var(--teal);   background:var(--teal-dim); }
-  .rpt-pill-btn.active-ins { color:var(--purple); background:var(--purple-dim); }
 
   /* ── INSIGHT CARDS ── */
   .ins-section-title { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
@@ -1223,10 +1218,10 @@
     <div class="sb-nav">
       <div class="sb-section-lbl">Menu</div>
       <button class="sb-btn active" id="sb-tab-home"     onclick="switchTab('home')">    <i class="ti ti-layout-dashboard"></i> Home</button>
-      <button class="sb-btn"        id="sb-tab-log"      onclick="switchTab('log')">     <i class="ti ti-arrows-exchange"></i>  Txns</button>
+      <button class="sb-btn"        id="sb-tab-log"      onclick="switchTab('log')">     <i class="ti ti-arrows-exchange"></i>  Log</button>
       <button class="sb-btn"        id="sb-tab-reports"  onclick="switchTab('reports')"> <i class="ti ti-sparkles"></i>          Insights</button>
       <button class="sb-btn"        id="sb-tab-tally"    onclick="switchTab('tally')">   <i class="ti ti-abacus"></i>            Tally</button>
-      <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More</button>
+      <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More<span id="backupDotSb" class="backup-dot" style="margin-left:6px"></span></button>
     </div>
 
 
@@ -1266,7 +1261,7 @@
     </div>
 
     <div id="header-mini" class="hdr-mini">
-      <div class="mini-pill"><span class="mini-pill-lbl">COH</span><span class="mini-pill-val coh" id="miniCOH">₱0</span></div>
+      <div class="mini-pill"><span class="mini-pill-lbl">Cash</span><span class="mini-pill-val coh" id="miniCOH">₱0</span></div>
       <div class="mini-pill"><span class="mini-pill-lbl">GCash</span><span class="mini-pill-val cog" id="miniCOG">₱0</span></div>
       <div class="mini-pill"><span class="mini-pill-lbl">Earned</span><span class="mini-pill-val earn" id="miniEarned">₱0</span></div>
     </div>
@@ -1492,18 +1487,25 @@
     <!-- REPORTS VIEW -->
     <div class="view" id="view-reports" style="padding:14px 16px;">
 
-      <!-- Reports / Insights pill toggle -->
-      <div class="rpt-pill-toggle">
-        <button class="rpt-pill-btn active-ins"  id="rptPillInsights" onclick="switchReportsMode('insights')"><i class="ti ti-bulb"></i> Insights</button>
-        <button class="rpt-pill-btn"             id="rptPillReports"  onclick="switchReportsMode('reports')"><i class="ti ti-chart-bar"></i> Reports</button>
-      </div>
-
-      <!-- ── REPORTS PANEL (existing) ── -->
-      <div id="rptReportsPanel" style="display:none;">
+      <!-- ── REPORTS PANEL ── -->
+      <div id="rptReportsPanel">
         <div class="rpt-period-bar">
-          <button class="rpt-period-btn active" id="rptBtn-week"  onclick="setReportPeriod('week',this)">Weekly</button>
-          <button class="rpt-period-btn"        id="rptBtn-month" onclick="setReportPeriod('month',this)">Monthly</button>
-          <button class="rpt-period-btn"        id="rptBtn-year"  onclick="setReportPeriod('year',this)">Yearly</button>
+          <button class="rpt-period-btn active" id="rptBtn-week"   onclick="setReportPeriod('week',this)">Weekly</button>
+          <button class="rpt-period-btn"        id="rptBtn-month"  onclick="setReportPeriod('month',this)">Monthly</button>
+          <button class="rpt-period-btn"        id="rptBtn-year"   onclick="setReportPeriod('year',this)">Yearly</button>
+          <button class="rpt-period-btn"        id="rptBtn-custom" onclick="setReportPeriod('custom',this)"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px;margin-right:3px;"></i>Custom</button>
+        </div>
+        <div id="rptCustomRange" style="display:none;margin-bottom:12px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;">
+          <div style="display:flex;gap:8px;align-items:flex-end;">
+            <div style="flex:1;">
+              <label style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px;">From</label>
+              <input type="date" id="rptCustomFrom" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;font-family:var(--font);box-sizing:border-box;" onchange="applyCustomRange()">
+            </div>
+            <div style="flex:1;">
+              <label style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px;">To</label>
+              <input type="date" id="rptCustomTo" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;font-family:var(--font);box-sizing:border-box;" onchange="applyCustomRange()">
+            </div>
+          </div>
         </div>
         <div class="week-chart-card">
           <div class="card-hdr">
@@ -1537,8 +1539,8 @@
         </div>
       </div>
 
-      <!-- ── INSIGHTS PANEL (new) ── -->
-      <div id="rptInsightsPanel">
+      <!-- ── INSIGHTS PANEL ── -->
+      <div id="rptInsightsPanel" style="margin-top:14px;">
 
         <!-- 1. Month Projection -->
         <div class="ins-card indigo">
@@ -1695,7 +1697,7 @@
           <div class="sync-title">Cloud Backup</div>
           <div class="sync-sub" id="syncSubText">Connected</div>
         </div>
-        <button class="sync-action" onclick="sbPushAll(false)"><i class="ti ti-cloud-upload"></i> Sync</button>
+        <button class="sync-action" onclick="sbPushAll(false)"><i class="ti ti-cloud-upload"></i> Push</button>
       </div>
 
       <!-- Account card -->
@@ -1707,9 +1709,10 @@
 
         <!-- Config form (shown when not logged in) -->
         <div id="sbConfigForm" style="padding:14px 16px;">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5;">Connect to cloud storage to back up your data online.</p>
-          <div class="field"><label>Server Address</label><input type="text" id="sbUrl" placeholder="https://xxxx.supabase.co" autocomplete="off" style="font-size:13px;"></div>
-          <div class="field"><label>Access Key</label><input type="text" id="sbAnon" placeholder="eyJh…" autocomplete="off" style="font-size:13px;"></div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.5;">Connect to cloud storage to back up your data online.</p>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5;">Found in: Supabase Dashboard → Project Settings → API</p>
+          <div class="field"><label>Supabase Project URL</label><input type="text" id="sbUrl" placeholder="https://xxxx.supabase.co" autocomplete="off" style="font-size:13px;"></div>
+          <div class="field"><label>Supabase Anon Key</label><input type="text" id="sbAnon" placeholder="eyJh…" autocomplete="off" style="font-size:13px;"></div>
           <hr class="divider">
           <div id="sbSetupError" style="display:none;color:var(--red);font-size:12px;margin-bottom:10px;"></div>
           <div class="field"><label>Email</label><input type="email" id="sbEmail" placeholder="you@email.com" autocomplete="email" style="font-size:13px;"></div>
@@ -1733,7 +1736,7 @@
           <div id="cloudSyncMeta" style="background:var(--surface2);padding:6px 16px;font-size:12px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:4px;"></div>
           <button class="row-btn" onclick="sbPushAll(false)">
             <div class="row-btn-icon indigo"><i class="ti ti-cloud-upload"></i></div>
-            <div class="row-btn-body"><div>Sync to Cloud</div><div class="row-btn-sub">Push latest data to backup</div></div>
+            <div class="row-btn-body"><div>Push to Cloud</div><div class="row-btn-sub">Push latest data to backup</div></div>
             <i class="ti ti-chevron-right row-btn-arrow"></i>
           </button>
           <button class="row-btn" onclick="sbPull()">
@@ -1924,10 +1927,10 @@
   <nav id="tabs" aria-label="Main">
     <div class="nav-inner">
       <button type="button" class="tab active" onclick="switchTab('home')"     id="tab-home"     aria-current="page"><span class="tab-icon"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></span>Home</button>
-      <button type="button" class="tab"        onclick="switchTab('log')"      id="tab-log"><span class="tab-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></span>Txns</button>
+      <button type="button" class="tab"        onclick="switchTab('log')"      id="tab-log"><span class="tab-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></span>Log</button>
       <button type="button" class="tab"        onclick="switchTab('reports')"  id="tab-reports"><span class="tab-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span>Insights</button>
       <button type="button" class="tab"        onclick="switchTab('tally')"    id="tab-tally"><span class="tab-icon"><i class="ti ti-abacus" aria-hidden="true"></i></span>Tally</button>
-      <button type="button" class="tab"        onclick="switchTab('settings')" id="tab-settings"><span class="tab-icon"><i class="ti ti-settings-2" aria-hidden="true"></i></span>More</button>
+      <button type="button" class="tab"        onclick="switchTab('settings')" id="tab-settings"><span class="tab-icon" style="position:relative;display:inline-block"><i class="ti ti-settings-2" aria-hidden="true"></i><span id="backupDot" class="backup-dot" style="position:absolute;top:-2px;right:-5px"></span></span>More</button>
     </div>
   </nav>
 
@@ -1982,15 +1985,15 @@
         <button type="button" class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
         <button type="button" class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
         <button type="button" class="chip indigo"         data-type="Load"              onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
-        <button type="button" class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</button>
-        <button type="button" class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</button>
+        <button type="button" class="chip amber"          data-type="Cash-In-Rollover"  onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange"></i>GCash→Cash</button>
+        <button type="button" class="chip teal"           data-type="Cash-Out-Rollover" onclick="selectTypeChip('eTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Cash→GCash</button>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
-      <div><label>Amount</label><input type="number" id="eAmount" placeholder="0" min="0" inputmode="decimal"></div>
-      <div><label>Earn</label><input type="number" id="eEarn" placeholder="0" min="0" inputmode="decimal"></div>
+      <div><label>Amount</label><input type="number" id="eAmount" placeholder="0" min="0" inputmode="decimal" onfocus="this.select()"></div>
+      <div><label>Earn</label><input type="number" id="eEarn" placeholder="0" min="0" inputmode="decimal" onfocus="this.select()"></div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:2px;">
-        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Fee in Cash?</span>
+        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Earn in Cash?</span>
         <label class="switch"><input type="checkbox" id="eFeeInCash" checked><span class="slider"></span></label>
       </div>
     </div>
@@ -2013,15 +2016,15 @@
         <button type="button" class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
         <button type="button" class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
         <button type="button" class="chip indigo"         data-type="Load"              onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
-        <button type="button" class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</button>
-        <button type="button" class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</button>
+        <button type="button" class="chip amber"          data-type="Cash-In-Rollover"  onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange"></i>GCash→Cash</button>
+        <button type="button" class="chip teal"           data-type="Cash-Out-Rollover" onclick="selectTypeChip('mTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Cash→GCash</button>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:12px;">
-      <div><label>Amount</label><input type="number" id="mAmount" placeholder="0" min="0" inputmode="decimal"></div>
-      <div><label>Earn</label><input type="number" id="mEarn" placeholder="0" min="0" inputmode="decimal"></div>
+      <div><label>Amount</label><input type="number" id="mAmount" placeholder="0" min="0" inputmode="decimal" onfocus="this.select()"></div>
+      <div><label>Earn</label><input type="number" id="mEarn" placeholder="0" min="0" inputmode="decimal" onfocus="this.select()"></div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:2px;">
-        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Fee in Cash?</span>
+        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Earn in Cash?</span>
         <label class="switch"><input type="checkbox" id="mFeeInCash" checked><span class="slider"></span></label>
       </div>
     </div>
@@ -2041,12 +2044,12 @@
         <button type="button" class="chip green selected" data-type="Cash-In"           onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrow-badge-down-filled"></i>Cash-In</button>
         <button type="button" class="chip red"            data-type="Cash-Out"          onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrow-badge-up-filled"></i>Cash-Out</button>
         <button type="button" class="chip indigo"         data-type="Load"              onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-device-mobile-filled"></i>Load</button>
-        <button type="button" class="chip teal"           data-type="Cash-In-Rollover"  onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange"></i>Cash Add</button>
-        <button type="button" class="chip amber"          data-type="Cash-Out-Rollover" onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>GCash Add</button>
+        <button type="button" class="chip amber"          data-type="Cash-In-Rollover"  onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange"></i>GCash→Cash</button>
+        <button type="button" class="chip teal"           data-type="Cash-Out-Rollover" onclick="selectTypeChip('cTypeChips',this)"><i class="ti ti-arrows-exchange-2"></i>Cash→GCash</button>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
-      <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Fee in Cash?</span>
+      <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Earn in Cash?</span>
       <label class="switch"><input type="checkbox" id="cFeeInCash" checked><span class="slider"></span></label>
     </div>
     <p style="color:var(--muted);font-size:13px;margin:0 0 12px;">Date for the copy:</p>
@@ -2328,7 +2331,7 @@ function txnHTML(t, showActions = false, editOnly = false) {
   const earn = Math.abs(parseFloat(t.earn)   || 0);
   const typeLabels = {
     'Cash-In': 'Cash-In', 'Cash-Out': 'Cash-Out', 'Load': 'Load',
-    'Cash-In-Rollover': 'Cash Add', 'Cash-Out-Rollover': 'GCash Add', 'CBV': 'CBV'
+    'Cash-In-Rollover': 'GCash→Cash', 'Cash-Out-Rollover': 'Cash→GCash', 'CBV': 'CBV'
   };
   const typeLabel = typeLabels[t.type] || t.type;
   const d = new Date(t.ts);
@@ -2404,8 +2407,8 @@ function renderHistory() {
   const q = (state.searchQuery || '').toLowerCase().trim();
   if (q) {
     txns = txns.filter(t => {
-      const typeLabel = t.type === 'Cash-In-Rollover' ? 'Cash Add'
-        : t.type === 'Cash-Out-Rollover' ? 'GCash Add' : t.type;
+      const typeLabel = t.type === 'Cash-In-Rollover' ? 'GCash→Cash'
+        : t.type === 'Cash-Out-Rollover' ? 'Cash→GCash' : t.type;
       return t.type.toLowerCase().includes(q) ||
         typeLabel.toLowerCase().includes(q) ||
         String(t.amount).includes(q) ||
@@ -2500,35 +2503,25 @@ function setReportPeriod(p, el) {
   rptPeriod = p;
   document.querySelectorAll('.rpt-period-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
+  const rangeEl = document.getElementById('rptCustomRange');
+  if (rangeEl) rangeEl.style.display = p === 'custom' ? '' : 'none';
+  if (p === 'custom') {
+    const fromEl = document.getElementById('rptCustomFrom');
+    const toEl   = document.getElementById('rptCustomTo');
+    if (fromEl && !fromEl.value) {
+      const now = new Date();
+      const y = now.getFullYear(), m = String(now.getMonth() + 1).padStart(2, '0');
+      fromEl.value = `${y}-${m}-01`;
+      toEl.value   = `${y}-${m}-${String(now.getDate()).padStart(2, '0')}`;
+    }
+    applyCustomRange();
+    return;
+  }
   const bal = calcBalances();
   renderReports(bal);
 }
 
 // ── REPORTS / INSIGHTS TOGGLE ───────────────────────────────────────────────
-let _reportsMode = 'insights';
-
-function switchReportsMode(mode) {
-  _reportsMode = mode;
-  const reportsPanel  = document.getElementById('rptReportsPanel');
-  const insightsPanel = document.getElementById('rptInsightsPanel');
-  const pillRpt = document.getElementById('rptPillReports');
-  const pillIns = document.getElementById('rptPillInsights');
-
-  if (mode === 'reports') {
-    reportsPanel.style.display  = 'block';
-    insightsPanel.style.display = 'none';
-    pillRpt.className = 'rpt-pill-btn active-rpt';
-    pillIns.className = 'rpt-pill-btn';
-    const bal = calcBalances();
-    renderReports(bal);
-  } else {
-    reportsPanel.style.display  = 'none';
-    insightsPanel.style.display = 'block';
-    pillRpt.className = 'rpt-pill-btn';
-    pillIns.className = 'rpt-pill-btn active-ins';
-    renderInsights();
-  }
-}
 
 function renderInsights() {
   const now   = new Date();
@@ -2597,8 +2590,8 @@ function renderInsights() {
   const typeColors = {
     'Cash-In':           { bg:'var(--green-dim)',   color:'var(--green)',  icon:'ti-arrow-badge-down-filled' },
     'Load':              { bg:'var(--indigo-dim)',   color:'var(--blue)',   icon:'ti-device-mobile-filled' },
-    'Cash-In-Rollover':  { bg:'var(--purple-dim)',   color:'var(--purple)', icon:'ti-arrows-exchange' },
-    'Cash-Out-Rollover': { bg:'rgba(248,113,113,.1)',color:'var(--red)',    icon:'ti-arrows-exchange' },
+    'Cash-In-Rollover':  { bg:'var(--amber-dim)',    color:'var(--amber)',  icon:'ti-arrows-exchange' },
+    'Cash-Out-Rollover': { bg:'var(--teal-dim)',     color:'var(--teal)',   icon:'ti-arrows-exchange-2' },
     'Cash-Out':          { bg:'rgba(248,113,113,.1)',color:'var(--red)',    icon:'ti-arrow-badge-up-filled' },
   };
   const typeEarns = {};
@@ -2615,7 +2608,7 @@ function renderInsights() {
         const c = typeColors[type] || { bg:'var(--indigo-dim)', color:'var(--blue)', icon:'ti-currency-peso' };
         const barW = maxTypeEarn > 0 ? Math.round((earn / maxTypeEarn) * 100) : 0;
         const pct  = totalTypeEarn > 0 ? Math.round((earn / totalTypeEarn) * 100) : 0;
-        const label = type.replace('Cash-In-Rollover','Cash Add').replace('Cash-Out-Rollover','GCash Add');
+        const label = type.replace('Cash-In-Rollover','GCash→Cash').replace('Cash-Out-Rollover','Cash→GCash');
         return `<div class="type-row">
           <div class="type-icon-sm" style="background:${c.bg};color:${c.color};"><i class="ti ${c.icon}"></i></div>
           <div class="type-name">${label}</div>
@@ -2774,6 +2767,35 @@ function renderInsights() {
   if (cohBarEl) setTimeout(() => { cohBarEl.style.width = cohPct + '%'; }, 60);
 }
 
+function applyCustomRange() {
+  const fromEl = document.getElementById('rptCustomFrom');
+  const toEl   = document.getElementById('rptCustomTo');
+  if (!fromEl || !toEl || !fromEl.value || !toEl.value) return;
+  const bal = calcBalances();
+  renderReports(bal);
+}
+
+function groupByCustomRange(txns, fromStr, toStr) {
+  const start = new Date(fromStr + 'T00:00:00').getTime();
+  const end   = new Date(toStr   + 'T23:59:59.999').getTime();
+  const map = {};
+  for (const t of txns) {
+    if (t.ts < start || t.ts > end) continue;
+    const d   = new Date(t.ts);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (!map[key]) map[key] = { key, earn:0, amtIn:0, amtOut:0, load:0, txns:0, rows:[] };
+    const g   = map[key];
+    const amt = parseFloat(t.amount) || 0;
+    const ern = parseFloat(t.earn)   || 0;
+    g.earn += ern; g.txns++;
+    g.rows.push(t);
+    if (t.type === 'Cash-In' || t.type === 'Cash-In-Rollover') g.amtIn  += amt;
+    else if (t.type === 'Cash-Out' || t.type === 'Cash-Out-Rollover') g.amtOut += amt;
+    else if (t.type === 'Load') g.load += amt;
+  }
+  return Object.values(map).sort((a,b) => a.key.localeCompare(b.key));
+}
+
 // Returns Monday of the week containing the given date
 function weekStart(d) {
   const day = d.getDay(); // 0=Sun
@@ -2800,6 +2822,10 @@ function periodKey(ts) {
 }
 
 function periodLabel(key) {
+  if (rptPeriod === 'custom') {
+    const d = new Date(key + 'T00:00:00');
+    return d.toLocaleDateString('en-PH', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+  }
   if (rptPeriod === 'week') {
     const mon = new Date(key + 'T00:00:00');
     const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
@@ -2925,6 +2951,10 @@ function renderLineChart(groups) {
         } else if (rptPeriod === 'month') {
           const parts = labels[i].split(' ');
           short = parts[0] + (parts[1] ? " '" + String(parts[1]).slice(2) : '');
+        } else if (rptPeriod === 'custom') {
+          // periodLabel returns "Mon, Oct 5, 2026" — use "Oct 5" part
+          const parts = labels[i].split(', ');
+          short = parts.length >= 2 ? parts[1] : labels[i];
         } else {
           short = labels[i];
         }
@@ -3030,8 +3060,8 @@ function renderLineChart(groups) {
 let _expandedKey = null;
 
 function renderTrendTable(groups) {
-  const labels = { week:'Weekly', month:'Monthly', year:'Yearly' };
-  document.getElementById('rptTableTitle').textContent = labels[rptPeriod] + ' Breakdown';
+  const labels = { week:'Weekly', month:'Monthly', year:'Yearly', custom:'Daily' };
+  document.getElementById('rptTableTitle').textContent = (labels[rptPeriod] || 'Custom') + ' Breakdown';
   document.getElementById('rptTableCount').textContent = groups.length + ' period' + (groups.length !== 1 ? 's' : '');
 
   // Render chart first (chronological order)
@@ -3069,7 +3099,7 @@ function renderTrendTable(groups) {
           const dateLabel = d.toLocaleDateString('en-PH', { month:'short', day:'numeric' });
           return `<tr>
             <td>${dateLabel}</td>
-            <td>${t.type === 'Cash-In-Rollover' ? 'Cash Add' : t.type === 'Cash-Out-Rollover' ? 'GCash Add' : t.type}</td>
+            <td>${t.type === 'Cash-In-Rollover' ? 'GCash→Cash' : t.type === 'Cash-Out-Rollover' ? 'Cash→GCash' : t.type}</td>
             <td style="color:${color};">${sign}${fmt(t.amount)}</td>
             <td>${earn > 0 ? `<span style="color:var(--teal);">+${fmt(earn)}</span>` : '—'}</td>
           </tr>`;
@@ -3127,7 +3157,16 @@ function renderReports(bal) {
   document.getElementById('rCapital').textContent     = fmt(state.settings.capital);
 
   // Trend
-  const groups = groupByPeriod(txns);
+  let groups;
+  if (rptPeriod === 'custom') {
+    const fromEl = document.getElementById('rptCustomFrom');
+    const toEl   = document.getElementById('rptCustomTo');
+    groups = (fromEl?.value && toEl?.value)
+      ? groupByCustomRange(txns, fromEl.value, toEl.value)
+      : [];
+  } else {
+    groups = groupByPeriod(txns);
+  }
   renderTrendTable(groups);
 }
 
@@ -3155,14 +3194,17 @@ function buildTxn(type, amount, earn, feeInCash, notes) {
 }
 
 const _ROLLOVER_NOTE_DEFAULTS = {
-  'Cash-In-Rollover':  'rollover from GCash',
-  'Cash-Out-Rollover': 'rollover from Cash On Hand',
+  'Cash-In-Rollover':  'GCash to Cash',
+  'Cash-Out-Rollover': 'Cash to GCash',
 };
 const _ROLLOVER_NOTE_VALUES = Object.values(_ROLLOVER_NOTE_DEFAULTS);
+
+let _lastAddType = '';
 
 function selectTypeChip(containerId, el) {
   document.querySelectorAll('#' + containerId + ' .chip').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
+  if (containerId === 'mTypeChips') _lastAddType = el.dataset.type;
   // Auto-fill notes for rollover types in Add and Edit modals
   // Auto-fill notes for rollover types in Add modal only
   if (containerId === 'mTypeChips') {
@@ -3187,16 +3229,21 @@ function eGetSelectedType() {
 }
 
 function openAddModal() {
-  // Reset chip selection to Cash-In
+  // Restore last-used type, or default to Cash-In
   document.querySelectorAll('#mTypeChips .chip').forEach(c => c.classList.remove('selected'));
-  const first = document.querySelector('#mTypeChips .chip[data-type="Cash-In"]');
-  if (first) first.classList.add('selected');
+  const typeToSelect = _lastAddType || 'Cash-In';
+  const targetChip = document.querySelector(`#mTypeChips .chip[data-type="${typeToSelect}"]`)
+    || document.querySelector('#mTypeChips .chip[data-type="Cash-In"]');
+  if (targetChip) targetChip.classList.add('selected');
   // Set today's date as default
   const now = new Date();
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth()+1).padStart(2,'0');
   const dd = String(now.getDate()).padStart(2,'0');
   document.getElementById('mDate').value = `${yyyy}-${mm}-${dd}`;
+  document.getElementById('mAmount').value = '0';
+  document.getElementById('mEarn').value   = '0';
+  document.getElementById('mNotes').value  = '';
   openModal('addModal');
 }
 
@@ -3229,9 +3276,9 @@ function submitModalTxn() {
 
   saveAllTxns();
   closeModal('addModal');
-  document.getElementById('mAmount').value = '';
-  document.getElementById('mEarn').value = '';
-  document.getElementById('mNotes').value = '';
+  document.getElementById('mAmount').value = '0';
+  document.getElementById('mEarn').value   = '0';
+  document.getElementById('mNotes').value  = '';
 
   // Auto-open the date's accordion
   const d = new Date(t.ts);
@@ -3340,7 +3387,7 @@ function switchTab(tab) {
   if (sbBtn) sbBtn.classList.add('active');
 
   if (tab === 'tally')   renderTally();
-  if (tab === 'reports') { if (_reportsMode === 'insights') renderInsights(); else { const bal = calcBalances(); renderReports(bal); } }
+  if (tab === 'reports') { const bal = calcBalances(); renderReports(bal); renderInsights(); }
   if (tab === 'home')    { renderHome(); setTimeout(renderHomeChart, 50); }
   if (tab === 'log')     renderHistory();
 
@@ -3581,7 +3628,7 @@ function handleXlsxFile(input) {
       const typeCount = {};
       txns.forEach(t => typeCount[t.type] = (typeCount[t.type]||0)+1);
       const typeLines = Object.entries(typeCount).map(([k,v]) => {
-        const label = k === 'Cash-In-Rollover' ? 'Cash Add' : k === 'Cash-Out-Rollover' ? 'GCash Add' : k;
+        const label = k === 'Cash-In-Rollover' ? 'GCash→Cash' : k === 'Cash-Out-Rollover' ? 'Cash→GCash' : k;
         return `<span style="color:var(--text)">${label}</span>: <strong>${v}</strong>`;
       }).join('<br>');
       const dateFirst = new Date(txns[0].ts).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});
@@ -3657,8 +3704,8 @@ function openEditModal(id) {
   document.querySelectorAll('#eTypeChips .chip').forEach(c => c.classList.remove('selected'));
   const eChip = document.querySelector(`#eTypeChips .chip[data-type="${t.type}"]`);
   if (eChip) eChip.classList.add('selected');
-  document.getElementById('eAmount').value   = t.amount || '';
-  document.getElementById('eEarn').value     = t.earn   || '';
+  document.getElementById('eAmount').value   = t.amount ?? 0;
+  document.getElementById('eEarn').value     = t.earn   ?? 0;
   document.getElementById('eFeeInCash').checked = t.feeInCash !== false;
   document.getElementById('eNotes').value    = t.notes  || '';
 
@@ -4061,7 +4108,7 @@ function renderTally() {
       <td class="tally-denom">₱${d.toLocaleString()}</td>
       <td><div class="tally-qty-wrap">
         <div class="tally-qty-btn" onclick="stepTallyDenom(${d},-1)">−</div>
-        <input type="number" class="tally-qty-input" value="${qty === 0 ? '' : qty}" min="0" inputmode="numeric" placeholder="0"
+        <input type="number" class="tally-qty-input" value="${qty ?? 0}" min="0" inputmode="numeric" placeholder="0" onfocus="this.select()"
           oninput="updateTallyDenom(${d}, this.value)" onchange="updateTallyDenom(${d}, this.value)">
         <div class="tally-qty-btn" onclick="stepTallyDenom(${d},1)">+</div>
       </div></td>
@@ -4072,9 +4119,9 @@ function renderTally() {
     </tr>`;
   }).join('') +
   `<tr>
-    <td style="color:var(--muted);font-size:12px;">UNCOLLECTED</td>
+    <td style="color:var(--muted);font-size:12px;">UNCOLLECTED<br><span style="font-size:9px;color:var(--muted);font-weight:400;">cash owed, not yet in hand</span></td>
     <td></td>
-    <td><input type="number" class="tally-sum-input" value="${tallyState.denoms.uncollected || ''}" min="0" inputmode="decimal" placeholder="-"
+    <td><input type="number" class="tally-sum-input" value="${tallyState.denoms.uncollected ?? 0}" min="0" inputmode="decimal" placeholder="-" onfocus="this.select()"
       oninput="updateTallyUncollected(this.value)" onchange="updateTallyUncollected(this.value)"></td>
     <td></td>
   </tr>`;
@@ -4179,7 +4226,7 @@ function renderGCashTable() {
     return `<tr>
       <td><input class="tally-gcash-name" type="text" value="${esc(a.name)}" placeholder="Account name"
         oninput="updateGCashName(${i}, this.value)"></td>
-      <td style="text-align:right;"><input type="number" class="tally-qty-input" style="width:100%;max-width:120px;" value="${a.amount || ''}" min="0" inputmode="decimal" placeholder="-"
+      <td style="text-align:right;"><input type="number" class="tally-qty-input" style="width:100%;max-width:120px;" value="${a.amount ?? 0}" min="0" inputmode="decimal" placeholder="-" onfocus="this.select()"
         oninput="updateGCashAmt(${i}, this.value)" onchange="updateGCashAmt(${i}, this.value)"></td>
       <td style="text-align:center;"><button class="tally-del-btn" onclick="deleteGCashRow(${i})">×</button></td>
       <td style="text-align:center;padding:7px 10px 7px 4px;">
@@ -4664,17 +4711,19 @@ function exportXLSX() {
 // ── NEW FEATURE FUNCTIONS ──────────────────────────────────────────────────
 
 function updateBackupDot() {
-  const dot = document.getElementById('backupDot');
-  if (!dot) return;
+  const dots = [document.getElementById('backupDot'), document.getElementById('backupDotSb')].filter(Boolean);
+  if (!dots.length) return;
   const candidates = [localStorage.getItem('gcash_last_backup'), localStorage.getItem('gcash_last_cloud_sync')]
     .filter(Boolean).map(s => new Date(s));
   const lastSafe = candidates.length ? new Date(Math.max(...candidates)) : null;
+  let cls;
   if (!lastSafe) {
-    dot.className = state.transactions.length > 0 ? 'backup-dot danger' : 'backup-dot';
-    return;
+    cls = state.transactions.length > 0 ? 'backup-dot danger' : 'backup-dot';
+  } else {
+    const days = (Date.now() - lastSafe.getTime()) / 86400000;
+    cls = 'backup-dot' + (days < 3 ? '' : days < 7 ? ' warn' : ' danger');
   }
-  const days = (Date.now() - lastSafe.getTime()) / 86400000;
-  dot.className = 'backup-dot' + (days < 3 ? '' : days < 7 ? ' warn' : ' danger');
+  dots.forEach(d => d.className = cls);
 }
 
 
@@ -5019,11 +5068,11 @@ async function sbSignInWithGoogle() {
 
   const url  = (document.getElementById('sbUrl')?.value  || '').trim() || localStorage.getItem(SB_URL_KEY)  || '';
   const anon = (document.getElementById('sbAnon')?.value || '').trim() || localStorage.getItem(SB_ANON_KEY) || '';
-  if (!url || !anon) { showErr('Server Address and Access Key are required.'); return; }
+  if (!url || !anon) { showErr('Supabase Project URL and Anon Key are required.'); return; }
 
   localStorage.setItem(SB_URL_KEY, url);
   localStorage.setItem(SB_ANON_KEY, anon);
-  if (!sbInit()) { showErr('Failed to connect. Check your Server Address and Access Key.'); return; }
+  if (!sbInit()) { showErr('Failed to connect. Check your Project URL and Anon Key.'); return; }
 
   const { error } = await _sbClient.auth.signInWithOAuth({
     provider: 'google',
@@ -5042,12 +5091,12 @@ async function sbSignInWithEmail() {
   const email    = (document.getElementById('sbEmail')?.value    || '').trim();
   const password = (document.getElementById('sbPassword')?.value || '').trim();
 
-  if (!url || !anon)         { showErr('Server Address and Access Key are required.'); return; }
+  if (!url || !anon)         { showErr('Supabase Project URL and Anon Key are required.'); return; }
   if (!email || !password)   { showErr('Email and password are required.'); return; }
 
   localStorage.setItem(SB_URL_KEY, url);
   localStorage.setItem(SB_ANON_KEY, anon);
-  if (!sbInit()) { showErr('Failed to connect. Check your Server Address and Access Key.'); return; }
+  if (!sbInit()) { showErr('Failed to connect. Check your Project URL and Anon Key.'); return; }
 
   const { error } = await _sbClient.auth.signInWithPassword({ email, password });
   if (error) showErr('Sign-in failed: ' + error.message);
