@@ -224,7 +224,7 @@
   .sec-title { font-size:11px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
   .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
   .sec-link { font-size:11px; font-weight:700; color:var(--indigo); cursor:pointer; }
-  .card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--s2); border-radius:var(--radius) var(--radius) 0 0; }
+  .card-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--s2); position:relative; z-index:1; border-radius:var(--radius) var(--radius) 0 0; }
   .card-hdr-title { font-size:14px; font-weight:800; letter-spacing:.10em; text-transform:uppercase; color:var(--muted); }
   .card-pad { padding:14px 16px; }
 
@@ -762,7 +762,6 @@
   /* ── EARN HERO (Home) ── */
   .earn-hero { background:linear-gradient(135deg,var(--s1) 0%,var(--s2) 100%); border:1px solid var(--border2); border-radius:var(--radius); padding:0; margin-bottom:12px; box-shadow:0 4px 20px rgba(0,0,0,.3); position:relative; overflow:hidden; }
   .earn-hero::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,rgba(45,212,191,.15) 0%,transparent 70%); pointer-events:none; }
-  .earn-hero-hdr { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--s3); border-bottom:1px solid var(--border); position:relative; z-index:1; }
   .earn-hero-body { display:flex; align-items:center; gap:16px; padding:14px 16px; position:relative; z-index:1; }
   .earn-date-pill { background:var(--s4); border:1px solid var(--border2); border-radius:10px; padding:3px 9px; font-size:10px; font-weight:700; color:var(--text2); }
   .earn-ring { flex-shrink:0; position:relative; }
@@ -848,7 +847,6 @@
   .ins-section-title { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 
   .ins-card { background:linear-gradient(135deg,var(--s1),var(--s2)); border:1px solid var(--border2); border-radius:var(--radius); padding:0; margin-bottom:10px; position:relative; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.3); }
-  .ins-card-hdr { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--s3); border-bottom:1px solid var(--border); position:relative; z-index:1; }
   .ins-card-body { padding:14px 16px; position:relative; z-index:1; }
   .ins-card::before { content:''; position:absolute; top:-20px; right:-20px; width:90px; height:90px; border-radius:50%; pointer-events:none; }
   .ins-card.indigo::before { background:radial-gradient(circle,rgba(99,102,241,.12) 0%,transparent 70%); }
@@ -971,7 +969,6 @@
     position: relative; overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,.3);
   }
-  .mec-header { display:flex; align-items:center; justify-content:space-between; padding:10px 18px; background:var(--s3); border-bottom:1px solid var(--border); position:relative; z-index:1; }
   .mec-body   { padding:14px 18px 16px; position:relative; z-index:1; }
   .month-earned-card::before {
     content: ''; position: absolute; top: -40px; right: -30px;
@@ -1336,7 +1333,7 @@
       <!-- Today's earnings ring + quick stats -->
       <div class="home-section">
         <div class="earn-hero">
-          <div class="earn-hero-hdr">
+          <div class="card-hdr">
             <div class="card-hdr-title">Today's Earnings</div>
           </div>
           <div class="earn-hero-body">
@@ -1384,7 +1381,7 @@
 
       <!-- Monthly Earned -->
       <div class="month-earned-card" id="monthEarnedCard">
-        <div class="mec-header">
+        <div class="card-hdr">
           <div class="card-hdr-title">Total Earned This Month</div>
         </div>
         <div class="mec-body">
@@ -1439,7 +1436,7 @@
       <!-- Recent Activity -->
       <div class="home-section">
         <div class="recent-mini" id="homeRecentList">
-          <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);">
+          <div class="card-hdr">
             <span class="card-hdr-title">Today's Transactions</span>
           </div>
         </div>
@@ -1495,15 +1492,15 @@
           </div>
         </div>
         <div class="card" style="padding:0;overflow:clip;">
-          <div style="padding:10px 16px 8px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-            <div id="rptTableTitle" style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Weekly Breakdown</div>
+          <div class="card-hdr">
+            <div class="card-hdr-title" id="rptTableTitle">Weekly Breakdown</div>
             <div id="rptTableCount" style="font-size:13px;color:var(--muted);"></div>
           </div>
           <div id="rptTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"></div>
         </div>
         <div class="card" style="padding:0;overflow:hidden;margin-top:12px;">
-          <div style="padding:10px 16px 8px;background:var(--surface2);border-bottom:1px solid var(--border);">
-            <div style="font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">All-Time Summary</div>
+          <div class="card-hdr">
+            <div class="card-hdr-title">All-Time Summary</div>
           </div>
           <div class="stat-grid" style="padding:12px;margin:0;">
             <div class="stat-box"><div class="stat-val green" id="rTotalIn">₱0</div><div class="stat-lbl">Total Cash-In</div></div>
@@ -1523,7 +1520,7 @@
 
         <!-- 1. Month Projection -->
         <div class="ins-card indigo">
-          <div class="ins-card-hdr">
+          <div class="card-hdr">
             <span class="card-hdr-title">Earnings Forecast</span>
             <div class="ins-days-pill" id="insDaysLeft">— days left</div>
           </div>
@@ -1547,7 +1544,7 @@
 
         <!-- 2. Earning Streak -->
         <div class="ins-card amber">
-          <div class="ins-card-hdr">
+          <div class="card-hdr">
             <span class="card-hdr-title">Earning Streak</span>
           </div>
           <div class="ins-card-body">
@@ -1567,7 +1564,7 @@
 
         <!-- 3. Earn by Type -->
         <div class="ins-card purple">
-          <div class="ins-card-hdr">
+          <div class="card-hdr">
             <span class="card-hdr-title">Earn by Type · This Month</span>
           </div>
           <div class="ins-card-body">
@@ -1577,7 +1574,7 @@
 
         <!-- 4. Cash Flow This Month -->
         <div class="ins-card red">
-          <div class="ins-card-hdr">
+          <div class="card-hdr">
             <span class="card-hdr-title">Cash Flow · This Month</span>
           </div>
           <div class="ins-card-body">
@@ -1616,7 +1613,7 @@
 
         <!-- 5. Monthly Earnings History -->
         <div class="ins-card blue">
-          <div class="ins-card-hdr">
+          <div class="card-hdr">
             <span class="card-hdr-title">Earnings Last 6 Months</span>
             <div id="insHistoryBadge"></div>
           </div>
@@ -1628,7 +1625,7 @@
 
         <!-- 6. Account Health -->
         <div class="ins-card amber">
-          <div class="ins-card-hdr">
+          <div class="card-hdr">
             <span class="card-hdr-title">Account Health</span>
             <span style="font-size:12px;color:var(--muted);">COH vs GCash</span>
           </div>
