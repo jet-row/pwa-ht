@@ -5122,6 +5122,7 @@ async function sbCheckSession() {
     renderSbCard();
     if (event === 'SIGNED_IN') {
       showToast('Signed in as ' + (_sbUser?.email || 'Google user') + ' ✓');
+      sbPullCustomers();
     }
   });
 
@@ -5283,6 +5284,25 @@ async function sbPushCustomers() {
   } else {
     const { error } = await _sbClient.from('ht_customers').delete().eq('user_id', _sbUser.id);
     if (error) throw Object.assign(error, { _step: 'delete all customers' });
+  }
+}
+
+async function sbPullCustomers() {
+  if (!_sbClient || !_sbUser) return;
+  try {
+    const { data, error } = await _sbClient.from('ht_customers')
+      .select('*').eq('user_id', _sbUser.id);
+    if (error) { console.warn('[HalinTraq] sbPullCustomers error', error); return; }
+    if (!Array.isArray(data) || !data.length) return;
+    _customers = data.map(r => ({
+      id:           r.id,
+      nameinitials: r.nameinitials,
+      phonenumber:  r.phonenumber,
+    }));
+    saveCustomers();
+    if (state.currentTab === 'customers') renderCustomers();
+  } catch(e) {
+    console.warn('[HalinTraq] sbPullCustomers failed', e);
   }
 }
 
@@ -5461,6 +5481,7 @@ async function init() {
   // Restore Supabase session if credentials were saved previously
   sbInit();
   await sbCheckSession();
+  if (_sbUser) await sbPullCustomers();
   setTimeout(() => { renderTally(); renderHomeChart(); renderSbCard(); }, 0);
   registerServiceWorker();
 }
