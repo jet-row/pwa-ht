@@ -2212,6 +2212,15 @@ function idbClear(store) {
   }));
 }
 
+function idbDelete(store, key) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(store, 'readwrite');
+    tx.objectStore(store).delete(key);
+    tx.oncomplete = () => resolve();
+    tx.onerror    = e => reject(e.target.error);
+  }));
+}
+
 // Rewrites every transaction in one atomic IDB transaction.
 // Called after any mutation (add/edit/delete/import/restore/recalc).
 function saveAllTxns() {
@@ -3842,6 +3851,7 @@ function deleteTxn(id) {
     () => {
       state.transactions = state.transactions.filter(x => String(x.id) !== String(id));
       recalcCohAfter();
+      idbDelete('transactions', id).catch(e => console.warn('[HalinTraq] idbDelete failed', e));
       saveAllTxns(); render(); showToast('Transaction deleted');
     }
   );
@@ -5217,15 +5227,22 @@ async function sbPushAll(silent = false) {
         if (upsertErr) throw Object.assign(upsertErr, { _step: 'upsert transactions' });
       }
       // Remove remote rows no longer in local state.
-      // Non-fatal: a URL-too-long error here (many IDs) doesn't abort the push —
-      // the upsert already succeeded and orphaned rows cause no data loss.
+      // Fetch remote IDs first, then delete only the specific orphaned IDs in small batches.
+      // (The old "not in (all local IDs)" approach failed silently on large datasets.)
       try {
-        const localIds = state.transactions.map(t => String(t.id));
-        const { error: delErr } = await _sbClient.from('transactions')
-          .delete().eq('user_id', _sbUser.id).not('id', 'in', `(${localIds.join(',')})`);
-        if (delErr) console.warn('[HalinTraq] selective delete failed (orphans may remain):', delErr);
+        const { data: remoteIdRows } = await _sbClient.from('transactions')
+          .select('id').eq('user_id', _sbUser.id);
+        if (remoteIdRows?.length) {
+          const localIdSet = new Set(rows.map(r => r.id));
+          const orphanIds = remoteIdRows.map(r => r.id).filter(id => !localIdSet.has(id));
+          for (let i = 0; i < orphanIds.length; i += 100) {
+            const chunk = orphanIds.slice(i, i + 100);
+            const { error: delErr } = await _sbClient.from('transactions').delete().in('id', chunk);
+            if (delErr) console.warn('[HalinTraq] sbPushAll: delete orphans failed', delErr);
+          }
+        }
       } catch(delEx) {
-        console.warn('[HalinTraq] selective delete failed (orphans may remain):', delEx);
+        console.warn('[HalinTraq] sbPushAll: delete orphans failed', delEx);
       }
     } else {
       // No local transactions — wipe remote
