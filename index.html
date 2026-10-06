@@ -327,9 +327,9 @@
   /* tab = nav-btn for JS compat; nav-btn is the visual element */
   .tab, .nav-btn {
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:3px; padding:8px 6px; border-radius:16px; border:none; cursor:pointer;
+    gap:3px; padding:8px 4px; border-radius:16px; border:none; cursor:pointer;
     background:transparent; color:var(--muted); font-family:var(--font);
-    font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    font-size:9.5px; font-weight:700; letter-spacing:.02em; text-transform:uppercase;
     transition:all .2s; min-height:52px; user-select:none;
   }
   .tab.active, .nav-btn.active {
@@ -353,13 +353,15 @@
 
   /* ── FORM ELEMENTS ── */
   label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
-  input[type=text], input[type=number], input[type=date], input[type=email], input[type=password], select, textarea {
+  input[type=text], input[type=number], input[type=date], input[type=email], input[type=password], input[type=search], input[type=tel], select, textarea {
     width: 100%; background: var(--s2); border: 1px solid var(--border); border-radius: var(--r-sm);
     color: var(--text); font-family: var(--font); font-size: 15px; padding: 11px 13px;
     outline: none; transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; appearance: none;
     font-variant-numeric: tabular-nums;
   }
   input[type=number] { font-family: var(--mono); }
+  input[type=search]::-webkit-search-decoration,
+  input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
   input[type=date] { color-scheme: dark; }
   input[type=date]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(.4); cursor: pointer; }
   [data-theme="ice"] input[type=date] { color-scheme: light; }
@@ -1180,6 +1182,15 @@
     .view { max-width:900px; }
     #content { padding:0 24px; }
   }
+  /* ── Customers view ── */
+  .cust-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px; }
+  .cust-info { flex:1; padding:10px 12px; min-width:0; }
+  .cust-name { font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cust-phone { font-family:var(--mono); font-size:12px; color:var(--muted); }
+  .cust-action { border:none; background:transparent; padding:12px; cursor:pointer; font-size:19px; line-height:1; }
+  .cust-action.copy { color:var(--teal,#2DD4BF); }
+  .cust-action.del  { color:var(--red,#F87171); }
+  .cust-empty { text-align:center; color:var(--muted); padding:48px 0; font-size:14px; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -1225,6 +1236,7 @@
       <button class="sb-btn"        id="sb-tab-log"      onclick="switchTab('log')">     <i class="ti ti-arrows-exchange"></i>  Log</button>
       <button class="sb-btn"        id="sb-tab-reports"  onclick="switchTab('reports')"> <i class="ti ti-sparkles"></i>          Insights</button>
       <button class="sb-btn"        id="sb-tab-tally"    onclick="switchTab('tally')">   <i class="ti ti-abacus"></i>            Tally</button>
+      <button class="sb-btn"        id="sb-tab-customers" onclick="switchTab('customers')"><i class="ti ti-address-book"></i>      Clients</button>
       <button class="sb-btn"        id="sb-tab-settings" onclick="switchTab('settings')"><i class="ti ti-settings-2"></i>         More<span id="backupDotSb" class="backup-dot" style="margin-left:6px"></span></button>
     </div>
 
@@ -1931,6 +1943,15 @@
 
     </div>
 
+    <!-- ── CUSTOMERS VIEW ── -->
+    <div class="view" id="view-customers" style="padding:14px 16px;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+        <input type="search" id="custSearch" placeholder="Search name or number…" oninput="renderCustomers()" style="flex:1;min-width:0;">
+        <button class="btn-new" onclick="openAddCustomerModal()" aria-label="Add customer"><i class="ti ti-plus"></i></button>
+      </div>
+      <div id="custList"></div>
+    </div>
+
   </div><!-- /content -->
 
   <!-- BOTTOM NAV -->
@@ -1938,8 +1959,9 @@
     <div class="nav-inner">
       <button type="button" class="tab active" onclick="switchTab('home')"     id="tab-home"     aria-current="page"><span class="tab-icon"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></span>Home</button>
       <button type="button" class="tab"        onclick="switchTab('log')"      id="tab-log"><span class="tab-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></span>Log</button>
-      <button type="button" class="tab"        onclick="switchTab('reports')"  id="tab-reports"><span class="tab-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span>Insights</button>
+      <button type="button" class="tab"        onclick="switchTab('reports')"  id="tab-reports"><span class="tab-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span>Stats</button>
       <button type="button" class="tab"        onclick="switchTab('tally')"    id="tab-tally"><span class="tab-icon"><i class="ti ti-abacus" aria-hidden="true"></i></span>Tally</button>
+      <button type="button" class="tab"        onclick="switchTab('customers')" id="tab-customers"><span class="tab-icon"><i class="ti ti-address-book" aria-hidden="true"></i></span>Clients</button>
       <button type="button" class="tab"        onclick="switchTab('settings')" id="tab-settings"><span class="tab-icon" style="position:relative;display:inline-block"><i class="ti ti-settings-2" aria-hidden="true"></i><span id="backupDot" class="backup-dot" style="position:absolute;top:-2px;right:-5px"></span></span>More</button>
     </div>
   </nav>
@@ -2085,6 +2107,20 @@
     <div class="confirm-btns">
       <button class="btn btn-ghost" onclick="closeModal('confirmModal')">Cancel</button>
       <button class="btn btn-red" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CUSTOMER MODAL -->
+<div class="modal-bg" id="custModal">
+  <div class="modal">
+    <div class="modal-handle"><div class="modal-handle-bar"></div></div>
+    <div class="modal-title">Add Customer <button class="modal-close" aria-label="Close" onclick="closeModal('custModal')">×</button></div>
+    <div class="field"><label>Name / Initials</label><input type="text" id="custName" placeholder="e.g. JU..Y T." autocomplete="off"></div>
+    <div class="field"><label>Phone Number</label><input type="tel" id="custPhone" placeholder="09XXXXXXXXX" inputmode="numeric" maxlength="11"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button class="btn btn-ghost" onclick="closeModal('custModal')">Cancel</button>
+      <button class="btn btn-green" onclick="submitAddCustomer()">Save</button>
     </div>
   </div>
 </div>
@@ -3407,10 +3443,11 @@ function switchTab(tab) {
   const sbBtn = document.getElementById('sb-tab-' + tab);
   if (sbBtn) sbBtn.classList.add('active');
 
-  if (tab === 'tally')   renderTally();
-  if (tab === 'reports') { renderInsights(); switchReportsTab('insights'); }
-  if (tab === 'home')    { renderHome(); setTimeout(renderHomeChart, 50); }
-  if (tab === 'log')     renderHistory();
+  if (tab === 'tally')     renderTally();
+  if (tab === 'reports')   { renderInsights(); switchReportsTab('insights'); }
+  if (tab === 'home')      { renderHome(); setTimeout(renderHomeChart, 50); }
+  if (tab === 'log')       renderHistory();
+  if (tab === 'customers') renderCustomers();
 
   // Reset scroll and header state
   const content = document.getElementById('content');
@@ -3883,6 +3920,7 @@ function restoreJSON(input) {
           state.transactions = (backup.state.transactions || []).filter(t => t && VALID_TXN_TYPES.has(t.type));
           state.settings     = backup.state.settings     || { openCOH:20000, openCOG:20000, capital:40000 };
           if (backup.tallyState) { Object.assign(tallyState, backup.tallyState); saveTallyState(); }
+          if (Array.isArray(backup.customers)) { _customers = backup.customers; saveCustomers(); }
           recalcCohAfter();
           saveAllTxns();
           saveSettingsToIDB();
@@ -3962,6 +4000,7 @@ function backupJSON() {
       settings: state.settings,
     },
     tallyState: tallyState,
+    customers: _customers,
   };
   const json = JSON.stringify(backup, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -5205,6 +5244,7 @@ async function sbPushSettings() {
     open_cog:       state.settings.openCOG,
     capital:        state.settings.capital,
     last_synced_at: new Date().toISOString(),
+    customers:      _customers,
     ...(lastBackup ? { last_backup_at: lastBackup } : {}),
   });
   if (error) throw Object.assign(error, { _step: 'upsert settings' });
@@ -5270,6 +5310,11 @@ async function sbPull() {
           state.settings.openCOH = settingsRes.data.open_coh;
           state.settings.openCOG = settingsRes.data.open_cog;
           state.settings.capital  = settingsRes.data.capital;
+          if (Array.isArray(settingsRes.data.customers)) {
+            _customers = settingsRes.data.customers;
+            saveCustomers();
+            if (state.currentTab === 'customers') renderCustomers();
+          }
         }
         if (tallyRes.data) {
           if (tallyRes.data.denoms) Object.assign(tallyState.denoms, tallyRes.data.denoms);
@@ -5361,6 +5406,7 @@ async function init() {
   loadTallyLock();
   loadSettingsLock();
   await loadAll();
+  await loadCustomers();
   if (state.settings.theme) applyTheme(state.settings.theme);
   recalcCohAfter();
   state.currentTab = 'home';
@@ -5378,6 +5424,96 @@ async function init() {
   registerServiceWorker();
 }
 init();
+
+// ── CUSTOMERS ──────────────────────────────────────────────────────────────────
+let _customers = [];
+
+async function loadCustomers() {
+  const stored = localStorage.getItem('halintraq_customers');
+  if (stored) {
+    try { _customers = JSON.parse(stored); return; } catch { _customers = []; }
+  }
+  try {
+    const res = await fetch('./gcustomerlist.json');
+    if (res.ok) _customers = await res.json();
+  } catch { _customers = []; }
+  saveCustomers();
+}
+
+function saveCustomers() {
+  localStorage.setItem('halintraq_customers', JSON.stringify(_customers));
+}
+
+function renderCustomers() {
+  const q = (document.getElementById('custSearch')?.value || '').toLowerCase().trim();
+  const list = document.getElementById('custList');
+  if (!list) return;
+  const filtered = q
+    ? _customers.filter(c =>
+        c.nameinitials.toLowerCase().includes(q) || c.phonenumber.includes(q))
+    : _customers;
+  if (!filtered.length) {
+    list.innerHTML = `<div class="cust-empty">${q ? 'No matches found' : 'No customers yet — tap <strong>Add</strong> to get started'}</div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(c => {
+    const idx = _customers.indexOf(c);
+    return `<div class="cust-row">
+      <div class="row-btn-icon indigo"><i class="ti ti-user"></i></div>
+      <div class="cust-info">
+        <div class="cust-name">${esc(c.nameinitials)}</div>
+        <div class="cust-phone">${esc(c.phonenumber)}</div>
+      </div>
+      <button class="cust-action copy" onclick="copyPhone('${esc(c.phonenumber)}')" title="Copy number" aria-label="Copy number"><i class="ti ti-copy"></i></button>
+      <button class="cust-action del"  onclick="deleteCustomer(${idx})" title="Delete" aria-label="Delete customer"><i class="ti ti-trash"></i></button>
+    </div>`;
+  }).join('');
+}
+
+function copyPhone(phone) {
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(phone).then(() => showToast('Number copied ✓')).catch(() => _copyFallback(phone));
+  } else {
+    _copyFallback(phone);
+  }
+}
+
+function _copyFallback(phone) {
+  const el = document.createElement('input');
+  el.value = phone; el.style.position = 'fixed'; el.style.opacity = '0';
+  document.body.appendChild(el); el.select();
+  try { document.execCommand('copy'); showToast('Number copied ✓'); } catch { showToast('Copy failed'); }
+  el.remove();
+}
+
+function openAddCustomerModal() {
+  document.getElementById('custName').value  = '';
+  document.getElementById('custPhone').value = '';
+  openModal('custModal');
+}
+
+function submitAddCustomer() {
+  const name  = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  if (!name)  { showToast('Enter a name or initials'); return; }
+  if (!phone) { showToast('Enter a phone number');     return; }
+  _customers.push({ nameinitials: name, phonenumber: phone });
+  saveCustomers();
+  closeModal('custModal');
+  renderCustomers();
+  showToast('Customer added ✓');
+}
+
+function deleteCustomer(idx) {
+  const c = _customers[idx];
+  if (!c) return;
+  showConfirm('Delete Customer', `Remove ${c.nameinitials}?`, () => {
+    _customers.splice(idx, 1);
+    saveCustomers();
+    renderCustomers();
+    showToast('Customer removed');
+  });
+}
 </script>
 </body>
 </html>
