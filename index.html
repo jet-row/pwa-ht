@@ -5590,6 +5590,7 @@ function submitAddCustomer() {
   if (!phone) { showToast('Enter a phone number');     return; }
   _customers.push({ id: _custId(), nameinitials: name, phonenumber: phone });
   saveCustomers();
+  sbScheduleSync();
   closeModal('custModal');
   renderCustomers();
   showToast('Customer added ✓');
@@ -5601,6 +5602,7 @@ function deleteCustomer(idx) {
   showConfirm('Delete Customer', `Remove ${c.nameinitials}?`, () => {
     _customers.splice(idx, 1);
     saveCustomers();
+    sbScheduleSync();
     renderCustomers();
     showToast('Customer removed');
   });
