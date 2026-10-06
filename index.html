@@ -3268,7 +3268,7 @@ function buildTxn(type, amount, earn, feeInCash, notes) {
   let newCOH = bal.coh, newCOG = bal.cog;
   if (isCashOut) { newCOH += -amt + (feeInCash ? e : 0); newCOG +=  amt + (feeInCash ? 0 : e); }
   else           { newCOH +=  amt + (feeInCash ? e : 0); newCOG += -amt + (feeInCash ? 0 : e); }
-  return { id: String(Date.now()) + '-' + Math.random().toString(36).slice(2), type, amount: amt, earn: e, feeInCash, notes: notes||'', ts: Date.now(), cohAfter: newCOH, cogAfter: newCOG };
+  return { id: crypto.randomUUID(), type, amount: amt, earn: e, feeInCash, notes: notes||'', ts: Date.now(), cohAfter: newCOH, cogAfter: newCOG };
 }
 
 const _ROLLOVER_NOTE_DEFAULTS = {
@@ -3883,7 +3883,7 @@ function submitCopyTxn(useNow) {
   const type = selChip ? selChip.dataset.type : src.type;
   const feeInCash = document.getElementById('cFeeInCash').checked;
 
-  const newId = String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+  const newId = crypto.randomUUID();
   const ts = useNow ? Date.now() : src.ts;
   const copy = { ...src, id: newId, ts, type, feeInCash };
 
