@@ -5271,17 +5271,17 @@ async function sbPushCustomers() {
     phonenumber:  c.phonenumber,
   }));
   if (rows.length) {
-    const { error: upsertErr } = await _sbClient.from('customers').upsert(rows, { onConflict: 'id' });
+    const { error: upsertErr } = await _sbClient.from('ht_customers').upsert(rows, { onConflict: 'id' });
     if (upsertErr) throw Object.assign(upsertErr, { _step: 'upsert customers' });
     // Remove remote rows no longer in local list
     try {
       const localIds = rows.map(r => r.id);
-      const { error: delErr } = await _sbClient.from('customers')
+      const { error: delErr } = await _sbClient.from('ht_customers')
         .delete().eq('user_id', _sbUser.id).not('id', 'in', `(${localIds.join(',')})`);
-      if (delErr) console.warn('[HalinTraq] customers selective delete failed:', delErr);
-    } catch(e) { console.warn('[HalinTraq] customers selective delete failed:', e); }
+      if (delErr) console.warn('[HalinTraq] ht_customers selective delete failed:', delErr);
+    } catch(e) { console.warn('[HalinTraq] ht_customers selective delete failed:', e); }
   } else {
-    const { error } = await _sbClient.from('customers').delete().eq('user_id', _sbUser.id);
+    const { error } = await _sbClient.from('ht_customers').delete().eq('user_id', _sbUser.id);
     if (error) throw Object.assign(error, { _step: 'delete all customers' });
   }
 }
@@ -5323,7 +5323,7 @@ async function sbPull() {
     const [settingsRes, tallyRes, custRes] = await Promise.all([
       _sbClient.from('settings').select('*').eq('user_id', _sbUser.id).maybeSingle(),
       _sbClient.from('tally_state').select('*').eq('user_id', _sbUser.id).maybeSingle(),
-      _sbClient.from('customers').select('*').eq('user_id', _sbUser.id),
+      _sbClient.from('ht_customers').select('*').eq('user_id', _sbUser.id),
     ]);
 
     const txns = allTxnRows.map(r => ({
