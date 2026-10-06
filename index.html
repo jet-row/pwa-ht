@@ -327,19 +327,22 @@
   /* tab = nav-btn for JS compat; nav-btn is the visual element */
   .tab, .nav-btn {
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:3px; padding:8px 4px; border-radius:16px; border:none; cursor:pointer;
+    gap:2px; padding:8px 4px; border-radius:16px; border:none; cursor:pointer;
     background:transparent; color:var(--muted); font-family:var(--font);
-    font-size:9.5px; font-weight:700; letter-spacing:.02em; text-transform:uppercase;
+    font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
     transition:all .2s; min-height:52px; user-select:none;
   }
   .tab.active, .nav-btn.active {
+    flex:1.7;
     color:#fff;
     background: linear-gradient(135deg, #4F46E5 0%, #6D28D9 100%);
     box-shadow: 0 4px 16px rgba(99,102,241,.35), inset 0 1px 0 rgba(255,255,255,.12);
   }
   .tab:not(.active):hover, .nav-btn:not(.active):hover { color:var(--text2); background:var(--s3); }
-  .tab-icon { font-size:22px; display:block; margin-bottom:1px; transition:transform .2s; }
+  .tab-icon { font-size:22px; display:block; transition:transform .2s; }
   .tab.active .tab-icon, .nav-btn.active .tab-icon { transform:scale(1.05); }
+  .tab-lbl { display:none; font-size:10px; line-height:1; }
+  .tab.active .tab-lbl { display:block; }
 
 
 
@@ -1183,13 +1186,22 @@
     #content { padding:0 24px; }
   }
   /* ── Customers view ── */
-  .cust-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px; }
-  .cust-info { flex:1; padding:10px 12px; min-width:0; }
+  .cust-list-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+  .cust-item { display:flex; align-items:center; gap:12px; padding:10px 14px; border-bottom:1px solid var(--border); }
+  .cust-item:last-child { border-bottom:none; }
+  .cust-letter { width:36px; min-width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; flex-shrink:0; }
+  .cust-letter.c0 { background:rgba(99,102,241,.15); color:#6366f1; }
+  .cust-letter.c1 { background:rgba(45,212,191,.15); color:#2dd4bf; }
+  .cust-letter.c2 { background:rgba(245,158,11,.15); color:#f59e0b; }
+  .cust-letter.c3 { background:rgba(139,92,246,.15); color:#8b5cf6; }
+  .cust-letter.c4 { background:rgba(248,113,113,.15); color:#f87171; }
+  .cust-info { flex:1; min-width:0; }
   .cust-name { font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .cust-phone { font-family:var(--mono); font-size:12px; color:var(--muted); }
-  .cust-action { border:none; background:transparent; padding:12px; cursor:pointer; font-size:19px; line-height:1; }
+  .cust-phone { font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:1px; }
+  .cust-action { border:none; background:transparent; padding:8px; cursor:pointer; font-size:18px; line-height:1; flex-shrink:0; }
   .cust-action.copy { color:var(--teal,#2DD4BF); }
   .cust-action.del  { color:var(--red,#F87171); }
+  .cust-count { font-size:11px; color:var(--muted); margin-bottom:8px; padding-left:2px; }
   .cust-empty { text-align:center; color:var(--muted); padding:48px 0; font-size:14px; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1957,12 +1969,12 @@
   <!-- BOTTOM NAV -->
   <nav id="tabs" aria-label="Main">
     <div class="nav-inner">
-      <button type="button" class="tab active" onclick="switchTab('home')"     id="tab-home"     aria-current="page"><span class="tab-icon"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></span>Home</button>
-      <button type="button" class="tab"        onclick="switchTab('log')"      id="tab-log"><span class="tab-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></span>Log</button>
-      <button type="button" class="tab"        onclick="switchTab('reports')"  id="tab-reports"><span class="tab-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span>Stats</button>
-      <button type="button" class="tab"        onclick="switchTab('tally')"    id="tab-tally"><span class="tab-icon"><i class="ti ti-abacus" aria-hidden="true"></i></span>Tally</button>
-      <button type="button" class="tab"        onclick="switchTab('customers')" id="tab-customers"><span class="tab-icon"><i class="ti ti-address-book" aria-hidden="true"></i></span>Clients</button>
-      <button type="button" class="tab"        onclick="switchTab('settings')" id="tab-settings"><span class="tab-icon" style="position:relative;display:inline-block"><i class="ti ti-settings-2" aria-hidden="true"></i><span id="backupDot" class="backup-dot" style="position:absolute;top:-2px;right:-5px"></span></span>More</button>
+      <button type="button" class="tab active" onclick="switchTab('home')"     id="tab-home"     aria-current="page"><span class="tab-icon"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></span><span class="tab-lbl">Home</span></button>
+      <button type="button" class="tab"        onclick="switchTab('log')"      id="tab-log"><span class="tab-icon"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></span><span class="tab-lbl">Log</span></button>
+      <button type="button" class="tab"        onclick="switchTab('reports')"  id="tab-reports"><span class="tab-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span><span class="tab-lbl">Stats</span></button>
+      <button type="button" class="tab"        onclick="switchTab('tally')"    id="tab-tally"><span class="tab-icon"><i class="ti ti-abacus" aria-hidden="true"></i></span><span class="tab-lbl">Tally</span></button>
+      <button type="button" class="tab"        onclick="switchTab('customers')" id="tab-customers"><span class="tab-icon"><i class="ti ti-address-book" aria-hidden="true"></i></span><span class="tab-lbl">Clients</span></button>
+      <button type="button" class="tab"        onclick="switchTab('settings')" id="tab-settings"><span class="tab-icon" style="position:relative;display:inline-block"><i class="ti ti-settings-2" aria-hidden="true"></i><span id="backupDot" class="backup-dot" style="position:absolute;top:-2px;right:-5px"></span></span><span class="tab-lbl">More</span></button>
     </div>
   </nav>
 
@@ -5222,6 +5234,7 @@ async function sbPushAll(silent = false) {
 
     await sbPushSettings();
     await sbPushTally();
+    await sbPushCustomers();
     localStorage.setItem('gcash_last_cloud_sync', new Date().toISOString());
     if (!silent) showToast(`Pushed ${state.transactions.length} transactions to cloud storage ✓`);
     renderBackupMeta(); renderCloudSyncMeta(); updateBackupDot();
@@ -5244,10 +5257,33 @@ async function sbPushSettings() {
     open_cog:       state.settings.openCOG,
     capital:        state.settings.capital,
     last_synced_at: new Date().toISOString(),
-    customers:      _customers,
     ...(lastBackup ? { last_backup_at: lastBackup } : {}),
   });
   if (error) throw Object.assign(error, { _step: 'upsert settings' });
+}
+
+async function sbPushCustomers() {
+  if (!_sbClient || !_sbUser) return;
+  const rows = _customers.map(c => ({
+    id:           c.id,
+    user_id:      _sbUser.id,
+    nameinitials: c.nameinitials,
+    phonenumber:  c.phonenumber,
+  }));
+  if (rows.length) {
+    const { error: upsertErr } = await _sbClient.from('customers').upsert(rows, { onConflict: 'id' });
+    if (upsertErr) throw Object.assign(upsertErr, { _step: 'upsert customers' });
+    // Remove remote rows no longer in local list
+    try {
+      const localIds = rows.map(r => r.id);
+      const { error: delErr } = await _sbClient.from('customers')
+        .delete().eq('user_id', _sbUser.id).not('id', 'in', `(${localIds.join(',')})`);
+      if (delErr) console.warn('[HalinTraq] customers selective delete failed:', delErr);
+    } catch(e) { console.warn('[HalinTraq] customers selective delete failed:', e); }
+  } else {
+    const { error } = await _sbClient.from('customers').delete().eq('user_id', _sbUser.id);
+    if (error) throw Object.assign(error, { _step: 'delete all customers' });
+  }
 }
 
 async function sbPushTally() {
@@ -5284,9 +5320,10 @@ async function sbPull() {
       from += PAGE;
     }
 
-    const [settingsRes, tallyRes] = await Promise.all([
+    const [settingsRes, tallyRes, custRes] = await Promise.all([
       _sbClient.from('settings').select('*').eq('user_id', _sbUser.id).maybeSingle(),
       _sbClient.from('tally_state').select('*').eq('user_id', _sbUser.id).maybeSingle(),
+      _sbClient.from('customers').select('*').eq('user_id', _sbUser.id),
     ]);
 
     const txns = allTxnRows.map(r => ({
@@ -5310,11 +5347,15 @@ async function sbPull() {
           state.settings.openCOH = settingsRes.data.open_coh;
           state.settings.openCOG = settingsRes.data.open_cog;
           state.settings.capital  = settingsRes.data.capital;
-          if (Array.isArray(settingsRes.data.customers)) {
-            _customers = settingsRes.data.customers;
-            saveCustomers();
-            if (state.currentTab === 'customers') renderCustomers();
-          }
+        }
+        if (Array.isArray(custRes.data) && custRes.data.length) {
+          _customers = custRes.data.map(r => ({
+            id:           r.id,
+            nameinitials: r.nameinitials,
+            phonenumber:  r.phonenumber,
+          }));
+          saveCustomers();
+          if (state.currentTab === 'customers') renderCustomers();
         }
         if (tallyRes.data) {
           if (tallyRes.data.denoms) Object.assign(tallyState.denoms, tallyRes.data.denoms);
@@ -5428,16 +5469,24 @@ init();
 // ── CUSTOMERS ──────────────────────────────────────────────────────────────────
 let _customers = [];
 
+function _custId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
 async function loadCustomers() {
   const stored = localStorage.getItem('halintraq_customers');
   if (stored) {
-    try { _customers = JSON.parse(stored); return; } catch { _customers = []; }
+    try { _customers = JSON.parse(stored); } catch { _customers = []; }
+  } else {
+    try {
+      const res = await fetch('./gcustomerlist.json');
+      if (res.ok) _customers = await res.json();
+    } catch { _customers = []; }
   }
-  try {
-    const res = await fetch('./gcustomerlist.json');
-    if (res.ok) _customers = await res.json();
-  } catch { _customers = []; }
-  saveCustomers();
+  // Back-fill IDs for any entries that don't have one yet
+  let dirty = false;
+  _customers.forEach(c => { if (!c.id) { c.id = _custId(); dirty = true; } });
+  if (dirty) saveCustomers();
 }
 
 function saveCustomers() {
@@ -5453,13 +5502,15 @@ function renderCustomers() {
         c.nameinitials.toLowerCase().includes(q) || c.phonenumber.includes(q))
     : _customers;
   if (!filtered.length) {
-    list.innerHTML = `<div class="cust-empty">${q ? 'No matches found' : 'No customers yet — tap <strong>Add</strong> to get started'}</div>`;
+    list.innerHTML = `<div class="cust-empty">${q ? 'No matches found' : 'No customers yet — tap <strong>+</strong> to add one'}</div>`;
     return;
   }
-  list.innerHTML = filtered.map(c => {
+  const items = filtered.map(c => {
     const idx = _customers.indexOf(c);
-    return `<div class="cust-row">
-      <div class="row-btn-icon indigo"><i class="ti ti-user"></i></div>
+    const letter = (c.nameinitials || '?')[0].toUpperCase();
+    const colorClass = 'c' + (letter.charCodeAt(0) % 5);
+    return `<div class="cust-item">
+      <div class="cust-letter ${colorClass}">${esc(letter)}</div>
       <div class="cust-info">
         <div class="cust-name">${esc(c.nameinitials)}</div>
         <div class="cust-phone">${esc(c.phonenumber)}</div>
@@ -5468,6 +5519,8 @@ function renderCustomers() {
       <button class="cust-action del"  onclick="deleteCustomer(${idx})" title="Delete" aria-label="Delete customer"><i class="ti ti-trash"></i></button>
     </div>`;
   }).join('');
+  list.innerHTML = `<div class="cust-count">${filtered.length} client${filtered.length !== 1 ? 's' : ''}${q ? ' found' : ''}</div>
+    <div class="cust-list-card">${items}</div>`;
 }
 
 function copyPhone(phone) {
@@ -5497,7 +5550,7 @@ function submitAddCustomer() {
   const phone = document.getElementById('custPhone').value.trim();
   if (!name)  { showToast('Enter a name or initials'); return; }
   if (!phone) { showToast('Enter a phone number');     return; }
-  _customers.push({ nameinitials: name, phonenumber: phone });
+  _customers.push({ id: _custId(), nameinitials: name, phonenumber: phone });
   saveCustomers();
   closeModal('custModal');
   renderCustomers();
