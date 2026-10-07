@@ -796,7 +796,7 @@
   .qs-card.out::before { background:radial-gradient(circle,rgba(248,113,113,.12) 0%,transparent 70%); }
   .qs-val { font-family:var(--mono); font-size:18px; font-weight:700; line-height:1; margin-bottom:4px; }
   .qs-lbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
-  .qs-icon { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:22px; opacity:.5; }
+  .qs-icon { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:28px; opacity:.5; }
 
   /* ── WEEK CHART CARD ── */
   .week-chart-card { background:var(--s1); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:12px; overflow:hidden; }
@@ -4367,7 +4367,7 @@ function renderGCashTable() {
     return `<tr>
       <td><input class="tally-gcash-name" type="text" value="${esc(a.name)}" placeholder="Account name"
         oninput="updateGCashName(${i}, this.value)"></td>
-      <td style="text-align:right;"><input type="number" class="tally-qty-input" style="width:100%;max-width:120px;" value="${a.amount ?? 0}" min="0" inputmode="decimal" placeholder="-" onfocus="this.select()"
+      <td style="text-align:right;"><input type="number" class="tally-qty-input" style="width:100%;max-width:120px;text-align:right;" value="${a.amount ?? 0}" min="0" inputmode="decimal" placeholder="-" onfocus="this.select()"
         oninput="updateGCashAmt(${i}, this.value)" onchange="updateGCashAmt(${i}, this.value)"></td>
       <td style="text-align:center;"><button class="tally-del-btn" onclick="deleteGCashRow(${i})">×</button></td>
       <td style="text-align:center;padding:7px 10px 7px 4px;">
