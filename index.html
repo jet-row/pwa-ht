@@ -184,11 +184,6 @@
   .bh-top { display: flex; padding: 14px 14px 10px; gap: 10px; }
   .bh-pod { flex: 1; padding: 12px 14px; border-radius: 14px; position: relative; overflow: hidden; transition: transform .15s; }
   .bh-pod:active { transform: scale(.97); }
-  .bh-pod::after {
-    content:''; position:absolute; top:0; left:-80%; width:50%; height:100%;
-    background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.05) 50%,transparent 60%);
-    animation:pod-shimmer 5s ease-in-out infinite;
-  }
   .bh-pod.coh { background: linear-gradient(135deg,rgba(245,158,11,.12) 0%,rgba(245,158,11,.06) 100%); border:1px solid rgba(245,158,11,.2); }
   .bh-pod.cog { background: linear-gradient(135deg,rgba(45,212,191,.12) 0%,rgba(45,212,191,.06) 100%); border:1px solid rgba(45,212,191,.2); }
   .bh-pod-label { font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; position:relative; }
@@ -197,8 +192,6 @@
   .bh-pod-bg-icon { position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:38px; opacity:.18; pointer-events:none; line-height:1; }
   .bh-pod.coh .bh-pod-bg-icon { color:#F59E0B; }
   .bh-pod.cog .bh-pod-bg-icon { color:#2DD4BF; }
-  [data-theme="ice"] .bh-pod.coh .bh-pod-bg-icon { color:#B45309; opacity:.28; }
-  [data-theme="ice"] .bh-pod.cog .bh-pod-bg-icon { color:#0D9488; opacity:.28; }
   .bh-pod-amount {
     font-family:var(--mono); font-size:clamp(16px,5vw,22px); font-weight:800; letter-spacing:-.42px; line-height:1; position:relative; white-space:nowrap; overflow:hidden;
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
@@ -768,20 +761,16 @@
   /* ── TALLY MINI PODS ── */
   .tally-pods-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
   .tally-mini-pod { padding:14px; border-radius:var(--radius); border:1px solid var(--border); position:relative; overflow:hidden; }
-  .tally-mini-pod::after { content:''; position:absolute; top:0; left:-80%; width:50%; height:100%; background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.05) 50%,transparent 60%); animation:pod-shimmer 5s ease-in-out infinite; }
   .tally-mini-pod.coh { background:linear-gradient(135deg,#1C1400 0%,#221900 100%); border-color:rgba(245,158,11,.2); }
   .tally-mini-pod.cog { background:linear-gradient(135deg,#001A18 0%,#002420 100%); border-color:rgba(45,212,191,.2); }
   .tmp-label { font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
   .tally-mini-pod.coh .tmp-label { color:rgba(245,158,11,.6); }
   .tally-mini-pod.cog .tmp-label { color:rgba(45,212,191,.6); }
-  .tmp-val { font-family:var(--mono); font-size:clamp(16px,5vw,22px); font-weight:800; letter-spacing:-.4px; white-space:nowrap; overflow:hidden; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .tmp-val { font-family:var(--mono); font-size:clamp(13px,3.5vw,16px); font-weight:800; letter-spacing:-.4px; white-space:nowrap; overflow:hidden; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .tally-mini-pod.coh .tmp-val { background-image:linear-gradient(135deg,#F59E0B,#FCD34D); }
   .tally-mini-pod.cog .tmp-val { background-image:linear-gradient(135deg,#2DD4BF,#5EEAD4); }
-  .tmp-bg-icon { position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:38px; opacity:.18; pointer-events:none; line-height:1; }
-  .tally-mini-pod.coh .tmp-bg-icon { color:#F59E0B; }
-  .tally-mini-pod.cog .tmp-bg-icon { color:#2DD4BF; }
-  [data-theme="ice"] .tally-mini-pod.coh .tmp-bg-icon { color:#B45309; opacity:.28; }
-  [data-theme="ice"] .tally-mini-pod.cog .tmp-bg-icon { color:#0D9488; opacity:.28; }
+  [data-theme="ice"] .bh-pod.coh .bh-pod-bg-icon { color:#B45309; opacity:.28; }
+  [data-theme="ice"] .bh-pod.cog .bh-pod-bg-icon { color:#0D9488; opacity:.28; }
 
   /* ── EARN HERO (Home) ── */
   .earn-hero { background:linear-gradient(135deg,var(--s1) 0%,var(--s2) 100%); border:1px solid var(--border2); border-radius:var(--radius); padding:0; margin-bottom:12px; box-shadow:0 4px 20px rgba(0,0,0,.3); position:relative; overflow:hidden; }
@@ -1951,12 +1940,10 @@
       <!-- Balance pods -->
       <div class="tally-pods-row">
         <div class="tally-mini-pod coh">
-          <i class="ti ti-wallet tmp-bg-icon"></i>
           <div class="tmp-label">COH Total</div>
           <div class="tmp-val" id="tallyCOHDisplay">₱0</div>
         </div>
         <div class="tally-mini-pod cog">
-          <i class="ti ti-device-mobile tmp-bg-icon"></i>
           <div class="tmp-label">GCash Total</div>
           <div class="tmp-val" id="tallyGCashDisplay">₱0</div>
         </div>
@@ -1965,7 +1952,7 @@
       <!-- Grand total pill -->
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(99,102,241,.05));border:1px solid rgba(99,102,241,.2);border-radius:var(--radius);padding:10px 16px;">
         <span style="font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(99,102,241,.6);">Grand Total</span>
-        <span style="font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:-.4px;background-image:linear-gradient(135deg,#6366F1,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="tallyGrandTotal">₱0</span>
+        <span style="font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:-.4px;background-image:linear-gradient(135deg,#6366F1,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="tallyGrandTotal">₱0</span>
       </div>
 
       <!-- COH breakdown -->
