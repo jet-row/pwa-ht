@@ -903,17 +903,7 @@
   .ins-mini-val   { font-family:var(--mono); font-size:20px; font-weight:800; line-height:1; }
   .ins-mini-delta { display:inline-flex; align-items:center; gap:3px; margin-top:5px; font-size:13px; font-weight:700; }
 
-  /* Time-of-day segments */
-  .tod-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
-  .tod-row:last-child { margin-bottom:0; }
-  .tod-icon { font-size:16px; width:22px; text-align:center; flex-shrink:0; }
-  .tod-label { font-size:13px; font-weight:700; color:var(--text2); width:72px; flex-shrink:0; }
-  .tod-label span { display:block; font-size:11px; font-weight:600; color:var(--muted); letter-spacing:.04em; }
-  .tod-bar-track { flex:1; height:7px; background:var(--s4); border-radius:7px; overflow:hidden; }
-  .tod-bar-fill { height:100%; border-radius:7px; transition:width .8s cubic-bezier(.34,1.2,.64,1); width:0; }
-  .tod-earn { font-family:var(--mono); font-size:13px; font-weight:700; width:46px; text-align:right; flex-shrink:0; }
-  .tod-pct  { font-size:12px; color:var(--muted); width:26px; text-align:right; flex-shrink:0; }
-  .tod-peak { display:inline-block; background:var(--teal-dim); border:1px solid rgba(45,212,191,.3); color:var(--teal); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; border-radius:20px; padding:1px 6px; margin-left:4px; vertical-align:middle; }
+
 
   /* Utilization */
   .util-top       { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
@@ -1394,6 +1384,10 @@
         <div class="earn-hero">
           <div class="earn-hero-hdr">
             <div class="card-hdr-title">Today's Earnings</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div class="earn-date-pill" id="earnDatePill">—</div>
+              <div class="earn-date-pill" id="earnTxnCountPill" style="display:none;"></div>
+            </div>
           </div>
           <div class="earn-hero-body">
             <div class="earn-ring">
@@ -1495,8 +1489,9 @@
       <!-- Recent Activity -->
       <div class="home-section">
         <div class="recent-mini" id="homeRecentList">
-          <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);">
+          <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
             <span class="card-hdr-title">Today's Transactions</span>
+            <span id="homeTodayCount" style="font-size:11px;color:var(--muted);font-weight:700;"></span>
           </div>
         </div>
       </div>
@@ -1590,7 +1585,7 @@
       <!-- ── INSIGHTS PANEL ── -->
       <div id="rptInsightsPanel">
 
-        <!-- 1. Month Projection -->
+        <!-- 1. Earnings Forecast -->
         <div class="ins-card indigo">
           <div class="ins-card-hdr">
             <span class="card-hdr-title">Earnings Forecast</span>
@@ -1599,13 +1594,13 @@
           <div class="ins-card-body">
             <div class="ins-proj-top">
               <div>
-                <div class="ins-proj-lbl">Month Projection</div>
                 <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
                   <span class="ins-proj-val" id="insProjectedVal">₱0</span>
                   <span style="color:var(--border2);font-size:18px;font-weight:300;">|</span>
                   <span class="ins-proj-val" id="insProjectedMonth">—</span>
                 </div>
                 <div class="ins-proj-sub" id="insProjectedSub">—</div>
+                <div id="insBestDay" style="display:none;margin-top:6px;font-size:11px;color:var(--muted);"></div>
               </div>
             </div>
             <div class="ins-proj-bar-track">
@@ -1614,7 +1609,19 @@
           </div>
         </div>
 
-        <!-- 2. Earning Streak -->
+        <!-- 2. Earnings Last 6 Months -->
+        <div class="ins-card blue">
+          <div class="ins-card-hdr">
+            <span class="card-hdr-title">Earnings Last 6 Months</span>
+            <div id="insHistoryBadge"></div>
+          </div>
+          <div class="ins-card-body">
+            <div class="ins-history-amts" id="insHistoryAmts"></div>
+            <div class="ins-bar-chart" id="insHistoryBars"></div>
+          </div>
+        </div>
+
+        <!-- 3. Earning Streak -->
         <div class="ins-card amber">
           <div class="ins-card-hdr">
             <span class="card-hdr-title">Earning Streak</span>
@@ -1634,7 +1641,7 @@
           </div>
         </div>
 
-        <!-- 3. Earn by Type -->
+        <!-- 4. Earn by Type -->
         <div class="ins-card purple">
           <div class="ins-card-hdr">
             <span class="card-hdr-title">Earn by Type · This Month</span>
@@ -1644,13 +1651,12 @@
           </div>
         </div>
 
-        <!-- 4. Cash Flow This Month -->
+        <!-- 5. Cash Flow This Month -->
         <div class="ins-card red">
           <div class="ins-card-hdr">
             <span class="card-hdr-title">Cash Flow · This Month</span>
           </div>
           <div class="ins-card-body">
-            <!-- Cash-In / Cash-Out side by side -->
             <div style="display:flex;gap:8px;margin-bottom:12px;">
               <div style="flex:1;background:var(--s4);border-radius:12px;padding:10px 12px;">
                 <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
@@ -1669,7 +1675,6 @@
                 <div style="font-size:14px;color:var(--muted);margin-top:4px;" id="insFlowOutCount">0 txns</div>
               </div>
             </div>
-            <!-- Deployment ratio bar -->
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
               <span style="font-size:13px;color:var(--muted);">Cash-Out / Cash-In ratio</span>
               <div style="display:flex;align-items:center;gap:6px;">
@@ -1683,49 +1688,40 @@
           </div>
         </div>
 
-        <!-- 5. Monthly Earnings History -->
-        <div class="ins-card blue">
-          <div class="ins-card-hdr">
-            <span class="card-hdr-title">Earnings Last 6 Months</span>
-            <div id="insHistoryBadge"></div>
-          </div>
-          <div class="ins-card-body">
-            <div class="ins-history-amts" id="insHistoryAmts"></div>
-            <div class="ins-bar-chart" id="insHistoryBars"></div>
-          </div>
-        </div>
-
         <!-- 6. Account Health -->
-        <div class="ins-card amber">
+        <div class="ins-card teal">
           <div class="ins-card-hdr">
             <span class="card-hdr-title">Account Health</span>
             <span style="font-size:12px;color:var(--muted);">COH vs GCash</span>
           </div>
           <div class="ins-card-body">
-            <div style="font-size:13px;color:var(--text2);margin-bottom:2px;">How your account is distributed right now</div>
-            <div class="ins-ratio-bar">
-              <div class="ins-ratio-coh" id="insRatioCoh"></div>
-              <div class="ins-ratio-cog"></div>
-            </div>
-            <div class="ins-ratio-legend">
-              <div class="ins-ratio-leg">
-                <div class="ins-ratio-dot" style="background:var(--amber);"></div>
-                <div>
-                  <div>
-                    <span class="ins-ratio-val" id="insRatioCohVal" style="color:var(--amber);">₱0</span>
-                    <span class="ins-ratio-pct" id="insRatioCohPct">0%</span>
-                  </div>
-                  <div class="ins-ratio-name">Cash on Hand</div>
-                </div>
+            <div id="insRatioNoData" style="display:none;font-size:12px;color:var(--muted);text-align:center;padding:8px 0;">No transactions recorded yet</div>
+            <div id="insRatioContent">
+              <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">How your account is distributed right now</div>
+              <div class="ins-ratio-bar">
+                <div class="ins-ratio-coh" id="insRatioCoh"></div>
+                <div class="ins-ratio-cog"></div>
               </div>
-              <div class="ins-ratio-leg">
-                <div class="ins-ratio-dot" style="background:var(--teal);"></div>
-                <div>
+              <div class="ins-ratio-legend">
+                <div class="ins-ratio-leg">
+                  <div class="ins-ratio-dot" style="background:var(--amber);"></div>
                   <div>
-                    <span class="ins-ratio-val" id="insRatioCogVal" style="color:var(--teal);">₱0</span>
-                    <span class="ins-ratio-pct" id="insRatioCogPct">0%</span>
+                    <div>
+                      <span class="ins-ratio-val" id="insRatioCohVal" style="color:var(--amber);">₱0</span>
+                      <span class="ins-ratio-pct" id="insRatioCohPct">0%</span>
+                    </div>
+                    <div class="ins-ratio-name">Cash on Hand</div>
                   </div>
-                  <div class="ins-ratio-name">GCash Balance</div>
+                </div>
+                <div class="ins-ratio-leg">
+                  <div class="ins-ratio-dot" style="background:var(--teal);"></div>
+                  <div>
+                    <div>
+                      <span class="ins-ratio-val" id="insRatioCogVal" style="color:var(--teal);">₱0</span>
+                      <span class="ins-ratio-pct" id="insRatioCogPct">0%</span>
+                    </div>
+                    <div class="ins-ratio-name">GCash Balance</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2699,12 +2695,30 @@ function renderInsights() {
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
   set('insProjectedVal', fmt(Math.round(projected)));
   set('insProjectedMonth', monthName);
-  set('insProjectedSub', 'based on ' + fmt(Math.round(dailyAvg)) + '/day avg');
+  set('insProjectedSub', fmt(Math.round(dailyAvg)) + '/day avg · ' + monthName);
   set('insDaysLeft',     daysLeft + ' day' + (daysLeft !== 1 ? 's' : '') + ' left');
   setTimeout(() => {
     const bar = document.getElementById('insProjectedBar');
     if (bar) bar.style.width = barPct + '%';
   }, 60);
+
+  // Best day this month
+  const earnByDayMap = {};
+  thisTxns.forEach(t => {
+    const dk = new Date(t.ts).toDateString();
+    earnByDayMap[dk] = (earnByDayMap[dk] || 0) + (parseFloat(t.earn) || 0);
+  });
+  const bestDayEntry = Object.entries(earnByDayMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1])[0];
+  const bestDayEl = document.getElementById('insBestDay');
+  if (bestDayEl) {
+    if (bestDayEntry) {
+      const bdLabel = new Date(bestDayEntry[0]).toLocaleDateString('en-PH', { month:'short', day:'numeric' });
+      bestDayEl.style.display = '';
+      bestDayEl.innerHTML = `<i class="ti ti-star-filled" style="font-size:10px;vertical-align:-1px;color:var(--amber);margin-right:3px;"></i>Best day: <strong>${bdLabel}</strong> · ${fmt(Math.round(bestDayEntry[1]))}`;
+    } else {
+      bestDayEl.style.display = 'none';
+    }
+  }
 
   // ── 2. Earning Streak ────────────────────────────────────────────
   let streak = 0;
@@ -2764,49 +2778,7 @@ function renderInsights() {
     }
   }
 
-  // ── 4. (removed Per-Transaction Quality) ────────────────────────
-
-  // ── 5. Time-of-Day segments (PHT = UTC+8) ───────────────────────
-  const todSegments = [
-    { key:'morning',   label:'Morning',   sub:'6 AM – 12 PM', icon:'🌅', hours: [6,7,8,9,10,11],          color:'#F59E0B', barBg:'linear-gradient(90deg,#F59E0B,#FCD34D)' },
-    { key:'afternoon', label:'Afternoon', sub:'12 PM – 6 PM', icon:'☀️', hours: [12,13,14,15,16,17],       color:'#34D399', barBg:'linear-gradient(90deg,#059669,#2DD4BF)' },
-    { key:'evening',   label:'Evening',   sub:'6 PM – 10 PM', icon:'🌆', hours: [18,19,20,21],             color:'#818CF8', barBg:'linear-gradient(90deg,#4F46E5,#818CF8)' },
-    { key:'night',     label:'Night',     sub:'10 PM – 6 AM', icon:'🌙', hours: [22,23,0,1,2,3,4,5],      color:'#A78BFA', barBg:'linear-gradient(90deg,#6D28D9,#A78BFA)' },
-  ];
-  const todEarns = { morning:0, afternoon:0, evening:0, night:0 };
-  state.transactions.forEach(t => {
-    const phtHour = (new Date(t.ts).getUTCHours() + 8) % 24;
-    const earn = parseFloat(t.earn) || 0;
-    if (!earn) return;
-    for (const seg of todSegments) {
-      if (seg.hours.includes(phtHour)) { todEarns[seg.key] += earn; break; }
-    }
-  });
-  const todTotal  = Object.values(todEarns).reduce((s,v) => s+v, 0);
-  const todMax    = Math.max(...Object.values(todEarns), 1);
-  const todPeakKey = Object.entries(todEarns).sort((a,b) => b[1]-a[1])[0]?.[0];
-  const todRowsEl = document.getElementById('insTodRows');
-  if (todRowsEl) {
-    if (todTotal === 0) {
-      todRowsEl.innerHTML = '<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px 0;">No earning transactions yet</div>';
-    } else {
-      todRowsEl.innerHTML = todSegments.map(seg => {
-        const earn = todEarns[seg.key];
-        const barW = Math.round((earn / todMax) * 100);
-        const pct  = todTotal > 0 ? Math.round((earn / todTotal) * 100) : 0;
-        const isPeak = seg.key === todPeakKey && earn > 0;
-        return `<div class="tod-row">
-          <div class="tod-icon">${seg.icon}</div>
-          <div class="tod-label">${seg.label}${isPeak ? '<span class="tod-peak">Peak</span>' : ''}<span>${seg.sub}</span></div>
-          <div class="tod-bar-track"><div class="tod-bar-fill" style="width:${barW}%;background:${seg.barBg};box-shadow:0 0 6px ${seg.color}55;"></div></div>
-          <div class="tod-earn" style="color:${seg.color};">${earn > 0 ? fmt(earn) : '—'}</div>
-          <div class="tod-pct">${earn > 0 ? pct+'%' : ''}</div>
-        </div>`;
-      }).join('');
-    }
-  }
-
-  // ── 6. Cash Flow · This Month ────────────────────────────────────
+  // ── 5. Cash Flow · This Month ────────────────────────────────────
   const ciTxns  = thisTxns.filter(t => t.type === 'Cash-In');
   const coTxns  = thisTxns.filter(t => t.type === 'Cash-Out');
   const moIn    = ciTxns.reduce((s,t) => s + (parseFloat(t.amount)||0), 0);
@@ -2902,13 +2874,22 @@ function renderInsights() {
   const cohVal    = latestTxn ? (parseFloat(latestTxn.cohAfter) || 0) : 0;
   const cogVal    = latestTxn ? (parseFloat(latestTxn.cogAfter) || 0) : 0;
   const totalBal  = cohVal + cogVal;
-  const cohPct    = totalBal > 0 ? Math.round((cohVal / totalBal) * 100) : 50;
-  set('insRatioCohVal', fmt(Math.round(cohVal)));
-  set('insRatioCogVal', fmt(Math.round(cogVal)));
-  set('insRatioCohPct', cohPct + '%');
-  set('insRatioCogPct', (100 - cohPct) + '%');
-  const cohBarEl = document.getElementById('insRatioCoh');
-  if (cohBarEl) setTimeout(() => { cohBarEl.style.width = cohPct + '%'; }, 60);
+  const noDataEl  = document.getElementById('insRatioNoData');
+  const contentEl = document.getElementById('insRatioContent');
+  if (totalBal === 0) {
+    if (noDataEl)  noDataEl.style.display  = '';
+    if (contentEl) contentEl.style.display = 'none';
+  } else {
+    if (noDataEl)  noDataEl.style.display  = 'none';
+    if (contentEl) contentEl.style.display = '';
+    const cohPct = Math.round((cohVal / totalBal) * 100);
+    set('insRatioCohVal', fmt(Math.round(cohVal)));
+    set('insRatioCogVal', fmt(Math.round(cogVal)));
+    set('insRatioCohPct', cohPct + '%');
+    set('insRatioCogPct', (100 - cohPct) + '%');
+    const cohBarEl = document.getElementById('insRatioCoh');
+    if (cohBarEl) setTimeout(() => { cohBarEl.style.width = cohPct + '%'; }, 60);
+  }
 }
 
 function applyCustomRange() {
@@ -4471,6 +4452,21 @@ function renderHome(bal) {
   setAnimated('hsTodayOut',  fmt(todayEarnOut));
   setAnimated('hsTodayTxns', todayTxns.length);
 
+  // Today txn count pill in earn-hero header
+  const txnCountPill = document.getElementById('earnTxnCountPill');
+  if (txnCountPill) {
+    if (todayTxns.length > 0) {
+      txnCountPill.textContent = todayTxns.length + ' txn' + (todayTxns.length !== 1 ? 's' : '');
+      txnCountPill.style.display = '';
+    } else {
+      txnCountPill.style.display = 'none';
+    }
+  }
+
+  // Today's Transactions header count
+  const todayCountEl = document.getElementById('homeTodayCount');
+  if (todayCountEl) todayCountEl.textContent = todayTxns.length ? todayTxns.length + ' txn' + (todayTxns.length !== 1 ? 's' : '') : '';
+
   // Earnings progress ring
   updateEarnRing(todayEarn);
 
@@ -4558,14 +4554,6 @@ function renderHome(bal) {
   renderHomeChart();
 }
 
-let _homeChartMode = 'bar';
-function setHomeChartMode(mode, btn) {
-  _homeChartMode = mode;
-  document.querySelectorAll('#homeChartToggle .chart-mode-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderHomeChart();
-}
-
 function renderHomeChart() {
   const canvas = document.getElementById('homeChart');
   if (!canvas) return;
@@ -4595,98 +4583,38 @@ function renderHomeChart() {
   const cW = W - PAD.l - PAD.r;
   const cH = H - PAD.t - PAD.b;
 
-  if (_homeChartMode === 'bar') {
-    // Bar chart
-    const barGap = 6;
-    const barW = (cW - barGap * (n - 1)) / n;
-    earnByDay.forEach((v, i) => {
-      const isToday = i === n - 1;
-      const x = PAD.l + i * (barW + barGap);
-      const barH = v > 0 ? Math.max((v / maxV) * cH, 6) : 2;
-      const y = PAD.t + cH - barH;
-      const r = Math.min(4, barW / 2);
+  const barGap = 6;
+  const barW = (cW - barGap * (n - 1)) / n;
+  earnByDay.forEach((v, i) => {
+    const isToday = i === n - 1;
+    const x = PAD.l + i * (barW + barGap);
+    const barH = v > 0 ? Math.max((v / maxV) * cH, 6) : 2;
+    const y = PAD.t + cH - barH;
+    const r = Math.min(4, barW / 2);
 
-      // Gradient fill
-      const grad = ctx.createLinearGradient(x, y, x, PAD.t + cH);
-      if (isToday) {
-        grad.addColorStop(0, 'rgba(45,212,191,1)');
-        grad.addColorStop(1, 'rgba(45,212,191,0.2)');
-      } else {
-        grad.addColorStop(0, v > 0 ? 'rgba(99,102,241,0.9)' : 'rgba(99,102,241,0.15)');
-        grad.addColorStop(1, v > 0 ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.05)');
-      }
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.roundRect(x, y, barW, barH, [r, r, 0, 0]);
-      ctx.fill();
-
-      // Earn label above bar
-      ctx.font = isToday ? 'bold 10px system-ui' : '10px system-ui';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = isToday ? '#2DD4BF' : 'rgba(99,102,241,0.9)';
-      ctx.fillText(fmt(v), x + barW / 2, y - 4);
-
-      // Day label below
-      ctx.font = isToday ? 'bold 11px system-ui' : '11px system-ui';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = isToday ? '#2DD4BF' : '#7A94B0';
-      ctx.fillText(labels[i], x + barW / 2, H - 4);
-    });
-
-  } else {
-    // Line chart
-    const minFloor = maxV * 0.08;
-    function xP(i) { return PAD.l + i * cW / (n - 1); }
-    function yP(v) { return PAD.t + cH - (Math.max(v, v > 0 ? minFloor : 0) / maxV) * cH; }
-
-    // Grid
-    ctx.strokeStyle = 'rgba(42,64,96,0.5)'; ctx.lineWidth = 1;
-    [0, 0.5, 1].forEach(r => { const y = PAD.t + cH * (1 - r); ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(PAD.l + cW, y); ctx.stroke(); });
-
-    // Area fill
+    const grad = ctx.createLinearGradient(x, y, x, PAD.t + cH);
+    if (isToday) {
+      grad.addColorStop(0, 'rgba(45,212,191,1)');
+      grad.addColorStop(1, 'rgba(45,212,191,0.2)');
+    } else {
+      grad.addColorStop(0, v > 0 ? 'rgba(99,102,241,0.9)' : 'rgba(99,102,241,0.15)');
+      grad.addColorStop(1, v > 0 ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.05)');
+    }
+    ctx.fillStyle = grad;
     ctx.beginPath();
-    earnByDay.forEach((v, i) => i === 0 ? ctx.moveTo(xP(i), yP(v)) : ctx.lineTo(xP(i), yP(v)));
-    ctx.lineTo(xP(n-1), PAD.t + cH); ctx.lineTo(xP(0), PAD.t + cH); ctx.closePath();
-    ctx.fillStyle = 'rgba(45,212,191,0.14)'; ctx.fill();
+    ctx.roundRect(x, y, barW, barH, [r, r, 0, 0]);
+    ctx.fill();
 
-    // Line
-    ctx.beginPath();
-    earnByDay.forEach((v, i) => i === 0 ? ctx.moveTo(xP(i), yP(v)) : ctx.lineTo(xP(i), yP(v)));
-    ctx.strokeStyle = '#2DD4BF'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
-
-    // Dots + labels
-    earnByDay.forEach((v, i) => {
-      const isToday = i === n - 1;
-      const x = xP(i), y = yP(v);
-      ctx.beginPath();
-      ctx.arc(x, y, isToday ? 4.5 : 3, 0, Math.PI * 2);
-      ctx.fillStyle = isToday ? '#2DD4BF' : 'rgba(45,212,191,0.6)';
-      ctx.fill();
-      if (v > 0) {
-        const lbl = fmt(v);
-        ctx.font = isToday ? 'bold 11px system-ui' : '11px system-ui';
-        ctx.textAlign = 'center';
-        const tw = ctx.measureText(lbl).width + 6;
-        const lblY = y - 7 > PAD.t + 4 ? y - 7 : y + 14;
-        let lblX = x;
-        if (lblX - tw/2 < PAD.l) lblX = PAD.l + tw/2;
-        if (lblX + tw/2 > W - PAD.r) lblX = W - PAD.r - tw/2;
-        ctx.fillStyle = 'rgba(10,22,40,0.8)';
-        ctx.beginPath(); ctx.roundRect(lblX - tw/2, lblY - 10, tw, 12, 3); ctx.fill();
-        ctx.fillStyle = isToday ? '#2DD4BF' : 'rgba(45,212,191,0.8)';
-        ctx.fillText(lbl, lblX, lblY);
-      }
-    });
-
-    // Day labels
+    ctx.font = isToday ? 'bold 10px system-ui' : '10px system-ui';
     ctx.textAlign = 'center';
-    labels.forEach((l, i) => {
-      const isToday = i === n - 1;
-      ctx.fillStyle = isToday ? '#2DD4BF' : '#7A94B0';
-      ctx.font = isToday ? 'bold 11px system-ui' : '11px system-ui';
-      ctx.fillText(l, xP(i), H - 4);
-    });
-  }
+    ctx.fillStyle = isToday ? '#2DD4BF' : 'rgba(99,102,241,0.9)';
+    ctx.fillText(fmt(v), x + barW / 2, y - 4);
+
+    ctx.font = isToday ? 'bold 11px system-ui' : '11px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = isToday ? '#2DD4BF' : '#7A94B0';
+    ctx.fillText(labels[i], x + barW / 2, H - 4);
+  });
 }
 function updateMiniBalance(bal) {
   const total   = bal.coh + bal.cog;
