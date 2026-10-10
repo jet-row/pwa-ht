@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#07080F">
+<meta name="theme-color" content="#1A1F2E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="HalinTraQ">
@@ -19,15 +19,15 @@
 
   :root {
     /* surfaces */
-    --bg:        #060811;
-    --surface:   #0C0F1E;
-    --surface2:  #111528;
-    --surface3:  #171C34;
-    --surface4:  #1E2440;
+    --bg:        #1A1F2E;
+    --surface:   #22283A;
+    --surface2:  #2B3348;
+    --surface3:  #35405A;
+    --surface4:  #414E6B;
     /* short aliases — always derived from the canonical surface vars above */
     --s1: var(--surface); --s2: var(--surface2); --s3: var(--surface3); --s4: var(--surface4);
-    --border:    rgba(255,255,255,.07);
-    --border2:   rgba(255,255,255,.12);
+    --border:    rgba(255,255,255,.09);
+    --border2:   rgba(255,255,255,.15);
     /* brand */
     --indigo:     #6366F1;
     --indigo-dim: rgba(99,102,241,.15);
@@ -46,8 +46,8 @@
     --purple-dim: rgba(167,139,250,.12);
     /* text */
     --text:   #EEF0FC;
-    --text2:  #9398C0;
-    --muted:  #7A7FAA;
+    --text2:  #ADB3D2;
+    --muted:  #929ABB;
     /* typography */
     --font:      'Inter', 'Segoe UI', sans-serif;
     --font-heading: 'Inter', 'Segoe UI', sans-serif;
@@ -59,19 +59,19 @@
     --r-xs:      8px;
     --r: var(--radius); --r-sm: var(--radius-sm);
     /* glass */
-    --glass-header: rgba(6,8,17,.88);
-    --glass-nav:    rgba(6,8,17,.92);
-    --glass-tabs:   rgba(6,8,17,.92);
-    --glass-sticky: rgba(6,8,17,.85);
+    --glass-header: rgba(26,31,46,.90);
+    --glass-nav:    rgba(26,31,46,.94);
+    --glass-tabs:   rgba(26,31,46,.94);
+    --glass-sticky: rgba(26,31,46,.88);
     --shadow-tabs:  0 -4px 24px rgba(0,0,0,.5);
   }
 
   /* ── THEMES ── */
   [data-theme="midnight"] {
-    --bg:#060811; --surface:#0C0F1E; --surface2:#111528; --surface3:#171C34; --surface4:#1E2440;
-    --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.12);
-    --text:#EEF0FC; --text2:#9398C0; --muted:#7A7FAA;
-    --glass-header:rgba(6,8,17,.88); --glass-tabs:rgba(6,8,17,.92); --glass-sticky:rgba(6,8,17,.85);
+    --bg:#1A1F2E; --surface:#22283A; --surface2:#2B3348; --surface3:#35405A; --surface4:#414E6B;
+    --border:rgba(255,255,255,.09); --border2:rgba(255,255,255,.15);
+    --text:#EEF0FC; --text2:#ADB3D2; --muted:#929ABB;
+    --glass-header:rgba(26,31,46,.90); --glass-tabs:rgba(26,31,46,.94); --glass-sticky:rgba(26,31,46,.88);
     --shadow-tabs:0 -4px 24px rgba(0,0,0,.5);
   }
   [data-theme="ice"] {
@@ -259,11 +259,11 @@
   }
   @keyframes pod-shimmer { 0%,100%{left:-100%} 50%{left:160%} }
 
-  .pod.coh { background: linear-gradient(135deg, #15182E 0%, #1C2140 100%); border-color: #2D3566; }
+  .pod.coh { background: linear-gradient(135deg, #282E48 0%, #323A57 100%); border-color: #4A5688; }
   .pod.coh::before { background: radial-gradient(circle at 85% 15%, rgba(251,191,36,.12) 0%, transparent 55%); }
-  .pod.cog { background: linear-gradient(135deg, #0F1E1A 0%, #142E24 100%); border-color: #1E4032; }
+  .pod.cog { background: linear-gradient(135deg, #22332D 0%, #2C4438 100%); border-color: #406650; }
   .pod.cog::before { background: radial-gradient(circle at 85% 15%, rgba(52,211,153,.12) 0%, transparent 55%); }
-  .pod.grand { background: linear-gradient(135deg, #0A200F 0%, #112B17 100%); border-color: #1C4228; }
+  .pod.grand { background: linear-gradient(135deg, #223424 0%, #2D482F 100%); border-color: #406A49; }
   .pod.grand::before { background: radial-gradient(circle at 85% 15%, rgba(74,222,128,.12) 0%, transparent 55%); }
 
   .pod-label { font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; position: relative; }
@@ -761,8 +761,8 @@
   /* ── TALLY MINI PODS ── */
   .tally-pods-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
   .tally-mini-pod { padding:14px; border-radius:var(--radius); border:1px solid var(--border); position:relative; overflow:hidden; }
-  .tally-mini-pod.coh { background:linear-gradient(135deg,#1C1400 0%,#221900 100%); border-color:rgba(245,158,11,.2); }
-  .tally-mini-pod.cog { background:linear-gradient(135deg,#001A18 0%,#002420 100%); border-color:rgba(45,212,191,.2); }
+  .tally-mini-pod.coh { background:linear-gradient(135deg,#362B19 0%,#40341F 100%); border-color:rgba(245,158,11,.32); }
+  .tally-mini-pod.cog { background:linear-gradient(135deg,#223A36 0%,#2A4741 100%); border-color:rgba(45,212,191,.32); }
   .tmp-label { font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
   .tally-mini-pod.coh .tmp-label { color:rgba(245,158,11,.6); }
   .tally-mini-pod.cog .tmp-label { color:rgba(45,212,191,.6); }
