@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#1A1F2E">
+<meta name="theme-color" content="#202637">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="HalinTraQ">
@@ -19,11 +19,11 @@
 
   :root {
     /* surfaces */
-    --bg:        #1A1F2E;
-    --surface:   #22283A;
-    --surface2:  #2B3348;
-    --surface3:  #35405A;
-    --surface4:  #414E6B;
+    --bg:        #202637;
+    --surface:   #272F43;
+    --surface2:  #303950;
+    --surface3:  #3A455F;
+    --surface4:  #465371;
     /* short aliases — always derived from the canonical surface vars above */
     --s1: var(--surface); --s2: var(--surface2); --s3: var(--surface3); --s4: var(--surface4);
     --border:    rgba(255,255,255,.09);
@@ -46,7 +46,7 @@
     --purple-dim: rgba(167,139,250,.12);
     /* text */
     --text:   #EEF0FC;
-    --text2:  #ADB3D2;
+    --text2:  #B0B7D4;
     --muted:  #929ABB;
     /* typography */
     --font:      'Inter', 'Segoe UI', sans-serif;
@@ -59,19 +59,19 @@
     --r-xs:      8px;
     --r: var(--radius); --r-sm: var(--radius-sm);
     /* glass */
-    --glass-header: rgba(26,31,46,.90);
-    --glass-nav:    rgba(26,31,46,.94);
-    --glass-tabs:   rgba(26,31,46,.94);
-    --glass-sticky: rgba(26,31,46,.88);
+    --glass-header: rgba(32,38,55,.90);
+    --glass-nav:    rgba(32,38,55,.94);
+    --glass-tabs:   rgba(32,38,55,.94);
+    --glass-sticky: rgba(32,38,55,.88);
     --shadow-tabs:  0 -4px 24px rgba(0,0,0,.5);
   }
 
   /* ── THEMES ── */
   [data-theme="midnight"] {
-    --bg:#1A1F2E; --surface:#22283A; --surface2:#2B3348; --surface3:#35405A; --surface4:#414E6B;
+    --bg:#202637; --surface:#272F43; --surface2:#303950; --surface3:#3A455F; --surface4:#465371;
     --border:rgba(255,255,255,.09); --border2:rgba(255,255,255,.15);
-    --text:#EEF0FC; --text2:#ADB3D2; --muted:#929ABB;
-    --glass-header:rgba(26,31,46,.90); --glass-tabs:rgba(26,31,46,.94); --glass-sticky:rgba(26,31,46,.88);
+    --text:#EEF0FC; --text2:#B0B7D4; --muted:#929ABB;
+    --glass-header:rgba(32,38,55,.90); --glass-tabs:rgba(32,38,55,.94); --glass-sticky:rgba(32,38,55,.88);
     --shadow-tabs:0 -4px 24px rgba(0,0,0,.5);
   }
   [data-theme="ice"] {
@@ -259,7 +259,7 @@
   }
   @keyframes pod-shimmer { 0%,100%{left:-100%} 50%{left:160%} }
 
-  .pod.coh { background: linear-gradient(135deg, #282E48 0%, #323A57 100%); border-color: #4A5688; }
+  .pod.coh { background: linear-gradient(135deg, #303750 0%, #3A435F 100%); border-color: #566393; }
   .pod.coh::before { background: radial-gradient(circle at 85% 15%, rgba(251,191,36,.12) 0%, transparent 55%); }
   .pod.cog { background: linear-gradient(135deg, #22332D 0%, #2C4438 100%); border-color: #406650; }
   .pod.cog::before { background: radial-gradient(circle at 85% 15%, rgba(52,211,153,.12) 0%, transparent 55%); }
