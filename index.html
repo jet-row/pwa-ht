@@ -1606,6 +1606,23 @@
             <div class="ins-proj-bar-track">
               <div class="ins-proj-bar-fill" id="insProjectedBar"></div>
             </div>
+
+            <!-- Year Forecast -->
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border1);">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);">Year Forecast · <span id="insYearLabel">2026</span></span>
+                <div class="ins-days-pill" id="insYearDaysLeft">— days left</div>
+              </div>
+              <div style="display:flex;align-items:baseline;flex-wrap:wrap;margin-bottom:3px;">
+                <span style="font-family:var(--mono);font-size:22px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(135deg,#34d399,#6ee7b7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;" id="insYearProjectedVal">₱0</span>
+                <span style="font-size:12px;color:var(--muted);margin-left:6px;">projected year-end</span>
+              </div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:8px;" id="insYearSub">₱0 earned so far · ₱0/day avg</div>
+              <div class="ins-proj-bar-track">
+                <div class="ins-proj-bar-fill" id="insYearBar" style="background:linear-gradient(90deg,#059669,#34d399);box-shadow:0 0 8px rgba(52,211,153,.4);"></div>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -2700,6 +2717,25 @@ function renderInsights() {
   setTimeout(() => {
     const bar = document.getElementById('insProjectedBar');
     if (bar) bar.style.width = barPct + '%';
+  }, 60);
+
+  // ── Year Projection ─────────────────────────────────────────────
+  const isThisYear  = t => new Date(t.ts).getFullYear() === yyyy;
+  const yearEarn    = state.transactions.filter(isThisYear).reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
+  const dayOfYear   = Math.floor((now - new Date(yyyy, 0, 1)) / 86400000) + 1;
+  const daysInYear  = (yyyy % 4 === 0 && (yyyy % 100 !== 0 || yyyy % 400 === 0)) ? 366 : 365;
+  const daysLeftYear  = daysInYear - dayOfYear;
+  const dailyAvgYear  = yearEarn / Math.max(1, dayOfYear);
+  const projectedYear = dailyAvgYear * daysInYear;
+  const barPctYear    = Math.min(100, (yearEarn / Math.max(projectedYear, 1)) * 100);
+
+  set('insYearLabel',        yyyy);
+  set('insYearProjectedVal', fmt(Math.round(projectedYear)));
+  set('insYearSub',          fmt(Math.round(yearEarn)) + ' earned so far · ' + fmt(Math.round(dailyAvgYear)) + '/day avg');
+  set('insYearDaysLeft',     daysLeftYear + ' day' + (daysLeftYear !== 1 ? 's' : '') + ' left');
+  setTimeout(() => {
+    const ybar = document.getElementById('insYearBar');
+    if (ybar) ybar.style.width = barPctYear + '%';
   }, 60);
 
   // Best day this month
