@@ -2719,19 +2719,25 @@ function renderInsights() {
     if (bar) bar.style.width = barPct + '%';
   }, 60);
 
-  // ── Year Projection ─────────────────────────────────────────────
-  const isThisYear  = t => new Date(t.ts).getFullYear() === yyyy;
-  const yearEarn    = state.transactions.filter(isThisYear).reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
-  const dayOfYear   = Math.floor((now - new Date(yyyy, 0, 1)) / 86400000) + 1;
-  const daysInYear  = (yyyy % 4 === 0 && (yyyy % 100 !== 0 || yyyy % 400 === 0)) ? 366 : 365;
-  const daysLeftYear  = daysInYear - dayOfYear;
-  const dailyAvgYear  = yearEarn / Math.max(1, dayOfYear);
-  const projectedYear = dailyAvgYear * daysInYear;
+  // ── Year Projection (from first transaction of the year) ────────
+  const isThisYear   = t => new Date(t.ts).getFullYear() === yyyy;
+  const yearTxns     = state.transactions.filter(isThisYear);
+  const yearEarn     = yearTxns.reduce((s,t) => s + (parseFloat(t.earn)||0), 0);
+  const yearStart    = yearTxns.length
+    ? new Date(Math.min(...yearTxns.map(t => new Date(t.ts).setHours(0,0,0,0))))
+    : new Date(yyyy, 0, 1);
+  const yearEnd      = new Date(yyyy, 11, 31);
+  const totalSpan    = Math.max(1, Math.round((yearEnd - yearStart) / 86400000) + 1);
+  const daysElapsed  = Math.max(1, Math.round((now.setHours(0,0,0,0) - yearStart) / 86400000) + 1);
+  const daysLeftYear = Math.max(0, totalSpan - daysElapsed);
+  const dailyAvgYear  = yearEarn / daysElapsed;
+  const projectedYear = dailyAvgYear * totalSpan;
   const barPctYear    = Math.min(100, (yearEarn / Math.max(projectedYear, 1)) * 100);
+  const startLabel    = yearStart.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' });
 
   set('insYearLabel',        yyyy);
   set('insYearProjectedVal', fmt(Math.round(projectedYear)));
-  set('insYearSub',          fmt(Math.round(yearEarn)) + ' earned so far · ' + fmt(Math.round(dailyAvgYear)) + '/day avg');
+  set('insYearSub',          fmt(Math.round(yearEarn)) + ' earned since ' + startLabel + ' · ' + fmt(Math.round(dailyAvgYear)) + '/day avg');
   set('insYearDaysLeft',     daysLeftYear + ' day' + (daysLeftYear !== 1 ? 's' : '') + ' left');
   setTimeout(() => {
     const ybar = document.getElementById('insYearBar');
